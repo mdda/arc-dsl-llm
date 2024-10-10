@@ -562,7 +562,7 @@ def prapply(
 
 def most_common_color(
     element: Element
-) -> Integer:
+) -> Color:
     """ most common color """
     values = [v for r in element for v in r] if isinstance(element, tuple) else [v for v, _ in element]
     return max(set(values), key=values.count)
@@ -570,7 +570,7 @@ def most_common_color(
 
 def least_common_color(
     element: Element
-) -> Integer:
+) -> Color:
     """ least common color """
     values = [v for r in element for v in r] if isinstance(element, tuple) else [v for v, _ in element]
     return min(set(values), key=values.count)
@@ -614,20 +614,20 @@ def is_portrait(
 
 def color_count(
     element: Element,
-    value: Integer
+    color: Color
 ) -> Integer:
     """ number of cells with color """
     if isinstance(element, tuple):
-        return sum(row.count(value) for row in element)
-    return sum(v == value for v, _ in element)
+        return sum(row.count(color) for row in element)
+    return sum(c == color for c, _ in element)
 
 
 def color_filter(
     objs: Objects,
-    value: Integer
+    color: Color
 ) -> Objects:
     """ filter objects by color """
-    return frozenset(obj for obj in objs if next(iter(obj))[0] == value)
+    return frozenset(obj for obj in objs if next(iter(obj))[0] == color)
 
 
 def size_filter(
@@ -647,10 +647,10 @@ def as_indices(
 
 def of_color(
     grid: Grid,
-    value: Integer
+    color: Color
 ) -> Indices:
     """ indices of all grid cells with value """
-    return frozenset((i, j) for i, r in enumerate(grid) for j, v in enumerate(r) if v == value)
+    return frozenset((i, j) for i, r in enumerate(grid) for j, c in enumerate(r) if c == color)
 
 
 def upper_left_corner(
@@ -697,16 +697,16 @@ def to_indices(
     if len(patch) == 0:
         return frozenset()
     if isinstance(next(iter(patch))[1], tuple):
-        return frozenset(index for value, index in patch)
+        return frozenset(index for _, index in patch)
     return patch
 
 
 def recolor(
-    value: Integer,
+    color: Color,
     patch: Patch
 ) -> Object:
     """ recolor patch """
-    return frozenset((value, index) for index in to_indices(patch))
+    return frozenset((color, index) for index in to_indices(patch))
 
 
 def shift(
@@ -718,7 +718,7 @@ def shift(
         return patch
     di, dj = directions
     if isinstance(next(iter(patch))[1], tuple):
-        return frozenset((value, (i + di, j + dj)) for value, (i, j) in patch)
+        return frozenset((color, (i + di, j + dj)) for color, (i, j) in patch)
     return frozenset((i + di, j + dj) for i, j in patch)
 
 
@@ -731,14 +731,14 @@ def normalize(
     return shift(patch, (-uppermost(patch), -leftmost(patch)))
 
 
-def dneighbors(
+def direct_neighbors(
     loc: IntegerTuple
 ) -> Indices:
     """ directly adjacent indices """
     return frozenset({(loc[0] - 1, loc[1]), (loc[0] + 1, loc[1]), (loc[0], loc[1] - 1), (loc[0], loc[1] + 1)})
 
 
-def ineighbors(
+def diagonal_neighbors(
     loc: IntegerTuple
 ) -> Indices:
     """ diagonally adjacent indices """
@@ -749,7 +749,7 @@ def neighbors(
     loc: IntegerTuple
 ) -> Indices:
     """ adjacent indices """
-    return dneighbors(loc) | ineighbors(loc)
+    return direct_neighbors(loc) | diagonal_neighbors(loc)
 
 
 def as_objects(
@@ -764,7 +764,7 @@ def as_objects(
     occupied = set()
     h, w = len(grid), len(grid[0])
     unvisited = as_indices(grid)
-    diagfun = neighbors if diagonal else dneighbors
+    diagfun = neighbors if diagonal else direct_neighbors
     for loc in unvisited:
         if loc in occupied:
             continue
@@ -908,11 +908,11 @@ def centerofmass(
 
 def palette(
     element: Element
-) -> IntegerSet:
+) -> ColorSet:
     """ colors occurring in object or grid """
     if isinstance(element, tuple):
-        return frozenset({v for r in element for v in r})
-    return frozenset({v for v, _ in element})
+        return frozenset({c for r in element for c in r}) # Grid
+    return frozenset({c for c, _ in element}) # Object
 
 
 def count_colors(
@@ -942,7 +942,7 @@ def as_object(
     grid: Grid
 ) -> Object:
     """ conversion of grid to object """
-    return frozenset((v, (i, j)) for i, r in enumerate(grid) for j, v in enumerate(r))
+    return frozenset((c, (i, j)) for i, r in enumerate(grid) for j, c in enumerate(r))
 
 
 def rot90(
@@ -1013,7 +1013,7 @@ def counterdiagonal_mirror(
 
 def fill(
     grid: Grid,
-    value: Integer,
+    color: Color,
     patch: Patch
 ) -> Grid:
     """ fill value at indices """
@@ -1021,7 +1021,7 @@ def fill(
     grid_filled = list(list(row) for row in grid)
     for i, j in to_indices(patch):
         if 0 <= i < h and 0 <= j < w:
-            grid_filled[i][j] = value
+            grid_filled[i][j] = color
     return tuple(tuple(row) for row in grid_filled)
 
 
@@ -1032,15 +1032,15 @@ def paint(
     """ paint object to grid """
     h, w = len(grid), len(grid[0])
     grid_painted = list(list(row) for row in grid)
-    for value, (i, j) in obj:
+    for color, (i, j) in obj:
         if 0 <= i < h and 0 <= j < w:
-            grid_painted[i][j] = value
+            grid_painted[i][j] = color
     return tuple(tuple(row) for row in grid_painted)
 
 
 def underfill(
     grid: Grid,
-    value: Integer,
+    color: Color,
     patch: Patch
 ) -> Grid:
     """ fill value at indices that are background """
@@ -1050,7 +1050,7 @@ def underfill(
     for i, j in to_indices(patch):
         if 0 <= i < h and 0 <= j < w:
             if g[i][j] == bg:
-                g[i][j] = value
+                g[i][j] = color
     return tuple(tuple(r) for r in g)
 
 
@@ -1062,10 +1062,10 @@ def underpaint(
     h, w = len(grid), len(grid[0])
     bg = most_common_color(grid)
     g = list(list(r) for r in grid)
-    for value, (i, j) in obj:
+    for color, (i, j) in obj:
         if 0 <= i < h and 0 <= j < w:
             if g[i][j] == bg:
-                g[i][j] = value
+                g[i][j] = color
     return tuple(tuple(r) for r in g)
 
 
@@ -1189,7 +1189,7 @@ def vertical_split(
 def cellwise(
     a: Grid,
     b: Grid,
-    fallback: Integer
+    fallback: Color
 ) -> Grid:
     """ cellwise match of two grids """
     h, w = len(a), len(a[0])
@@ -1197,29 +1197,29 @@ def cellwise(
     for i in range(h):
         row = tuple()
         for j in range(w):
-            a_value = a[i][j]
-            value = a_value if a_value == b[i][j] else fallback
-            row = row + (value,)
+            a_color = a[i][j]
+            color = a_color if a_color == b[i][j] else fallback
+            row = row + (color,)
         resulting_grid = resulting_grid + (row, )
     return resulting_grid
 
 
 def replace(
     grid: Grid,
-    replacee: Integer,
-    replacer: Integer
+    replacee: Color,
+    replacer: Color
 ) -> Grid:
     """ color substitution """
-    return tuple(tuple(replacer if v == replacee else v for v in r) for r in grid)
+    return tuple(tuple(replacer if c == replacee else c for c in r) for r in grid)
 
 
 def switch(
     grid: Grid,
-    a: Integer,
-    b: Integer
+    a: Color,
+    b: Color
 ) -> Grid:
     """ color switching """
-    return tuple(tuple(v if (v != a and v != b) else {a: b, b: a}[v] for v in r) for r in grid)
+    return tuple(tuple(c if (c != a and c != b) else {a: b, b: a}[c] for c in r) for r in grid)
 
 
 def center(
@@ -1259,11 +1259,11 @@ def index(
 
 
 def canvas(
-    value: Integer,
+    color: Color,
     dimensions: IntegerTuple
 ) -> Grid:
     """ grid construction """
-    return tuple(tuple(value for j in range(dimensions[1])) for i in range(dimensions[0]))
+    return tuple(tuple(color for j in range(dimensions[1])) for i in range(dimensions[0]))
 
 
 def corners(

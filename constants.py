@@ -1,17 +1,19 @@
+from arc_types import Color
+
+ZERO: Color = 0
+ONE: Color = 1
+TWO: Color = 2
+THREE: Color = 3
+FOUR: Color = 4
+FIVE: Color = 5
+SIX: Color = 6
+SEVEN: Color = 7
+EIGHT: Color = 8
+NINE: Color = 9
+TEN: Color = 10
+
 #F = False
 #T = True
-
-ZERO = 0
-ONE = 1
-TWO = 2
-THREE = 3
-FOUR = 4
-FIVE = 5
-SIX = 6
-SEVEN = 7
-EIGHT = 8
-NINE = 9
-TEN = 10
 
 NEG_ONE = -1
 NEG_TWO = -2
@@ -31,4 +33,3 @@ ZERO_BY_TWO = (0, 2)
 TWO_BY_ZERO = (2, 0)
 TWO_BY_TWO = (2, 2)
 THREE_BY_THREE = (3, 3)
-

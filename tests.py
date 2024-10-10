@@ -434,18 +434,18 @@ def test_normalize():
     assert normalize(frozenset({(1, 0), (0, 2), (3, 4)})) == frozenset({(1, 0), (0, 2), (3, 4)})
  
 
-def test_dneighbors():
-    assert dneighbors((1, 1)) == frozenset({(0, 1), (1, 0), (2, 1), (1, 2)})
-    assert dneighbors((0, 0)) == frozenset({(0, 1), (1, 0), (-1, 0), (0, -1)})
-    assert dneighbors((0, 1)) == frozenset({(0, 0), (1, 1), (-1, 1), (0, 2)})
-    assert dneighbors((1, 0)) == frozenset({(0, 0), (1, 1), (1, -1), (2, 0)})
+def test_direct_neighbors():
+    assert direct_neighbors((1, 1)) == frozenset({(0, 1), (1, 0), (2, 1), (1, 2)})
+    assert direct_neighbors((0, 0)) == frozenset({(0, 1), (1, 0), (-1, 0), (0, -1)})
+    assert direct_neighbors((0, 1)) == frozenset({(0, 0), (1, 1), (-1, 1), (0, 2)})
+    assert direct_neighbors((1, 0)) == frozenset({(0, 0), (1, 1), (1, -1), (2, 0)})
  
 
-def test_ineighbors():
-    assert ineighbors((1, 1)) == frozenset({(0, 0), (0, 2), (2, 0), (2, 2)})
-    assert ineighbors((0, 0)) == frozenset({(1, 1), (-1, -1), (1, -1), (-1, 1)})
-    assert ineighbors((0, 1)) == frozenset({(1, 0), (1, 2), (-1, 0), (-1, 2)})
-    assert ineighbors((1, 0)) == frozenset({(0, 1), (2, -1), (2, 1), (0, -1)})
+def test_diagonal_neighbors():
+    assert diagonal_neighbors((1, 1)) == frozenset({(0, 0), (0, 2), (2, 0), (2, 2)})
+    assert diagonal_neighbors((0, 0)) == frozenset({(1, 1), (-1, -1), (1, -1), (-1, 1)})
+    assert diagonal_neighbors((0, 1)) == frozenset({(1, 0), (1, 2), (-1, 0), (-1, 2)})
+    assert diagonal_neighbors((1, 0)) == frozenset({(0, 1), (2, -1), (2, 1), (0, -1)})
  
 
 def test_neighbors():

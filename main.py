@@ -57,7 +57,12 @@ def run_dsl_tests(dsl_module, test_module):
 def test_solvers_formatting(solvers_module, dsl_module):
     """ tests the implemented solvers for formatting """
     with open('constants.py', 'r') as f:
-        constants = [c.split(' = ')[0] for c in f.readlines() if ' = ' in c]
+        def parse_constant(s):
+            s = s.split(' = ')[0]
+            if ':' in s:
+                s = s.split(':')[0]
+            return s
+        constants = [parse_constant(c) for c in f.readlines() if ' = ' in c]
     definitions = {
         function: inspect.getsource(getattr(solvers_module, function)) \
             for function in get_functions(solvers_module.__file__)
@@ -85,7 +90,7 @@ def test_solvers_formatting(solvers_module, dsl_module):
                 assert args[-1] == ')'
                 args = [args[:-1]] if ',' not in args else args[:-1].split(', ')
                 for arg in args:
-                    #print(f"\n'{arg}', {variables}, {dsl_interface}, {constants}")
+                    print(f"\n'{arg}', {variables}, {dsl_interface}, {constants}")
                     assert any([
                         arg in variables, arg in dsl_interface, arg in constants, 
                         arg=='I', arg in '0,1,2,3,4,5,6,7,8,9,10,-1,True,False'
@@ -215,7 +220,7 @@ ARC-Prize .org GAME CONSTANTS
 
 .symbol_9 {
     background-color: var(--maroon);
-    --maroon: #921231;
+    --maroon: #921231;  # BROWN ??
 }
 
 
