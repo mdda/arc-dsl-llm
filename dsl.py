@@ -653,7 +653,7 @@ def of_color(
     return frozenset((i, j) for i, r in enumerate(grid) for j, v in enumerate(r) if v == value)
 
 
-def ulcorner(
+def upper_left_corner(
     patch: Patch
 ) -> IntegerTuple:
     """ index of upper left corner """

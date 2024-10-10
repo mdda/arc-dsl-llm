@@ -374,14 +374,14 @@ def test_of_color():
     assert of_color(C, 1) == frozenset()
  
 
-def test_ulcorner():
-    assert ulcorner(frozenset({(1, 2), (0, 3), (4, 0)})) == (0, 0)
-    assert ulcorner(frozenset({(1, 2), (0, 0), (4, 3)})) == (0, 0)
+def test_upper_left_corner():
+    assert upper_left_corner(frozenset({(1, 2), (0, 3), (4, 0)})) == (0, 0)
+    assert upper_left_corner(frozenset({(1, 2), (0, 0), (4, 3)})) == (0, 0)
  
 
-def test_urcorner():
-    assert urcorner(frozenset({(1, 2), (0, 3), (4, 0)})) == (0, 3)
-    assert urcorner(frozenset({(1, 2), (0, 0), (4, 3)})) == (0, 3)
+def test_upper_right_corner():
+    assert upper_right_corner(frozenset({(1, 2), (0, 3), (4, 0)})) == (0, 3)
+    assert upper_right_corner(frozenset({(1, 2), (0, 0), (4, 3)})) == (0, 3)
  
 
 def test_llcorner():
