@@ -177,7 +177,7 @@ def solve_9ecd008a(I):
 
 def solve_ac0a08a4(I):
     x1 = color_count(I, ZERO)
-    x2 = subtract(NINE, x1)
+    x2 = subtract(9, x1)
     O = upscale(I, x2)
     return O
 
@@ -336,9 +336,9 @@ def solve_4347f46a(I):
 
 def solve_46f33fce(I):
     x1 = rot180(I)
-    x2 = downscale(x1, TWO)
+    x2 = downscale(x1, 2)
     x3 = rot180(x2)
-    O = upscale(x3, FOUR)
+    O = upscale(x3, 4)
     return O
 
 
@@ -402,7 +402,7 @@ def solve_f25fbde4(I):
     x1 = as_objects(I, True, True, True)
     x2 = first(x1)
     x3 = subgrid(x2, I)
-    O = upscale(x3, TWO)
+    O = upscale(x3, 2)
     return O
 
 
@@ -823,8 +823,8 @@ def solve_10fcaaa3(I):
 
 
 def solve_007bbfb7(I):
-    x1 = horizontal_upscale(I, THREE)
-    x2 = vertical_upscale(x1, THREE)
+    x1 = horizontal_upscale(I, 3)
+    x2 = vertical_upscale(x1, 3)
     x3 = horizontal_concat(I, I)
     x4 = horizontal_concat(x3, I)
     x5 = vertical_concat(x4, x4)
@@ -1349,7 +1349,7 @@ def solve_7c008303(I):
     x4 = replace(I, THREE, ZERO)
     x5 = replace(x4, EIGHT, ZERO)
     x6 = compress(x5)
-    x7 = upscale(x6, THREE)
+    x7 = upscale(x6, 3)
     O = fill(x7, ZERO, x3)
     return O
 
@@ -1597,7 +1597,7 @@ def solve_8f2ea7aa(I):
     x1 = as_objects(I, True, False, True)
     x2 = merge(x1)
     x3 = subgrid(x2, I)
-    x4 = upscale(x3, THREE)
+    x4 = upscale(x3, 3)
     x5 = horizontal_concat(x3, x3)
     x6 = horizontal_concat(x5, x3)
     x7 = vertical_concat(x6, x6)
@@ -1620,7 +1620,7 @@ def solve_b8825c91(I):
 
 
 def solve_cce03e0d(I):
-    x1 = upscale(I, THREE)
+    x1 = upscale(I, 3)
     x2 = horizontal_concat(I, I)
     x3 = horizontal_concat(x2, I)
     x4 = vertical_concat(x3, x3)
@@ -1949,13 +1949,13 @@ def solve_80af3007(I):
     x1 = as_objects(I, True, True, True)
     x2 = first(x1)
     x3 = subgrid(x2, I)
-    x4 = upscale(x3, THREE)
+    x4 = upscale(x3, 3)
     x5 = horizontal_concat(x3, x3)
     x6 = horizontal_concat(x5, x3)
     x7 = vertical_concat(x6, x6)
     x8 = vertical_concat(x7, x6)
     x9 = cellwise(x4, x8, ZERO)
-    O = downscale(x9, THREE)
+    O = downscale(x9, 3)
     return O
 
 
@@ -2091,7 +2091,7 @@ def solve_6b9890af(I):
     x3 = argmin(x1, size)
     x4 = subgrid(x2, I)
     x5 = width(x4)
-    x6 = divide(x5, THREE)
+    x6 = divide(x5, 3)
     x7 = upscale(x3, x6)
     x8 = normalize(x7)
     x9 = shift(x8, UNITY)
@@ -2228,7 +2228,7 @@ def solve_bdad9b1f(I):
 def solve_c3e719e8(I):
     x1 = most_common_color(I)
     x2 = horizontal_concat(I, I)
-    x3 = upscale(I, THREE)
+    x3 = upscale(I, 3)
     x4 = of_color(x3, x1)
     x5 = as_indices(x3)
     x6 = difference(x5, x4)
@@ -2500,7 +2500,7 @@ def solve_760b3cac(I):
     x4 = index(I, x3)
     x5 = equality(x4, FOUR)
     x6 = branch(x5, NEG_ONE, ONE)
-    x7 = multiply(x6, THREE)
+    x7 = multiply(x6, 3)
     x8 = to_horizontal_vec(x7)
     x9 = vertical_mirror(x2)
     x10 = shift(x9, x8)
@@ -2584,7 +2584,7 @@ def solve_09629e4f(I):
     x1 = as_objects(I, False, True, True)
     x2 = argmin(x1, count_colors)
     x3 = normalize(x2)
-    x4 = upscale(x3, FOUR)
+    x4 = upscale(x3, 4)
     x5 = paint(I, x4)
     x6 = of_color(I, FIVE)
     O = fill(x5, FIVE, x6)
@@ -2609,7 +2609,7 @@ def solve_a85d4709(I):
 def solve_feca6190(I):
     x1 = as_objects(I, True, False, True)
     x2 = size(x1)
-    x3 = multiply(x2, FIVE)
+    x3 = multiply(x2, 5)
     x4 = as_tuple(x3, x3)
     x5 = canvas(ZERO, x4)
     x6 = rbind(shoot, UNITY)
@@ -2703,7 +2703,7 @@ def solve_05269061(I):
     x1 = as_objects(I, True, True, True)
     x2 = neighbors(ORIGIN)
     x3 = mapply(neighbors, x2)
-    x4 = rbind(multiply, THREE)
+    x4 = rbind(multiply, 3)
     x5 = apply(x4, x3)
     x6 = merge(x1)
     x7 = lbind(shift, x6)
@@ -2818,7 +2818,7 @@ def solve_93b581b8(I):
     x1 = fgpartition(I)
     x2 = chain(counterdiagonal_mirror, diagonal_mirror, merge)
     x3 = x2(x1)
-    x4 = upscale(x3, THREE)
+    x4 = upscale(x3, 3)
     x5 = as_tuple(NEG_TWO, NEG_TWO)
     x6 = shift(x4, x5)
     x7 = underpaint(I, x6)
@@ -2970,7 +2970,7 @@ def solve_ce602527(I):
     x4 = last(x3)
     x5 = remove(x4, x3)
     x6 = compose(to_indices, normalize)
-    x7 = rbind(upscale, TWO)
+    x7 = rbind(upscale, 2)
     x8 = chain(to_indices, x7, normalize)
     x9 = x6(x4)
     x10 = rbind(intersection, x9)
@@ -2987,9 +2987,9 @@ def solve_5c2c9af4(I):
     x3 = center(x2)
     x4 = upper_left_corner(x2)
     x5 = subtract(x3, x4)
-    x6 = multiply(NEG_ONE, NINE)
-    x7 = interval(ZERO, NINE, ONE)
-    x8 = interval(ZERO, x6, NEG_ONE)
+    x6 = multiply(-1, 9)
+    x7 = interval(0, 9, 1)
+    x8 = interval(0, x6, -1)
     x9 = lbind(multiply, x5)
     x10 = apply(x9, x7)
     x11 = apply(x9, x8)
@@ -3213,7 +3213,7 @@ def solve_6cf79266(I):
     x1 = of_color(I, ZERO)
     x2 = as_tuple(ZERO, ORIGIN)
     x3 = initset(x2)
-    x4 = upscale(x3, THREE)
+    x4 = upscale(x3, 3)
     x5 = to_indices(x4)
     x6 = lbind(shift, x5)
     x7 = rbind(difference, x1)
@@ -3264,8 +3264,8 @@ def solve_4093f84a(I):
 
 
 def solve_ba26e723(I):
-    x1 = rbind(divide, THREE)
-    x2 = rbind(multiply, THREE)
+    x1 = rbind(divide, 3)
+    x2 = rbind(multiply, 3)
     x3 = compose(x2, x1)
     x4 = fork(equality, identity, x3)
     x5 = compose(x4, last)
@@ -3421,7 +3421,7 @@ def solve_6773b310(I):
     x1 = compress(I)
     x2 = neighbors(ORIGIN)
     x3 = insert(ORIGIN, x2)
-    x4 = rbind(multiply, THREE)
+    x4 = rbind(multiply, 3)
     x5 = apply(x4, x3)
     x6 = as_tuple(FOUR, FOUR)
     x7 = shift(x5, x6)
@@ -3627,7 +3627,7 @@ def solve_e5062a87(I):
 def solve_a8d7556c(I):
     x1 = initset(ORIGIN)
     x2 = recolor(ZERO, x1)
-    x3 = upscale(x2, TWO)
+    x3 = upscale(x2, 2)
     x4 = occurrences(I, x3)
     x5 = lbind(shift, x3)
     x6 = mapply(x5, x4)
@@ -3740,14 +3740,14 @@ def solve_8403a5d5(I):
     x3 = first(x2)
     x4 = color(x3)
     x5 = leftmost(x3)
-    x6 = interval(x5, TEN, TWO)
+    x6 = interval(x5, 10, 2)
     x7 = rbind(contains, x6)
     x8 = compose(x7, last)
     x9 = sfilter(x1, x8)
     x10 = increment(x5)
-    x11 = add(x5, THREE)
-    x12 = interval(x10, TEN, FOUR)
-    x13 = interval(x11, TEN, FOUR)
+    x11 = add(x5, 3)
+    x12 = interval(x10, 10, 4)
+    x13 = interval(x11, 10, 4)
     x14 = lbind(as_tuple, NINE)
     x15 = apply(to_horizontal_vec, x12)
     x16 = apply(x14, x13)
@@ -3759,11 +3759,11 @@ def solve_8403a5d5(I):
 
 def solve_91413438(I):
     x1 = color_count(I, ZERO)
-    x2 = subtract(NINE, x1)
-    x3 = multiply(x1, THREE)
+    x2 = subtract(9, x1)
+    x3 = multiply(x1, 3)
     x4 = multiply(x3, x1)
-    x5 = subtract(x4, THREE)
-    x6 = as_tuple(THREE, x5)
+    x5 = subtract(x4, 3)
+    x6 = as_tuple(3, x5)
     x7 = canvas(ZERO, x6)
     x8 = horizontal_concat(I, x7)
     x9 = as_objects(x8, True, True, True)
@@ -3771,7 +3771,7 @@ def solve_91413438(I):
     x11 = lbind(shift, x10)
     x12 = compose(x11, to_horizontal_vec)
     x13 = interval(ZERO, x2, ONE)
-    x14 = rbind(multiply, THREE)
+    x14 = rbind(multiply, 3)
     x15 = apply(x14, x13)
     x16 = mapply(x12, x15)
     x17 = paint(x8, x16)
@@ -3797,7 +3797,7 @@ def solve_539a4f51(I):
     x14 = horizontal_concat(x12, x7)
     x15 = vertical_concat(x13, x14)
     x16 = as_object(x15)
-    x17 = multiply(UNITY, TEN)
+    x17 = multiply(UNITY, 10)
     x18 = canvas(x2, x17)
     O = paint(x18, x16)
     return O
@@ -4088,8 +4088,8 @@ def solve_db93a21d(I):
     x8 = rbind(is_greater, 1)
     x9 = compose(x8, x7)
     x10 = matcher(x7, THREE)
-    x11 = power(outbox, TWO)
-    x12 = power(outbox, THREE)
+    x11 = power(outbox, 2)
+    x12 = power(outbox, 3)
     x13 = mapply(outbox, x3)
     x14 = sfilter(x3, x9)
     x15 = sfilter(x3, x10)
@@ -4434,8 +4434,8 @@ def solve_4522001f(I):
     x8 = canvas(ZERO, x7)
     x9 = as_tuple(THREE, ORIGIN)
     x10 = initset(x9)
-    x11 = upscale(x10, TWO)
-    x12 = upscale(x11, TWO)
+    x11 = upscale(x10, 2)
+    x12 = upscale(x11, 2)
     x13 = shape(x12)
     x14 = shift(x12, x13)
     x15 = combine(x12, x14)
@@ -4532,8 +4532,8 @@ def solve_228f6490(I):
 
 
 def solve_995c5fa3(I):
-    x1 = horizontal_split(I, THREE)
-    x2 = as_tuple(TWO, ONE)
+    x1 = horizontal_split(I, 3)
+    x2 = as_tuple(2, 1)
     x3 = rbind(of_color, ZERO)
     x4 = compose(upper_left_corner, x3)
     x5 = compose(size, x3)
@@ -4541,8 +4541,8 @@ def solve_995c5fa3(I):
     x7 = matcher(x4, UNITY)
     x8 = matcher(x4, DOWN)
     x9 = matcher(x4, x2)
-    x10 = rbind(multiply, THREE)
-    x11 = power(double, TWO)
+    x10 = rbind(multiply, 3)
+    x11 = power(double, 2)
     x12 = compose(double, x6)
     x13 = chain(x11, double, x7)
     x14 = compose(x10, x8)
@@ -4554,7 +4554,7 @@ def solve_995c5fa3(I):
     x20 = compose(x19, x18)
     x21 = apply(x20, x1)
     x22 = merge(x21)
-    O = horizontal_upscale(x22, THREE)
+    O = horizontal_upscale(x22, 3)
     return O
 
 
@@ -4586,7 +4586,7 @@ def solve_d06dbe63(I):
 
 
 def solve_36fdfd69(I):
-    x1 = upscale(I, TWO)
+    x1 = upscale(I, 2)
     x2 = as_objects(x1, True, True, True)
     x3 = color_filter(x2, TWO)
     x4 = fork(manhattan, first, last)
@@ -5417,14 +5417,14 @@ def solve_28e73c20(I):
     x4 = as_tuple(TWO, ONE)
     x5 = as_tuple(THREE, ONE)
     x6 = canvas(THREE, UNITY)
-    x7 = upscale(x6, FOUR)
+    x7 = upscale(x6, 4)
     x8 = initset(DOWN)
     x9 = insert(UNITY, x8)
     x10 = insert(x2, x9)
     x11 = insert(x3, x10)
     x12 = fill(x7, ZERO, x11)
-    x13 = vertical_upscale(x6, FIVE)
-    x14 = horizontal_upscale(x13, THREE)
+    x13 = vertical_upscale(x6, 5)
+    x14 = horizontal_upscale(x13, 3)
     x15 = insert(x4, x9)
     x16 = insert(x5, x15)
     x17 = fill(x14, ZERO, x16)
@@ -5547,7 +5547,7 @@ def solve_6d0160f0(I):
     x27 = first(x26)
     x28 = as_indices(x25)
     x29 = to_object(x28, x25)
-    x30 = multiply(x27, FOUR)
+    x30 = multiply(x27, 4)
     x31 = shift(x29, x30)
     O = paint(x23, x31)
     return O
@@ -5638,8 +5638,8 @@ def solve_6a1e5592(I):
     x10 = as_indices(x4)
     x11 = of_color(x4, ZERO)
     x12 = of_color(x4, TWO)
-    x13 = rbind(multiply, TEN)
-    x14 = rbind(multiply, EIGHT)
+    x13 = rbind(multiply, 10)
+    x14 = rbind(multiply, 8)
     x15 = rbind(intersection, x12)
     x16 = rbind(intersection, x11)
     x17 = rbind(intersection, x10)
@@ -6241,7 +6241,7 @@ def solve_234bbc79(I):
 
 def solve_22233c11(I):
     x1 = as_objects(I, True, True, True)
-    x2 = rbind(upscale, TWO)
+    x2 = rbind(upscale, 2)
     x3 = chain(invert, halve, shape)
     x4 = fork(combine, hfrontier, vfrontier)
     x5 = compose(x2, vertical_mirror)
@@ -6327,8 +6327,8 @@ def solve_a64e4611(I):
     x18 = compose(x4, x16)
     x19 = fork(occurrences, last, x18)
     x20 = fork(mapply, x17, x19)
-    x21 = multiply(TWO, SIX)
-    x22 = interval(THREE, x21, ONE)
+    x21 = multiply(2, 6)
+    x22 = interval(3, x21, 1)
     x23 = as_tuple(x22, I)
     x24 = x20(x23)
     x25 = fill(I, THREE, x24)

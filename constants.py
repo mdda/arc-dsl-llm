@@ -31,3 +31,4 @@ ZERO_BY_TWO = (0, 2)
 TWO_BY_ZERO = (2, 0)
 TWO_BY_TWO = (2, 2)
 THREE_BY_THREE = (3, 3)
+

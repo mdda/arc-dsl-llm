@@ -88,7 +88,7 @@ def test_solvers_formatting(solvers_module, dsl_module):
                     #print(f"\n'{arg}', {variables}, {dsl_interface}, {constants}")
                     assert any([
                         arg in variables, arg in dsl_interface, arg in constants, 
-                        arg=='I', arg in '0,1,2,3,4,5,6,7,8,9,10,True,False'
+                        arg=='I', arg in '0,1,2,3,4,5,6,7,8,9,10,-1,True,False'
                     ])
             for v in variables:  #  This detects whether each variable gets used...
                 #print(f"{definition}, {v=}")
@@ -151,7 +151,73 @@ e40b9e2f FIXED (PR)
 6a1e5592 mdda too
 4c5c2cf0 mdda too
 
-9edfc990 mdda only?
-469497ad mdda only?
+9edfc990 mdda only? (but also hodel raw github)
+469497ad mdda only? (but also hodel raw github)
+
+"""
+
+"""
+ARC-Prize .org GAME CONSTANTS
+
+/* Game */
+
+
+:root {
+    --magenta-light: #ff7bcc;
+    --gray: #555555;
+}
+
+.symbol_0 {
+    background-color: var(--black);
+    --black: #000000;
+}
+
+.symbol_1 {
+    background-color: var(--blue);
+    --blue: #1E93FF;
+}
+
+.symbol_2 {
+    background-color: var(--red);
+    --red: #F93C31;
+}
+
+.symbol_3 {
+    background-color: var(--green);
+    --green: #4FCC30;
+}
+
+.symbol_4 {
+    background-color: var(--yellow);
+    --yellow: #FFDC00;
+}
+
+.symbol_5 {
+    background-color: var(--gray-light);
+    --gray-light: #999999;
+}
+
+.symbol_6 {
+    background-color: var(--magenta);
+    --magenta: #E53AA3;
+}
+
+.symbol_7 {
+    background-color: var(--orange);
+    --orange: #FF851B;
+}
+
+.symbol_8 {
+    background-color: var(--blue-light);
+    --blue-light: #87D8F1;
+    azure?
+}
+
+.symbol_9 {
+    background-color: var(--maroon);
+    --maroon: #921231;
+}
+
+
 
 """
