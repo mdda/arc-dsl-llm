@@ -25,3 +25,4 @@ Element = Union[Object, Grid]
 Piece = Union[Grid, Patch]
 TupleTuple = Tuple[Tuple]
 ContainerContainer = Container[Container]
+#Color = Integer

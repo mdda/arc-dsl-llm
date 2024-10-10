@@ -1,5 +1,5 @@
-F = False
-T = True
+#F = False
+#T = True
 
 ZERO = 0
 ONE = 1

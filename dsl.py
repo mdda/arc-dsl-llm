@@ -71,7 +71,7 @@ def invert(
     return -n if isinstance(n, int) else (-n[0], -n[1])
 
 
-def even(
+def is_even(
     n: Integer
 ) -> Boolean:
     """ evenness """
@@ -107,7 +107,7 @@ def equality(
     return a == b
 
 
-def contained(
+def contains(
     value: Any,
     container: Container
 ) -> Boolean:
@@ -162,7 +162,7 @@ def repeat(
     return tuple(item for i in range(num))
 
 
-def greater(
+def is_greater(
     a: Integer,
     b: Integer
 ) -> Boolean:
@@ -230,14 +230,14 @@ def argmin(
     return min(container, key=compfunc)
 
 
-def mostcommon(
+def most_common(
     container: Container
 ) -> Any:
     """ most common item """
     return max(set(container), key=container.count)
 
 
-def leastcommon(
+def least_common(
     container: Container
 ) -> Any:
     """ least common item """
@@ -312,14 +312,14 @@ def positive(
     return x > 0
 
 
-def toivec(
+def to_vertical_vec(
     i: Integer
 ) -> IntegerTuple:
     """ vector pointing vertically """
     return (i, 0)
 
 
-def tojvec(
+def to_horizontal_vec(
     j: Integer
 ) -> IntegerTuple:
     """ vector pointing horizontally """
@@ -350,7 +350,7 @@ def extract(
     return next(e for e in container if condition(e))
 
 
-def totuple(
+def to_tuple(
     container: FrozenSet
 ) -> Tuple:
     """ conversion to tuple """
@@ -404,7 +404,7 @@ def interval(
     return tuple(range(start, stop, step))
 
 
-def astuple(
+def as_tuple(
     a: Integer,
     b: Integer
 ) -> IntegerTuple:
@@ -412,7 +412,7 @@ def astuple(
     return (a, b)
 
 
-def product(
+def cartesian_product(
     a: Container,
     b: Container
 ) -> FrozenSet:
@@ -560,7 +560,7 @@ def prapply(
     return frozenset(function(i, j) for j in b for i in a)
 
 
-def mostcolor(
+def most_common_color(
     element: Element
 ) -> Integer:
     """ most common color """
@@ -568,7 +568,7 @@ def mostcolor(
     return max(set(values), key=values.count)
     
 
-def leastcolor(
+def least_common_color(
     element: Element
 ) -> Integer:
     """ least common color """
@@ -605,14 +605,14 @@ def shape(
     return (height(piece), width(piece))
 
 
-def portrait(
+def is_portrait(
     piece: Piece
 ) -> Boolean:
     """ whether height is greater than width """
     return height(piece) > width(piece)
 
 
-def colorcount(
+def color_count(
     element: Element,
     value: Integer
 ) -> Integer:
@@ -622,7 +622,7 @@ def colorcount(
     return sum(v == value for v, _ in element)
 
 
-def colorfilter(
+def color_filter(
     objs: Objects,
     value: Integer
 ) -> Objects:
@@ -630,7 +630,7 @@ def colorfilter(
     return frozenset(obj for obj in objs if next(iter(obj))[0] == value)
 
 
-def sizefilter(
+def size_filter(
     container: Container,
     n: Integer
 ) -> FrozenSet:
@@ -638,14 +638,14 @@ def sizefilter(
     return frozenset(item for item in container if len(item) == n)
 
 
-def asindices(
+def as_indices(
     grid: Grid
 ) -> Indices:
     """ indices of all grid cells """
     return frozenset((i, j) for i in range(len(grid)) for j in range(len(grid[0])))
 
 
-def ofcolor(
+def of_color(
     grid: Grid,
     value: Integer
 ) -> Indices:
@@ -657,28 +657,28 @@ def ulcorner(
     patch: Patch
 ) -> IntegerTuple:
     """ index of upper left corner """
-    return tuple(map(min, zip(*toindices(patch))))
+    return tuple(map(min, zip(*to_indices(patch))))
 
 
 def urcorner(
     patch: Patch
 ) -> IntegerTuple:
     """ index of upper right corner """
-    return tuple(map(lambda ix: {0: min, 1: max}[ix[0]](ix[1]), enumerate(zip(*toindices(patch)))))
+    return tuple(map(lambda ix: {0: min, 1: max}[ix[0]](ix[1]), enumerate(zip(*to_indices(patch)))))
 
 
 def llcorner(
     patch: Patch
 ) -> IntegerTuple:
     """ index of lower left corner """
-    return tuple(map(lambda ix: {0: max, 1: min}[ix[0]](ix[1]), enumerate(zip(*toindices(patch)))))
+    return tuple(map(lambda ix: {0: max, 1: min}[ix[0]](ix[1]), enumerate(zip(*to_indices(patch)))))
 
 
 def lrcorner(
     patch: Patch
 ) -> IntegerTuple:
     """ index of lower right corner """
-    return tuple(map(max, zip(*toindices(patch))))
+    return tuple(map(max, zip(*to_indices(patch))))
 
 
 def crop(
@@ -690,7 +690,7 @@ def crop(
     return tuple(r[start[1]:start[1]+dims[1]] for r in grid[start[0]:start[0]+dims[0]])
 
 
-def toindices(
+def to_indices(
     patch: Patch
 ) -> Indices:
     """ indices of object cells """
@@ -706,7 +706,7 @@ def recolor(
     patch: Patch
 ) -> Object:
     """ recolor patch """
-    return frozenset((value, index) for index in toindices(patch))
+    return frozenset((value, index) for index in to_indices(patch))
 
 
 def shift(
@@ -752,18 +752,18 @@ def neighbors(
     return dneighbors(loc) | ineighbors(loc)
 
 
-def objects(
+def as_objects(
     grid: Grid,
     univalued: Boolean,
     diagonal: Boolean,
     without_bg: Boolean
 ) -> Objects:
     """ objects occurring on the grid """
-    bg = mostcolor(grid) if without_bg else None
+    bg = most_common_color(grid) if without_bg else None
     objs = set()
     occupied = set()
     h, w = len(grid), len(grid[0])
-    unvisited = asindices(grid)
+    unvisited = as_indices(grid)
     diagfun = neighbors if diagonal else dneighbors
     for loc in unvisited:
         if loc in occupied:
@@ -806,7 +806,7 @@ def fgpartition(
     return frozenset(
         frozenset(
             (v, (i, j)) for i, r in enumerate(grid) for j, v in enumerate(r) if v == value
-        ) for value in palette(grid) - {mostcolor(grid)}
+        ) for value in palette(grid) - {most_common_color(grid)}
     )
 
 
@@ -814,28 +814,28 @@ def uppermost(
     patch: Patch
 ) -> Integer:
     """ row index of uppermost occupied cell """
-    return min(i for i, j in toindices(patch))
+    return min(i for i, j in to_indices(patch))
 
 
 def lowermost(
     patch: Patch
 ) -> Integer:
     """ row index of lowermost occupied cell """
-    return max(i for i, j in toindices(patch))
+    return max(i for i, j in to_indices(patch))
 
 
 def leftmost(
     patch: Patch
 ) -> Integer:
     """ column index of leftmost occupied cell """
-    return min(j for i, j in toindices(patch))
+    return min(j for i, j in to_indices(patch))
 
 
 def rightmost(
     patch: Patch
 ) -> Integer:
     """ column index of rightmost occupied cell """
-    return max(j for i, j in toindices(patch))
+    return max(j for i, j in to_indices(patch))
 
 
 def square(
@@ -845,14 +845,14 @@ def square(
     return len(piece) == len(piece[0]) if isinstance(piece, tuple) else height(piece) * width(piece) == len(piece) and height(piece) == width(piece)
 
 
-def vline(
+def is_vertical_line(
     patch: Patch
 ) -> Boolean:
     """ whether the piece forms a vertical line """
     return height(patch) == len(patch) and width(patch) == 1
 
 
-def hline(
+def is_horizontal_line(
     patch: Patch
 ) -> Boolean:
     """ whether the piece forms a horizontal line """
@@ -864,7 +864,7 @@ def hmatching(
     b: Patch
 ) -> Boolean:
     """ whether there exists a row for which both patches have cells """
-    return len(set(i for i, j in toindices(a)) & set(i for i, j in toindices(b))) > 0
+    return len(set(i for i, j in to_indices(a)) & set(i for i, j in to_indices(b))) > 0
 
 
 def vmatching(
@@ -872,7 +872,7 @@ def vmatching(
     b: Patch
 ) -> Boolean:
     """ whether there exists a column for which both patches have cells """
-    return len(set(j for i, j in toindices(a)) & set(j for i, j in toindices(b))) > 0
+    return len(set(j for i, j in to_indices(a)) & set(j for i, j in to_indices(b))) > 0
 
 
 def manhattan(
@@ -880,7 +880,7 @@ def manhattan(
     b: Patch
 ) -> Integer:
     """ closest manhattan distance between two patches """
-    return min(abs(ai - bi) + abs(aj - bj) for ai, aj in toindices(a) for bi, bj in toindices(b))
+    return min(abs(ai - bi) + abs(aj - bj) for ai, aj in to_indices(a) for bi, bj in to_indices(b))
 
 
 def adjacent(
@@ -903,7 +903,7 @@ def centerofmass(
     patch: Patch
 ) -> IntegerTuple:
     """ center of mass """
-    return tuple(map(lambda x: sum(x) // len(patch), zip(*toindices(patch))))
+    return tuple(map(lambda x: sum(x) // len(patch), zip(*to_indices(patch))))
 
 
 def palette(
@@ -929,16 +929,16 @@ def color(
     return next(iter(obj))[0]
 
 
-def toobject(
+def to_object(
     patch: Patch,
     grid: Grid
 ) -> Object:
     """ object from patch and grid """
     h, w = len(grid), len(grid[0])
-    return frozenset((grid[i][j], (i, j)) for i, j in toindices(patch) if 0 <= i < h and 0 <= j < w)
+    return frozenset((grid[i][j], (i, j)) for i, j in to_indices(patch) if 0 <= i < h and 0 <= j < w)
 
 
-def asobject(
+def as_object(
     grid: Grid
 ) -> Object:
     """ conversion of grid to object """
@@ -966,7 +966,7 @@ def rot270(
     return tuple(tuple(row[::-1]) for row in zip(*grid[::-1]))[::-1]
 
 
-def hmirror(
+def horizontal_mirror(
     piece: Piece
 ) -> Piece:
     """ mirroring along horizontal """
@@ -978,7 +978,7 @@ def hmirror(
     return frozenset((d - i, j) for i, j in piece)
 
 
-def vmirror(
+def vertical_mirror(
     piece: Piece
 ) -> Piece:
     """ mirroring along vertical """
@@ -990,7 +990,7 @@ def vmirror(
     return frozenset((i, d - j) for i, j in piece)
 
 
-def dmirror(
+def diagonal_mirror(
     piece: Piece
 ) -> Piece:
     """ mirroring along diagonal """
@@ -1002,13 +1002,13 @@ def dmirror(
     return frozenset((j - b + a, i - a + b) for i, j in piece)
 
 
-def cmirror(
+def counterdiagonal_mirror(
     piece: Piece
 ) -> Piece:
     """ mirroring along counterdiagonal """
     if isinstance(piece, tuple):
         return tuple(zip(*(r[::-1] for r in piece[::-1])))
-    return vmirror(dmirror(vmirror(piece)))
+    return vertical_mirror(diagonal_mirror(vertical_mirror(piece)))
 
 
 def fill(
@@ -1019,7 +1019,7 @@ def fill(
     """ fill value at indices """
     h, w = len(grid), len(grid[0])
     grid_filled = list(list(row) for row in grid)
-    for i, j in toindices(patch):
+    for i, j in to_indices(patch):
         if 0 <= i < h and 0 <= j < w:
             grid_filled[i][j] = value
     return tuple(tuple(row) for row in grid_filled)
@@ -1045,9 +1045,9 @@ def underfill(
 ) -> Grid:
     """ fill value at indices that are background """
     h, w = len(grid), len(grid[0])
-    bg = mostcolor(grid)
+    bg = most_common_color(grid)
     g = list(list(r) for r in grid)
-    for i, j in toindices(patch):
+    for i, j in to_indices(patch):
         if 0 <= i < h and 0 <= j < w:
             if g[i][j] == bg:
                 g[i][j] = value
@@ -1060,7 +1060,7 @@ def underpaint(
 ) -> Grid:
     """ paint object to grid where there is background """
     h, w = len(grid), len(grid[0])
-    bg = mostcolor(grid)
+    bg = most_common_color(grid)
     g = list(list(r) for r in grid)
     for value, (i, j) in obj:
         if 0 <= i < h and 0 <= j < w:
@@ -1069,7 +1069,7 @@ def underpaint(
     return tuple(tuple(r) for r in g)
 
 
-def hupscale(
+def horizontal_upscale(
     grid: Grid,
     factor: Integer
 ) -> Grid:
@@ -1083,7 +1083,7 @@ def hupscale(
     return g
 
 
-def vupscale(
+def vertical_upscale(
     grid: Grid,
     factor: Integer
 ) -> Grid:
@@ -1142,7 +1142,7 @@ def downscale(
     return dsg
 
 
-def hconcat(
+def horizontal_concat(
     a: Grid,
     b: Grid
 ) -> Grid:
@@ -1150,7 +1150,7 @@ def hconcat(
     return tuple(i + j for i, j in zip(a, b))
 
 
-def vconcat(
+def vertical_concat(
     a: Grid,
     b: Grid
 ) -> Grid:
@@ -1166,7 +1166,7 @@ def subgrid(
     return crop(grid, ulcorner(patch), shape(patch))
 
 
-def hsplit(
+def horizontal_split(
     grid: Grid,
     n: Integer
 ) -> Tuple:
@@ -1176,7 +1176,7 @@ def hsplit(
     return tuple(crop(grid, (0, w * i + i * offset), (h, w)) for i in range(n))
 
 
-def vsplit(
+def vertical_split(
     grid: Grid,
     n: Integer
 ) -> Tuple:
@@ -1234,8 +1234,8 @@ def position(
     b: Patch
 ) -> IntegerTuple:
     """ relative position between two patches """
-    ia, ja = center(toindices(a))
-    ib, jb = center(toindices(b))
+    ia, ja = center(to_indices(a))
+    ib, jb = center(to_indices(b))
     if ia == ib:
         return (0, 1 if ja < jb else -1)
     elif ja == jb:
@@ -1300,7 +1300,7 @@ def cover(
     patch: Patch
 ) -> Grid:
     """ remove object from grid """
-    return fill(grid, mostcolor(grid), toindices(patch))
+    return fill(grid, most_common_color(grid), to_indices(patch))
 
 
 def trim(
@@ -1319,28 +1319,28 @@ def move(
     return paint(cover(grid, obj), shift(obj, offset))
 
 
-def tophalf(
+def top_half(
     grid: Grid
 ) -> Grid:
     """ upper half of grid """
     return grid[:len(grid) // 2]
 
 
-def bottomhalf(
+def bottom_half(
     grid: Grid
 ) -> Grid:
     """ lower half of grid """
     return grid[len(grid) // 2 + len(grid) % 2:]
 
 
-def lefthalf(
+def left_half(
     grid: Grid
 ) -> Grid:
     """ left half of grid """
-    return rot270(tophalf(rot90(grid)))
+    return rot270(top_half(rot90(grid)))
 
 
-def righthalf(
+def right_half(
     grid: Grid
 ) -> Grid:
     """ right half of grid """
@@ -1367,7 +1367,7 @@ def backdrop(
     """ indices in bounding box of patch """
     if len(patch) == 0:
         return frozenset({})
-    indices = toindices(patch)
+    indices = to_indices(patch)
     si, sj = ulcorner(indices)
     ei, ej = lrcorner(patch)
     return frozenset((i, j) for i in range(si, ei + 1) for j in range(sj, ej + 1))
@@ -1379,7 +1379,7 @@ def delta(
     """ indices in bounding box but not part of patch """
     if len(patch) == 0:
         return frozenset({})
-    return backdrop(patch) - toindices(patch)
+    return backdrop(patch) - to_indices(patch)
 
 
 def gravitate(
@@ -1481,7 +1481,7 @@ def frontiers(
     """ set of frontiers """
     h, w = len(grid), len(grid[0])
     row_indices = tuple(i for i, r in enumerate(grid) if len(set(r)) == 1)
-    column_indices = tuple(j for j, c in enumerate(dmirror(grid)) if len(set(c)) == 1)
+    column_indices = tuple(j for j, c in enumerate(diagonal_mirror(grid)) if len(set(c)) == 1)
     hfrontiers = frozenset({frozenset({(grid[i][j], (i, j)) for j in range(w)}) for i in row_indices})
     vfrontiers = frozenset({frozenset({(grid[i][j], (i, j)) for i in range(h)}) for j in column_indices})
     return hfrontiers | vfrontiers
@@ -1492,11 +1492,11 @@ def compress(
 ) -> Grid:
     """ removes frontiers from grid """
     ri = tuple(i for i, r in enumerate(grid) if len(set(r)) == 1)
-    ci = tuple(j for j, c in enumerate(dmirror(grid)) if len(set(c)) == 1)
+    ci = tuple(j for j, c in enumerate(diagonal_mirror(grid)) if len(set(c)) == 1)
     return tuple(tuple(v for j, v in enumerate(r) if j not in ci) for i, r in enumerate(grid) if i not in ri)
 
 
-def hperiod(
+def horizontal_periodicity(
     obj: Object
 ) -> Integer:
     """ horizontal periodicity """
@@ -1510,7 +1510,7 @@ def hperiod(
     return w
 
 
-def vperiod(
+def vertical_periodicity(
     obj: Object
 ) -> Integer:
     """ vertical periodicity """

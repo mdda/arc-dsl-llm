@@ -43,9 +43,9 @@ def test_invert():
     assert invert(-4) == 4
  
 
-def test_even():
-    assert not even(1)
-    assert even(2)
+def test_is_even():
+    assert not is_even(1)
+    assert is_even(2)
  
 
 def test_double():
@@ -67,9 +67,9 @@ def test_equality():
     assert not equality(A, B)
  
 
-def test_contained():
-    assert contained(1, (1, 3))
-    assert not contained(2, {3, 4})
+def test_contains():
+    assert contains(1, (1, 3))
+    assert not contains(2, {3, 4})
  
 
 def test_combine():
@@ -98,9 +98,9 @@ def test_repeat():
     assert repeat(C, 3) == (C, C, C)
  
 
-def test_greater():
-    assert greater(2, 1)
-    assert not greater(4, 10)
+def test_is_greater():
+    assert is_greater(2, 1)
+    assert not is_greater(4, 10)
  
 
 def test_size():
@@ -140,12 +140,12 @@ def test_argmin():
     assert argmin(((1,), (1, 2)), len) == (1,)
  
 
-def test_mostcommon():
-    assert mostcommon((1, 2, 2, 3, 3, 3)) == 3
+def test_most_common():
+    assert most_common((1, 2, 2, 3, 3, 3)) == 3
  
 
-def test_leastcommon():
-    assert leastcommon((1, 2, 3, 4, 2, 3, 4)) == 1
+def test_least_common():
+    assert least_common((1, 2, 3, 4, 2, 3, 4)) == 1
  
 
 def test_initset():
@@ -188,12 +188,12 @@ def test_positive():
     assert not positive(-2)
  
 
-def test_toivec():
-    assert toivec(2) == (2, 0)
+def test_to_vertical_vec():
+    assert to_vertical_vec(2) == (2, 0)
  
 
-def test_tojvec():
-    assert tojvec(3) == (0, 3)
+def test_to_horizontal_vec():
+    assert to_horizontal_vec(3) == (0, 3)
  
 
 def test_sfilter():
@@ -210,8 +210,8 @@ def test_extract():
     assert extract(frozenset({2, 3, 4}), lambda x: x % 4 == 0) == 4
  
 
-def test_totuple():
-    assert totuple({1}) == (1,)
+def test_to_tuple():
+    assert to_tuple({1}) == (1,)
  
 
 def test_first():
@@ -239,12 +239,12 @@ def test_interval():
     assert interval(5, 2, -1) == (5, 4, 3)
  
 
-def test_astuple():
-    assert astuple(3, 4) == (3, 4)
+def test_as_tuple():
+    assert as_tuple(3, 4) == (3, 4)
  
 
-def test_product():
-    assert product({1, 2}, {2, 3}) == frozenset({(1, 2), (1, 3), (2, 2), (2, 3)})
+def test_cartesian_product():
+    assert cartesian_product({1, 2}, {2, 3}) == frozenset({(1, 2), (1, 3), (2, 2), (2, 3)})
  
 
 def test_pair():
@@ -313,13 +313,13 @@ def test_prapply():
     assert prapply(lambda x, y: x + y, {1, 2}, {2, 3}) == frozenset({3, 4, 5})
  
 
-def test_mostcolor():
-    assert mostcolor(B) == 1
-    assert mostcolor(C) == 5
+def test_most_common_color():
+    assert most_common_color(B) == 1
+    assert most_common_color(C) == 5
  
 
-def test_leastcolor():
-    assert leastcolor(B) == 0
+def test_least_common_color():
+    assert least_common_color(B) == 0
  
 
 def test_height():
@@ -343,35 +343,35 @@ def test_shape():
     assert shape(frozenset({(1, (0, 0)), (1, (1, 1)), (1, (1, 2)), (1, (2, 1)), (1, (2, 2))})) == (3, 3)
  
 
-def test_portrait():
-    assert portrait(A)
-    assert not portrait(C)
+def test_is_portrait():
+    assert is_portrait(A)
+    assert not is_portrait(C)
  
 
-def test_colorcount():
-    assert colorcount(A, 1) == 3
-    assert colorcount(C, 5) == 2
-    assert colorcount(frozenset({(1, (0, 0)), (2, (1, 0)), (2, (0, 1))}), 2) == 2
-    assert colorcount(frozenset({(1, (0, 0)), (2, (1, 0)), (2, (0, 1))}), 1) == 1
+def test_color_count():
+    assert color_count(A, 1) == 3
+    assert color_count(C, 5) == 2
+    assert color_count(frozenset({(1, (0, 0)), (2, (1, 0)), (2, (0, 1))}), 2) == 2
+    assert color_count(frozenset({(1, (0, 0)), (2, (1, 0)), (2, (0, 1))}), 1) == 1
  
 
-def test_colorfilter():
-     assert colorfilter(frozenset({frozenset({(3, (0, 4))}), frozenset({(1, (0, 0))}), frozenset({(2, (4, 1))}), frozenset({(1, (1, 1)), (1, (1, 2)), (1, (2, 1)), (1, (2, 2))}), frozenset({(2, (3, 2)), (2, (2, 3)), (2, (3, 3))})}), 2) == frozenset({frozenset({(2, (4, 1))}), frozenset({(2, (3, 2)), (2, (2, 3)), (2, (3, 3))})})
+def test_color_filter():
+     assert color_filter(frozenset({frozenset({(3, (0, 4))}), frozenset({(1, (0, 0))}), frozenset({(2, (4, 1))}), frozenset({(1, (1, 1)), (1, (1, 2)), (1, (2, 1)), (1, (2, 2))}), frozenset({(2, (3, 2)), (2, (2, 3)), (2, (3, 3))})}), 2) == frozenset({frozenset({(2, (4, 1))}), frozenset({(2, (3, 2)), (2, (2, 3)), (2, (3, 3))})})
  
 
-def test_sizefilter():
-    assert sizefilter(frozenset({frozenset({(3, (0, 4))}), frozenset({(1, (0, 0))}), frozenset({(2, (4, 1))}), frozenset({(1, (1, 1)), (1, (1, 2)), (1, (2, 1)), (1, (2, 2))}), frozenset({(2, (3, 2)), (2, (2, 3)), (2, (3, 3))})}), 1) == frozenset({frozenset({(3, (0, 4))}), frozenset({(1, (0, 0))}), frozenset({(2, (4, 1))})})
+def test_size_filter():
+    assert size_filter(frozenset({frozenset({(3, (0, 4))}), frozenset({(1, (0, 0))}), frozenset({(2, (4, 1))}), frozenset({(1, (1, 1)), (1, (1, 2)), (1, (2, 1)), (1, (2, 2))}), frozenset({(2, (3, 2)), (2, (2, 3)), (2, (3, 3))})}), 1) == frozenset({frozenset({(3, (0, 4))}), frozenset({(1, (0, 0))}), frozenset({(2, (4, 1))})})
  
 
-def test_asindices():
-    assert asindices(A) == frozenset({(0, 0), (0, 1), (1, 0), (1, 1), (2, 0), (2, 1)})
-    assert asindices(C) == frozenset({(0, 0), (0, 1), (1, 0), (1, 1)})
+def test_as_indices():
+    assert as_indices(A) == frozenset({(0, 0), (0, 1), (1, 0), (1, 1), (2, 0), (2, 1)})
+    assert as_indices(C) == frozenset({(0, 0), (0, 1), (1, 0), (1, 1)})
  
 
-def test_ofcolor():
-    assert ofcolor(A, 0) == frozenset({(0, 1), (1, 0), (2, 1)})
-    assert ofcolor(B, 2) == frozenset({(0, 0), (2, 0)})
-    assert ofcolor(C, 1) == frozenset()
+def test_of_color():
+    assert of_color(A, 0) == frozenset({(0, 1), (1, 0), (2, 1)})
+    assert of_color(B, 2) == frozenset({(0, 0), (2, 0)})
+    assert of_color(C, 1) == frozenset()
  
 
 def test_ulcorner():
@@ -400,9 +400,9 @@ def test_crop():
     assert crop(D, (1, 2), (2, 1)) == ((6,), (0,))
  
 
-def test_toindices():
-    assert toindices(frozenset({(1, (1, 1)), (1, (1, 0))})) == frozenset({(1, 1), (1, 0)})
-    assert toindices(frozenset({(1, 1), (0, 1)})) == frozenset({(1, 1), (0, 1)})
+def test_to_indices():
+    assert to_indices(frozenset({(1, (1, 1)), (1, (1, 0))})) == frozenset({(1, 1), (1, 0)})
+    assert to_indices(frozenset({(1, 1), (0, 1)})) == frozenset({(1, 1), (0, 1)})
  
 
 def test_recolor():
@@ -811,11 +811,11 @@ def test_compress():
     assert compress(K) == ((0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0))
  
 
-def test_hperiod():
-    assert hperiod(frozenset({(8, (2, 1)), (8, (1, 3)), (2, (2, 4)), (8, (2, 3)), (2, (2, 2)), (2, (1, 2)), (8, (1, 1)), (8, (1, 5)), (2, (1, 4)), (8, (2, 5)), (2, (2, 0)), (2, (1, 0))})) == 2
-    assert hperiod(frozenset({(2, (2, 6)), (2, (2, 0)), (3, (2, 4)), (3, (2, 2)), (3, (2, 5)), (2, (2, 3)), (3, (2, 1))})) == 3
+def test_horizontal_periodicity():
+    assert horizontal_periodicity(frozenset({(8, (2, 1)), (8, (1, 3)), (2, (2, 4)), (8, (2, 3)), (2, (2, 2)), (2, (1, 2)), (8, (1, 1)), (8, (1, 5)), (2, (1, 4)), (8, (2, 5)), (2, (2, 0)), (2, (1, 0))})) == 2
+    assert horizontal_periodicity(frozenset({(2, (2, 6)), (2, (2, 0)), (3, (2, 4)), (3, (2, 2)), (3, (2, 5)), (2, (2, 3)), (3, (2, 1))})) == 3
  
 
-def test_vperiod():
-    assert vperiod(frozenset({(2, (2, 6)), (2, (2, 0)), (3, (2, 4)), (3, (2, 2)), (3, (2, 5)), (2, (2, 3)), (3, (2, 1))})) == 1
-    assert vperiod(frozenset({(1, (2, 6)), (2, (3, 5)), (2, (3, 0)), (2, (2, 2)), (2, (2, 7)), (1, (3, 4)), (2, (2, 1)), (1, (2, 3)), (2, (2, 5)), (2, (2, 4)), (1, (3, 7)), (1, (2, 0)), (2, (3, 6)), (2, (3, 2)), (2, (3, 3)), (1, (3, 1))})) == 2
+def test_vertical_periodicity():
+    assert vertical_periodicity(frozenset({(2, (2, 6)), (2, (2, 0)), (3, (2, 4)), (3, (2, 2)), (3, (2, 5)), (2, (2, 3)), (3, (2, 1))})) == 1
+    assert vertical_periodicity(frozenset({(1, (2, 6)), (2, (3, 5)), (2, (3, 0)), (2, (2, 2)), (2, (2, 7)), (1, (3, 4)), (2, (2, 1)), (1, (2, 3)), (2, (2, 5)), (2, (2, 4)), (1, (3, 7)), (1, (2, 0)), (2, (3, 6)), (2, (3, 2)), (2, (3, 3)), (1, (3, 1))})) == 2
