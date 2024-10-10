@@ -660,21 +660,21 @@ def upper_left_corner(
     return tuple(map(min, zip(*to_indices(patch))))
 
 
-def urcorner(
+def upper_right_corner(
     patch: Patch
 ) -> IntegerTuple:
     """ index of upper right corner """
     return tuple(map(lambda ix: {0: min, 1: max}[ix[0]](ix[1]), enumerate(zip(*to_indices(patch)))))
 
 
-def llcorner(
+def lower_left_corner(
     patch: Patch
 ) -> IntegerTuple:
     """ index of lower left corner """
     return tuple(map(lambda ix: {0: max, 1: min}[ix[0]](ix[1]), enumerate(zip(*to_indices(patch)))))
 
 
-def lrcorner(
+def lower_right_corner(
     patch: Patch
 ) -> IntegerTuple:
     """ index of lower right corner """
@@ -915,7 +915,7 @@ def palette(
     return frozenset({v for v, _ in element})
 
 
-def numcolors(
+def count_colors(
     element: Element
 ) -> IntegerSet:
     """ number of colors occurring in object or grid """
@@ -972,7 +972,7 @@ def horizontal_mirror(
     """ mirroring along horizontal """
     if isinstance(piece, tuple):
         return piece[::-1]
-    d = ulcorner(piece)[0] + lrcorner(piece)[0]
+    d = upper_left_corner(piece)[0] + lower_right_corner(piece)[0]
     if isinstance(next(iter(piece))[1], tuple):
         return frozenset((v, (d - i, j)) for v, (i, j) in piece)
     return frozenset((d - i, j) for i, j in piece)
@@ -984,7 +984,7 @@ def vertical_mirror(
     """ mirroring along vertical """
     if isinstance(piece, tuple):
         return tuple(row[::-1] for row in piece)
-    d = ulcorner(piece)[1] + lrcorner(piece)[1]
+    d = upper_left_corner(piece)[1] + lower_right_corner(piece)[1]
     if isinstance(next(iter(piece))[1], tuple):
         return frozenset((v, (i, d - j)) for v, (i, j) in piece)
     return frozenset((i, d - j) for i, j in piece)
@@ -996,7 +996,7 @@ def diagonal_mirror(
     """ mirroring along diagonal """
     if isinstance(piece, tuple):
         return tuple(zip(*piece))
-    a, b = ulcorner(piece)
+    a, b = upper_left_corner(piece)
     if isinstance(next(iter(piece))[1], tuple):
         return frozenset((v, (j - b + a, i - a + b)) for v, (i, j) in piece)
     return frozenset((j - b + a, i - a + b) for i, j in piece)
@@ -1110,7 +1110,7 @@ def upscale(
     else:
         if len(element) == 0:
             return frozenset()
-        di_inv, dj_inv = ulcorner(element)
+        di_inv, dj_inv = upper_left_corner(element)
         di, dj = (-di_inv, -dj_inv)
         normed_obj = shift(element, (di, dj))
         o = set()
@@ -1163,7 +1163,7 @@ def subgrid(
     grid: Grid
 ) -> Grid:
     """ smallest subgrid containing object """
-    return crop(grid, ulcorner(patch), shape(patch))
+    return crop(grid, upper_left_corner(patch), shape(patch))
 
 
 def horizontal_split(
@@ -1270,7 +1270,7 @@ def corners(
     patch: Patch
 ) -> Indices:
     """ indices of corners """
-    return frozenset({ulcorner(patch), urcorner(patch), llcorner(patch), lrcorner(patch)})
+    return frozenset({upper_left_corner(patch), upper_right_corner(patch), lower_left_corner(patch), lower_right_corner(patch)})
 
 
 def connect(
@@ -1344,7 +1344,7 @@ def right_half(
     grid: Grid
 ) -> Grid:
     """ right half of grid """
-    return rot270(bottomhalf(rot90(grid)))
+    return rot270(bottom_half(rot90(grid)))
 
 
 def vfrontier(
@@ -1368,8 +1368,8 @@ def backdrop(
     if len(patch) == 0:
         return frozenset({})
     indices = to_indices(patch)
-    si, sj = ulcorner(indices)
-    ei, ej = lrcorner(patch)
+    si, sj = upper_left_corner(indices)
+    ei, ej = lower_right_corner(patch)
     return frozenset((i, j) for i in range(si, ei + 1) for j in range(sj, ej + 1))
 
 
@@ -1436,8 +1436,8 @@ def box(
     """ outline of patch """
     if len(patch) == 0:
         return patch
-    ai, aj = ulcorner(patch)
-    bi, bj = lrcorner(patch)
+    ai, aj = upper_left_corner(patch)
+    bi, bj = lower_right_corner(patch)
     si, sj = min(ai, bi), min(aj, bj)
     ei, ej = max(ai, bi), max(aj, bj)
     vlines = {(i, sj) for i in range(si, ei + 1)} | {(i, ej) for i in range(si, ei + 1)}

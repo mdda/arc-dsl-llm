@@ -9,10 +9,12 @@ import dsl
 import tests
 import solvers
 
-
+import sys, traceback
 
 def get_data(train=True):
-    path = f'../data/{"training" if train else "evaluation"}'
+    #path = f'../data/{"training" if train else "evaluation"}'
+    path = f'../../ARC-Challenge/ARC-800-tasks/{"training" if train else "evaluation"}'
+    
     data = {}
     for fn in os.listdir(path):
         with open(f'{path}/{fn}') as f:
@@ -47,13 +49,13 @@ def run_dsl_tests(dsl_module, test_module):
     dsl_functions = get_functions(dsl_module.__file__)
     test_functions = get_functions(test_module.__file__)
     expected = set([f'test_{f}' for f in dsl_functions])
-    assert set(test_functions) == expected
+    assert set(test_functions) == expected, expected.difference(test_functions)
     for fun in test_functions:
         getattr(test_module, fun)()
 
 
 def test_solvers_formatting(solvers_module, dsl_module):
-    """ tests the implementd solvers for formatting """
+    """ tests the implemented solvers for formatting """
     with open('constants.py', 'r') as f:
         constants = [c.split(' = ')[0] for c in f.readlines() if ' = ' in c]
     definitions = {
@@ -71,6 +73,7 @@ def test_solvers_formatting(solvers_module, dsl_module):
             variables = set()
             calls = set()
             for line in lines[1:-2]:
+                if line.lstrip().startswith('#'): continue # Skip commented lines
                 variable, call = line.lstrip().split(' = ')
                 function, args = call.split('(')
                 assert variable not in dsl_interface
@@ -82,11 +85,13 @@ def test_solvers_formatting(solvers_module, dsl_module):
                 assert args[-1] == ')'
                 args = [args[:-1]] if ',' not in args else args[:-1].split(', ')
                 for arg in args:
+                    #print(f"\n'{arg}', {variables}, {dsl_interface}, {constants}")
                     assert any([
-                        arg in variables, arg in dsl_interface,
-                        arg in constants, arg == 'I'
+                        arg in variables, arg in dsl_interface, arg in constants, 
+                        arg=='I', arg in '0,1,2,3,4,5,6,7,8,9,10,True,False'
                     ])
-            for v in variables:
+            for v in variables:  #  This detects whether each variable gets used...
+                #print(f"{definition}, {v=}")
                 assert sum([
                     definition.count(vs) for vs in [
                         f'({v})', f'({v}, ', f', {v})',
@@ -94,7 +99,13 @@ def test_solvers_formatting(solvers_module, dsl_module):
                     ]
                 ]) > 1 or v == 'O'
             n_correct += 1
-        except:
+        except Exception as e:
+            raise
+            _, _, tb = sys.exc_info()
+            traceback.print_tb(tb) # Fixed format
+            tb_info = traceback.extract_tb(tb)
+            filename, line, func, text = tb_info[-1]            
+            print(f'An error occurred on line {line} in statement {text}')
             pass
     print(f'{n_correct} out of {n} solvers formatted correctly.')
 
@@ -111,6 +122,10 @@ def test_solvers_correctness(data, solvers_module):
                 assert solver(ex['input']) == ex['output']
             n_correct += 1
         except:
+            print(f"\ntask {key} : FAILED")
+            #print(solver(ex['input']))
+            #print(ex['output'])
+            #raise 
             pass
     print(f'{n_correct} out of {n} tasks solved correctly.')
 
@@ -124,3 +139,19 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+"""
+# https://github.com/michaelhodel/arc-dsl/issues/8
+Solvers for the following problems are failing for me:
+
+39e1d7f9 FIXED (PR)
+e40b9e2f FIXED (PR)
+
+4290ef0e mdda too
+6a1e5592 mdda too
+4c5c2cf0 mdda too
+
+9edfc990 mdda only?
+469497ad mdda only?
+
+"""

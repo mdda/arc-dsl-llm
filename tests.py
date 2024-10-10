@@ -306,7 +306,21 @@ def test_papply():
  
 
 def test_mpapply():
-    assert mpapply(lambda x, y: frozenset({(x, (i, j)) for _, (i, j) in y}), (3, 4), frozenset({frozenset({(1, (0, 0))}), frozenset({(1, (1, 1)), (1, (0, 1))})})) == ((3, (0, 0)), (4, (1, 1)), (4, (0, 1)))
+    #assert mpapply(lambda x, y: frozenset({(x, (i, j)) for _, (i, j) in y}), (3, 4), frozenset({frozenset({(1, (0, 0))}), frozenset({(1, (1, 1)), (1, (0, 1))})})) == ((3, (0, 0)), (4, (1, 1)), (4, (0, 1)))
+    input_tuple: tuple[int, int] = (3, 4)
+    input_data: Tuple[Tuple[Cell,], Tuple[Cell, Cell]] = (
+        ((1, (0, 0)),),
+        ((1, (1, 1)), (1, (0, 1))),
+    )
+    expected: Tuple[Cell, Cell, Cell] = (
+        (3, (0, 0)),
+        (4, (1, 1)),
+        (4, (0, 1))
+    )
+    computed = mpapply(lambda x, y: tuple((x, (i, j))
+                       for _, (i, j) in y), input_tuple, input_data)
+    assert computed == expected
+
  
 
 def test_prapply():
@@ -384,14 +398,14 @@ def test_upper_right_corner():
     assert upper_right_corner(frozenset({(1, 2), (0, 0), (4, 3)})) == (0, 3)
  
 
-def test_llcorner():
-    assert llcorner(frozenset({(1, 2), (0, 3), (4, 0)})) == (4, 0)
-    assert llcorner(frozenset({(1, 5), (0, 0), (2, 3)})) == (2, 0)
+def test_lower_left_corner():
+    assert lower_left_corner(frozenset({(1, 2), (0, 3), (4, 0)})) == (4, 0)
+    assert lower_left_corner(frozenset({(1, 5), (0, 0), (2, 3)})) == (2, 0)
  
 
-def test_lrcorner():
-    assert lrcorner(frozenset({(1, 2), (0, 3), (4, 0)})) == (4, 3)
-    assert lrcorner(frozenset({(1, 5), (0, 0), (2, 3)})) == (2, 5)
+def test_lower_right_corner():
+    assert lower_right_corner(frozenset({(1, 2), (0, 3), (4, 0)})) == (4, 3)
+    assert lower_right_corner(frozenset({(1, 5), (0, 0), (2, 3)})) == (2, 5)
  
 
 def test_crop():
@@ -439,12 +453,12 @@ def test_neighbors():
     assert neighbors((0, 0)) == frozenset({(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)})
  
 
-def test_objects():
-    assert objects(G, True, False, True) == frozenset({frozenset({(3, (0, 4))}), frozenset({(1, (0, 0))}), frozenset({(2, (4, 1))}), frozenset({(1, (1, 1)), (1, (1, 2)), (1, (2, 1)), (1, (2, 2))}), frozenset({(2, (3, 2)), (2, (2, 3)), (2, (3, 3))})})
-    assert objects(G, True, True, True) == frozenset({frozenset({(3, (0, 4))}), frozenset({(1, (0, 0)), (1, (1, 1)), (1, (1, 2)), (1, (2, 1)), (1, (2, 2))}), frozenset({(2, (4, 1)), (2, (3, 2)), (2, (2, 3)), (2, (3, 3))})})
-    assert objects(G, False, False, True) == frozenset({frozenset({(3, (0, 4))}), frozenset({(1, (0, 0))}), frozenset({(2, (4, 1))}), frozenset({(1, (1, 1)), (1, (1, 2)), (1, (2, 1)), (1, (2, 2)), (2, (3, 2)), (2, (2, 3)), (2, (3, 3))})})
-    assert objects(G, False, True, True) == frozenset({frozenset({(3, (0, 4))}), frozenset({(1, (0, 0)), (1, (1, 1)), (1, (1, 2)), (1, (2, 1)), (1, (2, 2)), (2, (4, 1)), (2, (3, 2)), (2, (2, 3)), (2, (3, 3))})})
-    assert objects(G, True, False, False) == frozenset({frozenset({(3, (0, 4))}), frozenset({(1, (0, 0))}), frozenset({(2, (4, 1))}), frozenset({(1, (1, 1)), (1, (1, 2)), (1, (2, 1)), (1, (2, 2))}), frozenset({(2, (3, 2)), (2, (2, 3)), (2, (3, 3))}), frozenset({(0, (1, 0)), (0, (2, 0)), (0, (3, 0)), (0, (4, 0)), (0, (3, 1))}), frozenset({(0, (0, 1)), (0, (0, 2)), (0, (0, 3)), (0, (1, 3)), (0, (1, 4)), (0, (2, 4)), (0, (3, 4)), (0, (4, 4)), (0, (4, 3)), (0, (4, 2))})})
+def test_as_objects():
+    assert as_objects(G, True, False, True) == frozenset({frozenset({(3, (0, 4))}), frozenset({(1, (0, 0))}), frozenset({(2, (4, 1))}), frozenset({(1, (1, 1)), (1, (1, 2)), (1, (2, 1)), (1, (2, 2))}), frozenset({(2, (3, 2)), (2, (2, 3)), (2, (3, 3))})})
+    assert as_objects(G, True, True, True) == frozenset({frozenset({(3, (0, 4))}), frozenset({(1, (0, 0)), (1, (1, 1)), (1, (1, 2)), (1, (2, 1)), (1, (2, 2))}), frozenset({(2, (4, 1)), (2, (3, 2)), (2, (2, 3)), (2, (3, 3))})})
+    assert as_objects(G, False, False, True) == frozenset({frozenset({(3, (0, 4))}), frozenset({(1, (0, 0))}), frozenset({(2, (4, 1))}), frozenset({(1, (1, 1)), (1, (1, 2)), (1, (2, 1)), (1, (2, 2)), (2, (3, 2)), (2, (2, 3)), (2, (3, 3))})})
+    assert as_objects(G, False, True, True) == frozenset({frozenset({(3, (0, 4))}), frozenset({(1, (0, 0)), (1, (1, 1)), (1, (1, 2)), (1, (2, 1)), (1, (2, 2)), (2, (4, 1)), (2, (3, 2)), (2, (2, 3)), (2, (3, 3))})})
+    assert as_objects(G, True, False, False) == frozenset({frozenset({(3, (0, 4))}), frozenset({(1, (0, 0))}), frozenset({(2, (4, 1))}), frozenset({(1, (1, 1)), (1, (1, 2)), (1, (2, 1)), (1, (2, 2))}), frozenset({(2, (3, 2)), (2, (2, 3)), (2, (3, 3))}), frozenset({(0, (1, 0)), (0, (2, 0)), (0, (3, 0)), (0, (4, 0)), (0, (3, 1))}), frozenset({(0, (0, 1)), (0, (0, 2)), (0, (0, 3)), (0, (1, 3)), (0, (1, 4)), (0, (2, 4)), (0, (3, 4)), (0, (4, 4)), (0, (4, 3)), (0, (4, 2))})})
  
 
 def test_partition():
@@ -488,14 +502,14 @@ def test_square():
     assert square(frozenset({(1, (1, 1)), (2, (0, 0)), (2, (1, 0)), (3, (0, 1))}))
  
 
-def test_vline():
-    assert vline(frozenset({(1, (1, 1)), (1, (0, 1))}))
-    assert not vline(frozenset({(1, 1), (1, 0)}))
+def test_is_vertical_line():
+    assert is_vertical_line(frozenset({(1, (1, 1)), (1, (0, 1))}))
+    assert not is_vertical_line(frozenset({(1, 1), (1, 0)}))
  
 
-def test_hline():
-    assert hline(frozenset({(1, (1, 1)), (1, (1, 0))}))
-    assert not hline(frozenset({(1, 1), (0, 1)}))
+def test_is_horizontal_line():
+    assert is_horizontal_line(frozenset({(1, (1, 1)), (1, (1, 0))}))
+    assert not is_horizontal_line(frozenset({(1, 1), (0, 1)}))
  
 
 def test_hmatching():
@@ -537,9 +551,9 @@ def test_palette():
     assert palette(frozenset({(1, (1, 1)), (1, (0, 0)), (1, (1, 0)), (1, (0, 1))})) == frozenset({1})
  
 
-def test_numcolors():
-    assert numcolors(frozenset({(1, (1, 1)), (2, (0, 0)), (2, (1, 0)), (3, (0, 1))})) == 3
-    assert numcolors(frozenset({(1, (1, 1)), (1, (0, 0)), (1, (1, 0)), (1, (0, 1))})) == 1
+def test_count_colors():
+    assert count_colors(frozenset({(1, (1, 1)), (2, (0, 0)), (2, (1, 0)), (3, (0, 1))})) == 3
+    assert count_colors(frozenset({(1, (1, 1)), (1, (0, 0)), (1, (1, 0)), (1, (0, 1))})) == 1
  
 
 def test_color():
@@ -547,13 +561,13 @@ def test_color():
     assert color(frozenset({(2, (3, 1))})) == 2
  
 
-def test_toobject():
-    assert toobject(frozenset({(0, 0), (0, 2)}), G) == frozenset({(1, (0, 0)), (0, (0, 2))})
-    assert toobject(frozenset({(0, 4)}), G) == frozenset({(3, (0, 4))})
+def test_to_object():
+    assert to_object(frozenset({(0, 0), (0, 2)}), G) == frozenset({(1, (0, 0)), (0, (0, 2))})
+    assert to_object(frozenset({(0, 4)}), G) == frozenset({(3, (0, 4))})
  
 
-def test_asobject():
-    assert asobject(A) == frozenset({(0, (0, 1)), (0, (1, 0)), (0, (2, 1)), (1, (0, 0)), (1, (1, 1)), (1, (2, 0))})
+def test_as_object():
+    assert as_object(A) == frozenset({(0, (0, 1)), (0, (1, 0)), (0, (2, 1)), (1, (0, 0)), (1, (1, 1)), (1, (2, 0))})
  
 
 def test_rot90():
@@ -571,36 +585,36 @@ def test_rot270():
     assert rot270(C) == ((4, 5), (3, 5))
  
 
-def test_hmirror():
-    assert hmirror(B) == ((2, 1), (0, 1), (2, 1))
-    assert hmirror(C) == ((5, 5), (3, 4))
-    assert hmirror(frozenset({(0, 0), (1, 1)})) == frozenset({(1, 0), (0, 1)})
-    assert hmirror(frozenset({(0, 0), (1, 0), (1, 1)})) == frozenset({(1, 0), (0, 1), (0, 0)})
-    assert hmirror(frozenset({(0, 1), (1, 2)})) == frozenset({(0, 2), (1, 1)})
+def test_horizontal_mirror():
+    assert horizontal_mirror(B) == ((2, 1), (0, 1), (2, 1))
+    assert horizontal_mirror(C) == ((5, 5), (3, 4))
+    assert horizontal_mirror(frozenset({(0, 0), (1, 1)})) == frozenset({(1, 0), (0, 1)})
+    assert horizontal_mirror(frozenset({(0, 0), (1, 0), (1, 1)})) == frozenset({(1, 0), (0, 1), (0, 0)})
+    assert horizontal_mirror(frozenset({(0, 1), (1, 2)})) == frozenset({(0, 2), (1, 1)})
  
 
-def test_vmirror():
-    assert vmirror(B) == ((1, 2), (1, 0), (1, 2))
-    assert vmirror(C) == ((4, 3), (5, 5))
-    assert vmirror(frozenset({(0, 0), (1, 1)})) == frozenset({(1, 0), (0, 1)})
-    assert vmirror(frozenset({(0, 0), (1, 0), (1, 1)})) == frozenset({(1, 0), (1, 1), (0, 1)})
-    assert vmirror(frozenset({(0, 1), (1, 2)})) == frozenset({(0, 2), (1, 1)})
+def test_vertical_mirror():
+    assert vertical_mirror(B) == ((1, 2), (1, 0), (1, 2))
+    assert vertical_mirror(C) == ((4, 3), (5, 5))
+    assert vertical_mirror(frozenset({(0, 0), (1, 1)})) == frozenset({(1, 0), (0, 1)})
+    assert vertical_mirror(frozenset({(0, 0), (1, 0), (1, 1)})) == frozenset({(1, 0), (1, 1), (0, 1)})
+    assert vertical_mirror(frozenset({(0, 1), (1, 2)})) == frozenset({(0, 2), (1, 1)})
  
 
-def test_dmirror():
-    assert dmirror(B) == ((2, 0, 2), (1, 1, 1))
-    assert dmirror(C) == ((3, 5), (4, 5))
-    assert dmirror(frozenset({(0, 0), (1, 1)})) == frozenset({(0, 0), (1, 1)})
-    assert dmirror(frozenset({(0, 0), (1, 0), (1, 1)})) == frozenset({(0, 1), (1, 1), (0, 0)})
-    assert dmirror(frozenset({(0, 1), (1, 2)})) == frozenset({(0, 1), (1, 2)})
+def test_diagonal_mirror():
+    assert diagonal_mirror(B) == ((2, 0, 2), (1, 1, 1))
+    assert diagonal_mirror(C) == ((3, 5), (4, 5))
+    assert diagonal_mirror(frozenset({(0, 0), (1, 1)})) == frozenset({(0, 0), (1, 1)})
+    assert diagonal_mirror(frozenset({(0, 0), (1, 0), (1, 1)})) == frozenset({(0, 1), (1, 1), (0, 0)})
+    assert diagonal_mirror(frozenset({(0, 1), (1, 2)})) == frozenset({(0, 1), (1, 2)})
  
 
-def test_cmirror():
-    assert cmirror(B) == ((1, 1, 1), (2, 0, 2))
-    assert cmirror(C) == ((5, 4), (5, 3))
-    assert cmirror(frozenset({(0, 0), (1, 1)})) == frozenset({(0, 0), (1, 1)})
-    assert cmirror(frozenset({(0, 0), (1, 0), (1, 1)})) == frozenset({(0, 0), (1, 0), (1, 1)})
-    assert cmirror(frozenset({(0, 1), (1, 2)})) == frozenset({(0, 1), (1, 2)})
+def test_counterdiagonal_mirror():
+    assert counterdiagonal_mirror(B) == ((1, 1, 1), (2, 0, 2))
+    assert counterdiagonal_mirror(C) == ((5, 4), (5, 3))
+    assert counterdiagonal_mirror(frozenset({(0, 0), (1, 1)})) == frozenset({(0, 0), (1, 1)})
+    assert counterdiagonal_mirror(frozenset({(0, 0), (1, 0), (1, 1)})) == frozenset({(0, 0), (1, 0), (1, 1)})
+    assert counterdiagonal_mirror(frozenset({(0, 1), (1, 2)})) == frozenset({(0, 1), (1, 2)})
  
 
 def test_fill():
@@ -622,18 +636,18 @@ def test_underpaint():
     assert underpaint(C, frozenset({(3, (1, 1))})) == ((3, 4), (5, 3))
  
 
-def test_hupscale():
-    assert hupscale(B, 1) == B
-    assert hupscale(C, 1) == C
-    assert hupscale(B, 2) == ((2, 2, 1, 1), (0, 0, 1, 1), (2, 2, 1, 1))
-    assert hupscale(C, 2) == ((3, 3, 4, 4), (5, 5, 5, 5))
+def test_horizontal_upscale():
+    assert horizontal_upscale(B, 1) == B
+    assert horizontal_upscale(C, 1) == C
+    assert horizontal_upscale(B, 2) == ((2, 2, 1, 1), (0, 0, 1, 1), (2, 2, 1, 1))
+    assert horizontal_upscale(C, 2) == ((3, 3, 4, 4), (5, 5, 5, 5))
  
 
-def test_vupscale():
-    assert vupscale(B, 1) == B
-    assert vupscale(C, 1) == C
-    assert vupscale(B, 2) == ((2, 1), (2, 1), (0, 1), (0, 1), (2, 1), (2, 1))
-    assert vupscale(C, 2) == ((3, 4), (3, 4), (5, 5), (5, 5))
+def test_vertical_upscale():
+    assert vertical_upscale(B, 1) == B
+    assert vertical_upscale(C, 1) == C
+    assert vertical_upscale(B, 2) == ((2, 1), (2, 1), (0, 1), (0, 1), (2, 1), (2, 1))
+    assert vertical_upscale(C, 2) == ((3, 4), (3, 4), (5, 5), (5, 5))
  
 
 def test_upscale():
@@ -652,15 +666,15 @@ def test_downscale():
     assert downscale(((3, 3, 4, 4), (3, 3, 4, 4), (5, 5, 5, 5), (5, 5, 5, 5)), 2) == C
  
 
-def test_hconcat():
-    assert hconcat(A, B) == ((1, 0, 2, 1), (0, 1, 0, 1), (1, 0, 2, 1))
-    assert hconcat(B, A) == ((2, 1, 1, 0), (0, 1, 0, 1), (2, 1, 1, 0))
+def test_horizontal_concat():
+    assert horizontal_concat(A, B) == ((1, 0, 2, 1), (0, 1, 0, 1), (1, 0, 2, 1))
+    assert horizontal_concat(B, A) == ((2, 1, 1, 0), (0, 1, 0, 1), (2, 1, 1, 0))
  
 
-def test_vconcat():
-    assert vconcat(A, B) == ((1, 0), (0, 1), (1, 0), (2, 1), (0, 1), (2, 1))
-    assert vconcat(B, A) == ((2, 1), (0, 1), (2, 1), (1, 0), (0, 1), (1, 0))
-    assert vconcat(B, C) == ((2, 1), (0, 1), (2, 1), (3, 4), (5, 5))
+def test_vertical_concat():
+    assert vertical_concat(A, B) == ((1, 0), (0, 1), (1, 0), (2, 1), (0, 1), (2, 1))
+    assert vertical_concat(B, A) == ((2, 1), (0, 1), (2, 1), (1, 0), (0, 1), (1, 0))
+    assert vertical_concat(B, C) == ((2, 1), (0, 1), (2, 1), (3, 4), (5, 5))
  
 
 def test_subgrid():
@@ -670,18 +684,18 @@ def test_subgrid():
     assert subgrid(frozenset({(1, (0, 0)), (0, (2, 2))}), D) == D
  
 
-def test_hsplit():
-    assert hsplit(B, 1) == (B,)
-    assert hsplit(B, 2) == (((2,), (0,), (2,)), ((1,), (1,), (1,)))
-    assert hsplit(C, 1) == (C,)
-    assert hsplit(C, 2) == (((3,), (5,)), ((4,), (5,)))
+def test_horizontal_split():
+    assert horizontal_split(B, 1) == (B,)
+    assert horizontal_split(B, 2) == (((2,), (0,), (2,)), ((1,), (1,), (1,)))
+    assert horizontal_split(C, 1) == (C,)
+    assert horizontal_split(C, 2) == (((3,), (5,)), ((4,), (5,)))
  
 
-def test_vsplit():
-    assert vsplit(B, 1) == (B,)
-    assert vsplit(B, 3) == (((2, 1),), ((0, 1),), ((2, 1),))
-    assert vsplit(C, 1) == (C,)
-    assert vsplit(C, 2) == (((3, 4),), ((5, 5),))
+def test_vertical_split():
+    assert vertical_split(B, 1) == (B,)
+    assert vertical_split(B, 3) == (((2, 1),), ((0, 1),), ((2, 1),))
+    assert vertical_split(C, 1) == (C,)
+    assert vertical_split(C, 2) == (((3, 4),), ((5, 5),))
  
 
 def test_cellwise():
@@ -742,24 +756,24 @@ def test_move():
     assert move(C, frozenset({(3, (0, 0))}), (1, 1)) == ((5, 4), (5, 3))
  
 
-def test_tophalf():
-    assert tophalf(C) == ((3, 4),)
-    assert tophalf(D) == ((1, 2, 3),)
+def test_top_half():
+    assert top_half(C) == ((3, 4),)
+    assert top_half(D) == ((1, 2, 3),)
  
 
-def test_bottomhalf():
-    assert bottomhalf(C) == ((5, 5),)
-    assert bottomhalf(D) == ((7, 8, 0),)
+def test_bottom_half():
+    assert bottom_half(C) == ((5, 5),)
+    assert bottom_half(D) == ((7, 8, 0),)
  
 
-def test_lefthalf():
-    assert lefthalf(C) == ((3,), (5,))
-    assert lefthalf(D) == ((1,), (4,), (7,))
+def test_left_half():
+    assert left_half(C) == ((3,), (5,))
+    assert left_half(D) == ((1,), (4,), (7,))
  
 
-def test_righthalf():
-    assert righthalf(C) == ((4,), (5,))
-    assert righthalf(D) == ((3,), (6,), (0,))
+def test_right_half():
+    assert right_half(C) == ((4,), (5,))
+    assert right_half(D) == ((3,), (6,), (0,))
  
 
 def test_vfrontier():
