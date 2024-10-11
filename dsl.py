@@ -8,10 +8,8 @@ def identity(
     return x
 
 
-def add(
-    a: Numerical,
-    b: Numerical
-) -> Numerical:
+#def add(a: Numerical, b: Numerical) -> Numerical:
+def add[T: Numerical](a:T, b:T) -> T:
     """ addition """
     if isinstance(a, int) and isinstance(b, int):
         return a + b
@@ -22,10 +20,8 @@ def add(
     return (a[0] + b, a[1] + b)
 
 
-def subtract(
-    a: Numerical,
-    b: Numerical
-) -> Numerical:
+#def subtract(a: Numerical, b: Numerical) -> Numerical:
+def subtract[T: Numerical](a:T, b:T) -> T:
     """ subtraction """
     if isinstance(a, int) and isinstance(b, int):
         return a - b
@@ -85,9 +81,12 @@ def double(
     return n * 2 if isinstance(n, int) else (n[0] * 2, n[1] * 2)
 
 
-def halve(
-    n: Numerical
-) -> Numerical:
+#def halve(n: Numerical) -> Numerical:
+@overload
+def halve(n: Integer) -> Integer: ...
+@overload
+def halve(n: IntegerTuple) -> IntegerTuple: ...
+def halve(n):
     """ scaling by one half """
     return n // 2 if isinstance(n, int) else (n[0] // 2, n[1] // 2)
 
@@ -115,10 +114,8 @@ def contains(
     return value in container
 
 
-def combine(
-    a: Container,
-    b: Container
-) -> Container:
+#def combine(a: Container, b: Container) -> Container:
+def combine[T: Container](a: T, b: T) -> T:
     """ union """
     return type(a)((*a, *b))
 
@@ -131,10 +128,8 @@ def intersection(
     return a & b
 
 
-def difference(
-    a: FrozenSet,
-    b: FrozenSet
-) -> FrozenSet:
+#def difference(a: FrozenSet, b: FrozenSet) -> FrozenSet:
+def difference[T: FrozenSet](a: T, b: T) -> T:
     """ set difference """
     return type(a)(e for e in a if e not in b)
 
@@ -177,9 +172,12 @@ def size(
     return len(container)
 
 
-def merge(
-    containers: ContainerContainer
-) -> Container:
+#def merge(containers: ContainerContainer) -> Container:
+@overload
+def merge(x: FrozenSet[Object]) -> Object: ...
+@overload
+def merge(x: Grid) -> Grid: ...
+def merge(containers):
     """ merging """
     return type(containers)(e for c in containers for e in c)
 
@@ -267,23 +265,30 @@ def either(
     return a or b
 
 
-def increment(
-    x: Numerical
-) -> Numerical:
+#def increment(x: Numerical) -> Numerical:
+#@overload 
+#def increment(x: Integer) -> Integer: ...
+#@overload 
+#def increment(x: IntegerTuple) -> IntegerTuple: ...
+#def increment(x):
+def increment[T: Numerical](x: T) -> T:
     """ incrementing """
     return x + 1 if isinstance(x, int) else (x[0] + 1, x[1] + 1)
 
 
-def decrement(
-    x: Numerical
-) -> Numerical:
+#def decrement(x: Numerical) -> Numerical:
+#@overload 
+#def decrement(x: Integer) -> Integer: ...
+#@overload 
+#def decrement(x: IntegerTuple) -> IntegerTuple: ...
+#def decrement(x):
+#def decrement(x: Numerical) -> Numerical:
+def decrement[T: Numerical](x: T) -> T:
     """ decrementing """
     return x - 1 if isinstance(x, int) else (x[0] - 1, x[1] - 1)
 
 
-def crement(
-    x: Numerical
-) -> Numerical:
+def crement(x: Numerical) -> Numerical:
     """ incrementing positive and decrementing negative """
     if isinstance(x, int):
         return 0 if x == 0 else (x + 1 if x > 0 else x - 1)
@@ -293,9 +298,12 @@ def crement(
     )
 
 
-def sign(
-    x: Numerical
-) -> Numerical:
+#def sign(x: Numerical) -> Numerical:
+@overload
+def sign(x: Integer) -> Integer: ...
+@overload
+def sign(x: IntegerTuple) -> IntegerTuple: ...
+def sign(x):
     """ sign """
     if isinstance(x, int):
         return 0 if x == 0 else (1 if x > 0 else -1)
@@ -305,7 +313,7 @@ def sign(
     )
 
 
-def positive(
+def is_positive(
     x: Integer
 ) -> Boolean:
     """ positive """
@@ -326,10 +334,8 @@ def to_horizontal_vec(
     return (0, j)
 
 
-def sfilter(
-    container: Container,
-    condition: Callable
-) -> Container:
+#def sfilter(container: Container, condition: Callable) -> Container:
+def keep_if_condition[T: Container](container: T, condition: Callable) -> T:
     """ keep elements in container that satisfy condition """
     return type(container)(e for e in container if condition(e))
 
@@ -339,10 +345,10 @@ def mfilter(
     function: Callable
 ) -> FrozenSet:
     """ filter and merge """
-    return merge(sfilter(container, function))
+    return merge(keep_if_condition(container, function))
 
 
-def extract(
+def extract_first_matching(
     container: Container,
     condition: Callable
 ) -> Any:
@@ -403,12 +409,16 @@ def interval(
     """ range """
     return tuple(range(start, stop, step))
 
+def as_item_tuple[T:Union[Grid, Objects]](a: T, b: T) -> Tuple:
+    """ constructs a tuple of two items """
+    return (a, b)
 
-def as_tuple(
-    a: Integer,
-    b: Integer
-) -> IntegerTuple:
+def as_tuple(a: Integer, b: Integer) -> IntegerTuple:
     """ constructs a tuple """
+    return (a, b)
+
+def make_cell(a: Color, b: Tuple) -> IntegerTuple:
+    """ constructs a cell """
     return (a, b)
 
 
@@ -509,18 +519,13 @@ def fork(
     return lambda x: outer(a(x), b(x))
 
 
-def apply(
-    function: Callable,
-    container: Container
-) -> Container:
+#def apply(function: Callable, container: Container) -> Container:
+def apply[T: Container](function: Callable, container: T) -> T:
     """ apply function to each item in container """
     return type(container)(function(e) for e in container)
 
 
-def rapply(
-    functions: Container,
-    value: Any
-) -> Container:
+def rapply(functions: Container, value: Any) -> Container:
     """ apply each function in container to value """
     return type(functions)(function(value) for function in functions)
 
@@ -917,14 +922,15 @@ def palette(
 
 def count_colors(
     element: Element
-) -> IntegerSet:
+#) -> IntegerSet:   #mdda : Seems wrong
+) -> Integer:  
     """ number of colors occurring in object or grid """
     return len(palette(element))
 
 
 def color(
     obj: Object
-) -> Integer:
+) -> Color:
     """ color of object """
     return next(iter(obj))[0]
 
@@ -965,34 +971,30 @@ def rot270(
     """ quarter anticlockwise rotation """
     return tuple(tuple(row[::-1]) for row in zip(*grid[::-1]))[::-1]
 
-
-def horizontal_mirror(
-    piece: Piece
-) -> Piece:
+#def horizontal_mirror(piece: Piece) -> Piece:
+def horizontal_mirror[T: Piece](piece: T) -> T:
     """ mirroring along horizontal """
     if isinstance(piece, tuple):
         return piece[::-1]
     d = upper_left_corner(piece)[0] + lower_right_corner(piece)[0]
     if isinstance(next(iter(piece))[1], tuple):
-        return frozenset((v, (d - i, j)) for v, (i, j) in piece)
+        return frozenset((c, (d - i, j)) for c, (i, j) in piece)
     return frozenset((d - i, j) for i, j in piece)
 
 
-def vertical_mirror(
-    piece: Piece
-) -> Piece:
+#def vertical_mirror(piece: Piece) -> Piece:
+def vertical_mirror[T: Piece](piece: T) -> T:
     """ mirroring along vertical """
     if isinstance(piece, tuple):
         return tuple(row[::-1] for row in piece)
     d = upper_left_corner(piece)[1] + lower_right_corner(piece)[1]
     if isinstance(next(iter(piece))[1], tuple):
-        return frozenset((v, (i, d - j)) for v, (i, j) in piece)
+        return frozenset((c, (i, d - j)) for c, (i, j) in piece)
     return frozenset((i, d - j) for i, j in piece)
 
 
-def diagonal_mirror(
-    piece: Piece
-) -> Piece:
+#def diagonal_mirror(piece: Piece) -> Piece:
+def diagonal_mirror[T: Piece](piece: T) -> T:
     """ mirroring along diagonal """
     if isinstance(piece, tuple):
         return tuple(zip(*piece))
@@ -1002,9 +1004,8 @@ def diagonal_mirror(
     return frozenset((j - b + a, i - a + b) for i, j in piece)
 
 
-def counterdiagonal_mirror(
-    piece: Piece
-) -> Piece:
+#def counterdiagonal_mirror(piece: Piece) -> Piece:
+def counterdiagonal_mirror[T: Piece](piece: T) -> T:
     """ mirroring along counterdiagonal """
     if isinstance(piece, tuple):
         return tuple(zip(*(r[::-1] for r in piece[::-1])))
@@ -1014,7 +1015,8 @@ def counterdiagonal_mirror(
 def fill(
     grid: Grid,
     color: Color,
-    patch: Patch
+    #patch: Patch
+    patch: Union[Patch,Objects]  # mdda
 ) -> Grid:
     """ fill value at indices """
     h, w = len(grid), len(grid[0])
@@ -1027,7 +1029,8 @@ def fill(
 
 def paint(
     grid: Grid,
-    obj: Object
+    #obj: Object
+    obj: Union[Object, Tuple, Indices]  # mdda
 ) -> Grid:
     """ paint object to grid """
     h, w = len(grid), len(grid[0])
@@ -1094,10 +1097,7 @@ def vertical_upscale(
     return g
 
 
-def upscale(
-    element: Element,
-    factor: Integer
-) -> Element:
+def upscale[T: Element](element: T, factor: Integer) -> T:
     """ upscale object or grid """
     if isinstance(element, tuple):
         g = tuple()
@@ -1246,10 +1246,10 @@ def position(
         return (-1, 1 if ja < jb else -1)
 
 
-def index(
+def color_at_location(
     grid: Grid,
     loc: IntegerTuple
-) -> Integer:
+) -> Color:
     """ color at location """
     i, j = loc
     h, w = len(grid), len(grid[0])
@@ -1475,9 +1475,7 @@ def occurrences(
     return frozenset(occs)
 
 
-def frontiers(
-    grid: Grid
-) -> Objects:
+def frontiers( grid: Grid ) -> Objects:
     """ set of frontiers """
     h, w = len(grid), len(grid[0])
     row_indices = tuple(i for i, r in enumerate(grid) if len(set(r)) == 1)

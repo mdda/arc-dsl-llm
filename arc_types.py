@@ -7,7 +7,8 @@ from typing import (
     Callable,
     FrozenSet,
     Iterable,
-    NewType
+    NewType,
+    overload,
 )
 
 Boolean = bool

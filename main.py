@@ -40,6 +40,8 @@ def get_functions(path):
     for row in code.split('\n'):
         if row.startswith('def '):
             function = row.split('def ')[1].split('(')[0]
+            if '[' in function:  # Cope with Generic annotations
+                function=function[:function.find('[')]
             functions.append(function)
     return functions
 
@@ -117,6 +119,7 @@ def test_solvers_formatting(solvers_module, dsl_module):
 
 def test_solvers_correctness(data, solvers_module):
     """ tests the implemented solvers for correctness """
+    known_failures="4290ef0e 6a1e5592 9edfc990 4c5c2cf0 469497ad"
     n_correct = 0
     n = len(data["train"])
     for key in tqdm.tqdm(data['train'].keys(), total=n):
@@ -127,7 +130,7 @@ def test_solvers_correctness(data, solvers_module):
                 assert solver(ex['input']) == ex['output']
             n_correct += 1
         except:
-            print(f"\ntask {key} : FAILED")
+            print(f"\ntask {key} : FAILED {'(Known)' if key in known_failures else '**PANIC**'}")
             #print(solver(ex['input']))
             #print(ex['output'])
             #raise 

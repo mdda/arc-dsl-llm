@@ -183,9 +183,9 @@ def test_sign():
     assert sign(-1) == -1
  
 
-def test_positive():
-    assert positive(1)
-    assert not positive(-2)
+def test_is_positive():
+    assert is_positive(1)
+    assert not is_positive(-2)
  
 
 def test_to_vertical_vec():
@@ -196,18 +196,18 @@ def test_to_horizontal_vec():
     assert to_horizontal_vec(3) == (0, 3)
  
 
-def test_sfilter():
-    assert sfilter((1, 2, 3), lambda x: x > 1) == (2, 3)
-    assert sfilter(frozenset({2, 3, 4}), lambda x: x % 2 == 0) == frozenset({2, 4})
+def test_keep_if_condition():
+    assert keep_if_condition((1, 2, 3), lambda x: x > 1) == (2, 3)
+    assert keep_if_condition(frozenset({2, 3, 4}), lambda x: x % 2 == 0) == frozenset({2, 4})
  
 
 def test_mfilter():
     assert mfilter(frozenset({frozenset({(2, (3, 3))}), frozenset({(1, (0, 0))}), frozenset({(1, (1, 1)), (1, (0, 1))})}), lambda x: len(x) == 1) == frozenset({(1, (0, 0)), (2, (3, 3))})
  
 
-def test_extract():
-    assert extract((1, 2, 3), lambda x: x > 2) == 3
-    assert extract(frozenset({2, 3, 4}), lambda x: x % 4 == 0) == 4
+def test_extract_first_matching():
+    assert extract_first_matching((1, 2, 3), lambda x: x > 2) == 3
+    assert extract_first_matching(frozenset({2, 3, 4}), lambda x: x % 4 == 0) == 4
  
 
 def test_to_tuple():
@@ -724,9 +724,9 @@ def test_position():
     assert position(frozenset({(0, (3, 3))}), frozenset({(0, (3, 4))})) == (0, 1)
  
 
-def test_index():
-    assert index(C, (0, 0)) == 3
-    assert index(D, (1, 2)) == 6
+def test_color_at_location():
+    assert color_at_location(C, (0, 0)) == 3
+    assert color_at_location(D, (1, 2)) == 6
  
 
 def test_canvas():
