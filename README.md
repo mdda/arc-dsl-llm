@@ -78,8 +78,8 @@ square      is_square
 hconcat     horizontal_concat
 vconcat     vertical_concat
 
-            horizontal_split
-            vertical_split
+hsplit      horizontal_split
+vsplit      vertical_split
 
 location    color_at_location
             line_between
@@ -117,9 +117,13 @@ mapply      apply_and_merge
 
 fgpartition partition_only_foreground
 
-            most_common_color
-            least_common_color
+mostcolor   most_common_color
+leastcolor  least_common_color
 
 
             as_generic_tuple
             make_cell
+
+T           True
+F           False
+
