@@ -57,14 +57,14 @@ def test_halve():
     assert halve(5) == 2
  
 
-def test_flip():
-    assert flip(False)
-    assert not flip(True)
+def test_logical_not():
+    assert logical_not(False)
+    assert not logical_not(True)
  
 
-def test_equality():
-    assert equality(A, A)
-    assert not equality(A, B)
+def test_is_equal():
+    assert is_equal(A, A)
+    assert not is_equal(A, B)
  
 
 def test_contains():
@@ -255,9 +255,9 @@ def test_pair():
     assert pair((1, 2), (4, 3)) == ((1, 4), (2, 3))
  
 
-def test_branch():
-    assert branch(True, 1, 3) == 1
-    assert branch(False, 4, 2) == 2
+def test_condition_if_else():
+    assert condition_if_else(True, 1, 3) == 1
+    assert condition_if_else(False, 4, 2) == 2
  
 
 def test_compose():
@@ -288,8 +288,8 @@ def test_power():
     assert power(lambda x: x + 1, 3)(4) == 7
  
 
-def test_fork():
-    assert fork(lambda x, y: x * y, lambda x: x + 1, lambda x: x + 2)(2) == 12
+def test_combine_two_function_results():
+    assert combine_two_function_results(lambda x, y: x * y, lambda x: x + 1, lambda x: x + 2)(2) == 12
  
 
 def test_apply():
@@ -495,15 +495,15 @@ def test_rightmost():
     assert rightmost(frozenset({(1, (0, 0)), (1, (1, 1)), (1, (1, 2)), (1, (2, 1)), (1, (2, 2))})) == 2
  
 
-def test_square():
-    assert square(C)
-    assert square(D)
-    assert not square(A)
-    assert not square(B)
-    assert not square(frozenset({(1, 1), (1, 0)}))
-    assert square(frozenset({(1, 1), (0, 0), (1, 0), (0, 1)}))
-    assert not square(frozenset({(0, 0), (1, 0), (0, 1)}))
-    assert square(frozenset({(1, (1, 1)), (2, (0, 0)), (2, (1, 0)), (3, (0, 1))}))
+def test_is_square():
+    assert is_square(C)
+    assert is_square(D)
+    assert not is_square(A)
+    assert not is_square(B)
+    assert not is_square(frozenset({(1, 1), (1, 0)}))
+    assert is_square(frozenset({(1, 1), (0, 0), (1, 0), (0, 1)}))
+    assert not is_square(frozenset({(0, 0), (1, 0), (0, 1)}))
+    assert is_square(frozenset({(1, (1, 1)), (2, (0, 0)), (2, (1, 0)), (3, (0, 1))}))
  
 
 def test_is_vertical_line():
@@ -681,11 +681,11 @@ def test_vertical_concat():
     assert vertical_concat(B, C) == ((2, 1), (0, 1), (2, 1), (3, 4), (5, 5))
  
 
-def test_subgrid():
-    assert subgrid(frozenset({(3, (0, 0))}), C) == ((3,),)
-    assert subgrid(frozenset({(5, (1, 0)), (5, (1, 1))}), C) == ((5, 5),)
-    assert subgrid(frozenset({(2, (0, 1)), (4, (1, 0))}), D) == ((1, 2), (4, 5))
-    assert subgrid(frozenset({(1, (0, 0)), (0, (2, 2))}), D) == D
+def test_smallest_subgrid_containing():
+    assert smallest_subgrid_containing(frozenset({(3, (0, 0))}), C) == ((3,),)
+    assert smallest_subgrid_containing(frozenset({(5, (1, 0)), (5, (1, 1))}), C) == ((5, 5),)
+    assert smallest_subgrid_containing(frozenset({(2, (0, 1)), (4, (1, 0))}), D) == ((1, 2), (4, 5))
+    assert smallest_subgrid_containing(frozenset({(1, (0, 0)), (0, (2, 2))}), D) == D
  
 
 def test_horizontal_split():
@@ -743,9 +743,9 @@ def test_corners():
     assert corners(frozenset({(1, 2), (0, 0), (4, 3)})) == frozenset({(0, 0), (0, 3), (4, 0), (4, 3)})
  
 
-def test_connect():
-    assert connect((1, 1), (2, 2)) == frozenset({(1, 1), (2, 2)})
-    assert connect((1, 1), (1, 4)) == frozenset({(1, 1), (1, 2), (1, 3), (1, 4)})
+def test_line_between():
+    assert line_between((1, 1), (2, 2)) == frozenset({(1, 1), (2, 2)})
+    assert line_between((1, 1), (1, 4)) == frozenset({(1, 1), (1, 2), (1, 3), (1, 4)})
  
 
 def test_cover():

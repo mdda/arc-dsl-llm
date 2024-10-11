@@ -89,18 +89,18 @@ def halve[T: Numerical](n: T) -> T:
     return n // 2 if isinstance(n, int) else (n[0] // 2, n[1] // 2)
 
 
-def flip(
+def logical_not(
     b: Boolean
 ) -> Boolean:
     """ logical not """
     return not b
 
 
-def equality(
+def is_equal(
     a: Any,
     b: Any
 ) -> Boolean:
-    """ equality """
+    """ is_equal """
     return a == b
 
 
@@ -434,7 +434,7 @@ def pair(
     return tuple(zip(a, b))
 
 
-def branch(
+def condition_if_else(
     condition: Boolean,
     a: Any,
     b: Any
@@ -506,7 +506,7 @@ def power(
     return compose(function, power(function, n - 1))
 
 
-def fork(
+def combine_two_function_results(
     outer: Callable,
     a: Callable,
     b: Callable
@@ -836,7 +836,7 @@ def rightmost(
     return max(j for i, j in to_indices(patch))
 
 
-def square(
+def is_square(
     piece: Piece
 ) -> Boolean:
     """ whether the piece forms a square """
@@ -1153,7 +1153,7 @@ def vertical_concat(
     return a + b
 
 
-def subgrid(
+def smallest_subgrid_containing(
     patch: Patch,
     grid: Grid
 ) -> Grid:
@@ -1268,7 +1268,7 @@ def corners(
     return frozenset({upper_left_corner(patch), upper_right_corner(patch), lower_left_corner(patch), lower_right_corner(patch)})
 
 
-def connect(
+def line_between(
     a: IntegerTuple,
     b: IntegerTuple
 ) -> Indices:
@@ -1445,7 +1445,7 @@ def shoot(
     direction: IntegerTuple
 ) -> Indices:
     """ line from starting point and direction """
-    return connect(start, (start[0] + 42 * direction[0], start[1] + 42 * direction[1]))
+    return line_between(start, (start[0] + 42 * direction[0], start[1] + 42 * direction[1]))
 
 
 def occurrences(
