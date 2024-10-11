@@ -51,3 +51,75 @@ def solve_5521c0d9(I):
 - `shifter`: a function that takes an object and shifts it as much upwards as it is high; the result of calling the `fork` primitive with `outer=shift`, `a=identity` and `b=offset_getter`
 - `shifted`: all the objects shifted up by their heights, as a single object, obtained by appling the constructed function on the set of objects and merging the results; the result of calling the `mapply` primitive on `function=shifter` and `container=objs`
 - `O` the desired output grid, obtained by painting the resulting object onto the grid `empty_grid` where the original objects were removed from; the result of calling the `paint` primitive on `grid=empty_grid` and `obj=shifted`
+
+
+
+
+Changes made
+
+    
+even        is_even
+positive    is_positive
+equality    is_equal
+greater     is_greater
+portrait    is_portrait
+square      is_square
+            is_vertical_line
+            is_horizontal_line
+
+            horizontal_mirror
+            vertical_mirror
+            diagonal_mirror
+            counterdiagonal_mirror
+
+            horizontal_upscale
+            vertical_upscale
+
+hconcat     horizontal_concat
+vconcat     vertical_concat
+
+            horizontal_split
+            vertical_split
+
+location    color_at_location
+            line_between
+
+subgrid     smallest_subgrid_containing
+extract     extract_first_matching
+
+            color_count
+            color_filter
+            size_filter
+
+ulcorner    upper_left_corner
+urcorner    upper_right_corner
+llcorner    lower_left_corner
+lrcorner    lower_right_corner
+
+product     cartesian_product
+
+sfilter     keep_if_condition
+            extract_first_matching
+branch      condition_if_else
+fork        combine_two_function_results
+
+hvec        to_horizontal_vec
+vvec        to_vertical_vec
+
+shift       shift_by_vector
+
+mapply      apply_and_merge
+
+            direct_neighbors
+            diagonal_neighbors
+
+            logical_not
+
+fgpartition partition_only_foreground
+
+            most_common_color
+            least_common_color
+
+
+            as_generic_tuple
+            make_cell

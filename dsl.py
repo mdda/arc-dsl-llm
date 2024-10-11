@@ -405,7 +405,7 @@ def interval(
     return tuple(range(start, stop, step))
 
 #def as_item_tuple[T:Union[Grid, Objects, Tuple]](a: T, b: T) -> Tuple:
-def as_generic_tuple[T](a: T, b: T) -> Tuple:  # Tuple[T]
+def as_generic_tuple[T](a: T, b: T) -> Tuple:  # new
     """ constructs a tuple of two items """
     return (a, b)
 
@@ -413,12 +413,12 @@ def as_tuple(a: Integer, b: Integer) -> IntegerTuple:
     """ constructs a tuple """
     return (a, b)
 
-def make_cell(a: Color, b: Tuple) -> IntegerTuple:
+def make_cell(a: Color, b: Tuple) -> IntegerTuple:  # new
     """ constructs a cell """
     return (a, b)
 
 
-def cartesian_product(
+def cartesian_product(   # was: product
     a: Container,
     b: Container
 ) -> FrozenSet:

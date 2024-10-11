@@ -13,7 +13,8 @@ import sys, traceback
 
 def get_data(train=True):
     #path = f'../data/{"training" if train else "evaluation"}'
-    path = f'../../ARC-Challenge/ARC-800-tasks/{"training" if train else "evaluation"}'
+    #path = f'../../ARC-Challenge/ARC-800-tasks/{"training" if train else "evaluation"}'
+    path = f'../ARC-AGI/data/{"training" if train else "evaluation"}'
     
     data = {}
     for fn in os.listdir(path):
@@ -122,7 +123,7 @@ def test_solvers_formatting(solvers_module, dsl_module):
 
 def test_solvers_correctness(data, solvers_module):
     """ tests the implemented solvers for correctness """
-    known_failures="4290ef0e 6a1e5592 9edfc990 4c5c2cf0 469497ad"
+    known_failures="4c5c2cf0"
     n_correct = 0
     n = len(data["train"])
     for key in tqdm.tqdm(data['train'].keys(), total=n):
@@ -158,12 +159,11 @@ Solvers for the following problems are failing for me:
 39e1d7f9 FIXED (PR)
 e40b9e2f FIXED (PR)
 
+# See : https://github.com/michaelhodel/arc-dsl/issues/8#issuecomment-2407862655
+
 4290ef0e mdda too
 6a1e5592 mdda too
 4c5c2cf0 mdda too
-
-9edfc990 mdda only? (but also hodel raw github)
-469497ad mdda only? (but also hodel raw github)
 
 """
 
