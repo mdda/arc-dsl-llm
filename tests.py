@@ -242,6 +242,10 @@ def test_interval():
 def test_as_tuple():
     assert as_tuple(3, 4) == (3, 4)
  
+def test_as_generic_tuple():  # mdda added  - needed instead of as_tuple(Grid, Grid), etc
+    pass 
+def test_make_cell():  # mdda added - needed instead of as_tuple(Color, IntegerTuple)
+    pass 
 
 def test_cartesian_product():
     assert cartesian_product({1, 2}, {2, 3}) == frozenset({(1, 2), (1, 3), (2, 2), (2, 3)})
@@ -297,8 +301,8 @@ def test_rapply():
     assert rapply(frozenset({lambda x: x + 1, lambda x: x - 1}), 1) == {0, 2}
  
 
-def test_mapply():
-    assert mapply(lambda x: frozenset({(v + 1, (i, j)) for v, (i, j) in x}), frozenset({frozenset({(1, (0, 0))}), frozenset({(1, (1, 1)), (1, (0, 1))})})) == frozenset({(2, (0, 0)), (2, (1, 1)), (2, (0, 1))})
+def test_apply_and_merge():
+    assert apply_and_merge(lambda x: frozenset({(v + 1, (i, j)) for v, (i, j) in x}), frozenset({frozenset({(1, (0, 0))}), frozenset({(1, (1, 1)), (1, (0, 1))})})) == frozenset({(2, (0, 0)), (2, (1, 1)), (2, (0, 1))})
  
 
 def test_papply():
@@ -424,9 +428,9 @@ def test_recolor():
     assert recolor(2, frozenset({(2, (2, 5)), (2, (1, 1))})) == frozenset({(2, (2, 5)), (2, (1, 1))})
  
 
-def test_shift():
-    assert shift(frozenset({(2, (1, 1)), (4, (1, 2)), (1, (2, 3))}), (1, 2)) == frozenset({(2, (2, 3)), (4, (2, 4)), (1, (3, 5))})
-    assert shift(frozenset({(1, 3), (0, 2), (3, 4)}), (0, -1)) == frozenset({(1, 2), (0, 1), (3, 3)})
+def test_shift_by_vector():
+    assert shift_by_vector(frozenset({(2, (1, 1)), (4, (1, 2)), (1, (2, 3))}), (1, 2)) == frozenset({(2, (2, 3)), (4, (2, 4)), (1, (3, 5))})
+    assert shift_by_vector(frozenset({(1, 3), (0, 2), (3, 4)}), (0, -1)) == frozenset({(1, 2), (0, 1), (3, 3)})
  
 
 def test_normalize():
@@ -466,9 +470,9 @@ def test_partition():
     assert partition(G) == frozenset({frozenset({(1, (0, 0)), (1, (1, 1)), (1, (1, 2)), (1, (2, 1)), (1, (2, 2))}), frozenset({(2, (4, 1)), (2, (3, 2)), (2, (2, 3)), (2, (3, 3))}), frozenset({(3, (0, 4))}), frozenset({(0, (0, 1)), (0, (0, 2)), (0, (0, 3)), (0, (1, 0)), (0, (1, 3)), (0, (1, 4)), (0, (2, 0)), (0, (2, 4)), (0, (3, 0)), (0, (3, 1)), (0, (3, 4)), (0, (4, 0)), (0, (4, 2)), (0, (4, 3)), (0, (4, 4))})})
  
 
-def test_fgpartition():
-    assert fgpartition(B) == frozenset({frozenset({(0, (1, 0))}), frozenset({(2, (0, 0)), (2, (2, 0))})})
-    assert fgpartition(G) == frozenset({frozenset({(1, (0, 0)), (1, (1, 1)), (1, (1, 2)), (1, (2, 1)), (1, (2, 2))}), frozenset({(2, (4, 1)), (2, (3, 2)), (2, (2, 3)), (2, (3, 3))}), frozenset({(3, (0, 4))})})
+def test_partition_only_foreground():
+    assert partition_only_foreground(B) == frozenset({frozenset({(0, (1, 0))}), frozenset({(2, (0, 0)), (2, (2, 0))})})
+    assert partition_only_foreground(G) == frozenset({frozenset({(1, (0, 0)), (1, (1, 1)), (1, (1, 2)), (1, (2, 1)), (1, (2, 2))}), frozenset({(2, (4, 1)), (2, (3, 2)), (2, (2, 3)), (2, (3, 3))}), frozenset({(3, (0, 4))})})
  
 
 def test_uppermost():

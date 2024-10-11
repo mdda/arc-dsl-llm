@@ -219,7 +219,7 @@ def solve_b91ae062(I):
 
 def solve_3aa6fb7a(I):
     x1 = as_objects(I, True, False, True)
-    x2 = mapply(corners, x1)
+    x2 = apply_and_merge(corners, x1)
     O = underfill(I, ONE, x2)
     return O
 
@@ -233,7 +233,7 @@ def solve_7b7f7511(I):
 
 def solve_4258a5f9(I):
     x1 = of_color(I, FIVE)
-    x2 = mapply(neighbors, x1)
+    x2 = apply_and_merge(neighbors, x1)
     O = fill(I, ONE, x2)
     return O
 
@@ -241,7 +241,7 @@ def solve_4258a5f9(I):
 def solve_2dc579da(I):
     x1 = vertical_split(I, 2)
     x2 = rbind(horizontal_split, 2)
-    x3 = mapply(x2, x1)
+    x3 = apply_and_merge(x2, x1)
     O = argmax(x3, count_colors)
     return O
 
@@ -311,9 +311,9 @@ def solve_42a50994(I):
 
 
 def solve_56ff96f3(I):
-    x1 = fgpartition(I)
+    x1 = partition_only_foreground(I)
     x2 = fork(recolor, color, backdrop)
-    x3 = mapply(x2, x1)
+    x3 = apply_and_merge(x2, x1)
     O = paint(I, x3)
     return O
 
@@ -321,7 +321,7 @@ def solve_56ff96f3(I):
 def solve_50cb2852(I):
     x1 = as_objects(I, True, False, True)
     x2 = compose(backdrop, inbox)
-    x3 = mapply(x2, x1)
+    x3 = apply_and_merge(x2, x1)
     O = fill(I, EIGHT, x3)
     return O
 
@@ -329,7 +329,7 @@ def solve_50cb2852(I):
 def solve_4347f46a(I):
     x1 = as_objects(I, True, False, True)
     x2 = fork(difference, to_indices, box)
-    x3 = mapply(x2, x1)
+    x3 = apply_and_merge(x2, x1)
     O = fill(I, ZERO, x3)
     return O
 
@@ -377,7 +377,7 @@ def solve_ae4f1146(I):
 def solve_b27ca6d3(I):
     x1 = as_objects(I, True, False, True)
     x2 = size_filter(x1, TWO)
-    x3 = mapply(outbox, x2)
+    x3 = apply_and_merge(outbox, x2)
     O = fill(I, THREE, x3)
     return O
 
@@ -385,7 +385,7 @@ def solve_b27ca6d3(I):
 def solve_ce22a75a(I):
     x1 = as_objects(I, True, False, True)
     x2 = apply(outbox, x1)
-    x3 = mapply(backdrop, x2)
+    x3 = apply_and_merge(backdrop, x2)
     O = fill(I, ONE, x3)
     return O
 
@@ -393,7 +393,7 @@ def solve_ce22a75a(I):
 def solve_dc1df850(I):
     x1 = as_objects(I, True, False, True)
     x2 = color_filter(x1, TWO)
-    x3 = mapply(outbox, x2)
+    x3 = apply_and_merge(outbox, x2)
     O = fill(I, ONE, x3)
     return O
 
@@ -486,7 +486,7 @@ def solve_41e4d17e(I):
     x1 = as_objects(I, True, False, True)
     x2 = fork(combine, vfrontier, hfrontier)
     x3 = compose(x2, center)
-    x4 = mapply(x3, x1)
+    x4 = apply_and_merge(x3, x1)
     O = underfill(I, SIX, x4)
     return O
 
@@ -513,7 +513,7 @@ def solve_bb43febb(I):
     x1 = as_objects(I, True, False, False)
     x2 = color_filter(x1, FIVE)
     x3 = compose(backdrop, inbox)
-    x4 = mapply(x3, x2)
+    x4 = apply_and_merge(x3, x2)
     O = fill(I, TWO, x4)
     return O
 
@@ -539,14 +539,14 @@ def solve_f76d97a5(I):
 def solve_ce9e57f2(I):
     x1 = as_objects(I, True, False, True)
     x2 = fork(connect, upper_left_corner, centerofmass)
-    x3 = mapply(x2, x1)
+    x3 = apply_and_merge(x2, x1)
     x4 = fill(I, EIGHT, x3)
     O = switch(x4, EIGHT, TWO)
     return O
 
 
 def solve_22eb0ac0(I):
-    x1 = fgpartition(I)
+    x1 = partition_only_foreground(I)
     x2 = fork(recolor, color, backdrop)
     x3 = apply(x2, x1)
     x4 = mfilter(x3, is_horizontal_line)
@@ -565,8 +565,8 @@ def solve_9f236235(I):
 
 def solve_a699fb00(I):
     x1 = of_color(I, ONE)
-    x2 = shift(x1, RIGHT)
-    x3 = shift(x1, LEFT)
+    x2 = shift_by_vector(x1, RIGHT)
+    x3 = shift_by_vector(x1, LEFT)
     x4 = intersection(x2, x3)
     O = fill(I, TWO, x4)
     return O
@@ -595,8 +595,8 @@ def solve_7fe24cdd(I):
 def solve_0ca9ddb6(I):
     x1 = of_color(I, ONE)
     x2 = of_color(I, TWO)
-    x3 = mapply(direct_neighbors, x1)
-    x4 = mapply(diagonal_neighbors, x2)
+    x3 = apply_and_merge(direct_neighbors, x1)
+    x4 = apply_and_merge(diagonal_neighbors, x2)
     x5 = fill(I, SEVEN, x3)
     O = fill(x5, FOUR, x4)
     return O
@@ -605,9 +605,9 @@ def solve_0ca9ddb6(I):
 def solve_543a7ed5(I):
     x1 = as_objects(I, True, False, True)
     x2 = color_filter(x1, SIX)
-    x3 = mapply(outbox, x2)
+    x3 = apply_and_merge(outbox, x2)
     x4 = fill(I, THREE, x3)
-    x5 = mapply(delta, x2)
+    x5 = apply_and_merge(delta, x2)
     O = fill(x4, FOUR, x5)
     return O
 
@@ -655,8 +655,8 @@ def solve_928ad970(I):
 def solve_b60334d2(I):
     x1 = of_color(I, FIVE)
     x2 = replace(I, FIVE, ZERO)
-    x3 = mapply(direct_neighbors, x1)
-    x4 = mapply(diagonal_neighbors, x1)
+    x3 = apply_and_merge(direct_neighbors, x1)
+    x4 = apply_and_merge(diagonal_neighbors, x1)
     x5 = fill(x2, ONE, x3)
     O = fill(x5, FIVE, x4)
     return O
@@ -677,7 +677,7 @@ def solve_d037b0a7(I):
     x2 = rbind(shoot, DOWN)
     x3 = compose(x2, center)
     x4 = fork(recolor, color, x3)
-    x5 = mapply(x4, x1)
+    x5 = apply_and_merge(x4, x1)
     O = paint(I, x5)
     return O
 
@@ -817,7 +817,7 @@ def solve_10fcaaa3(I):
     x2 = horizontal_concat(I, I)
     x3 = vertical_concat(x2, x2)
     x4 = of_color(x3, x1)
-    x5 = mapply(diagonal_neighbors, x4)
+    x5 = apply_and_merge(diagonal_neighbors, x4)
     O = underfill(x3, EIGHT, x5)
     return O
 
@@ -845,12 +845,12 @@ def solve_496994bd(I):
 
 
 def solve_1f876c06(I):
-    x1 = fgpartition(I)
+    x1 = partition_only_foreground(I)
     x2 = compose(last, first)
     x3 = power(last, TWO)
     x4 = fork(connect, x2, x3)
     x5 = fork(recolor, color, x4)
-    x6 = mapply(x5, x1)
+    x6 = apply_and_merge(x5, x1)
     O = paint(I, x6)
     return O
 
@@ -903,9 +903,9 @@ def solve_b6afb2da(I):
     x1 = as_objects(I, True, False, False)
     x2 = replace(I, FIVE, TWO)
     x3 = color_filter(x1, FIVE)
-    x4 = mapply(box, x3)
+    x4 = apply_and_merge(box, x3)
     x5 = fill(x2, FOUR, x4)
-    x6 = mapply(corners, x3)
+    x6 = apply_and_merge(corners, x3)
     O = fill(x5, ONE, x6)
     return O
 
@@ -959,7 +959,7 @@ def solve_d5d6de2d(I):
     x2 = keep_if_condition(x1, square)
     x3 = difference(x1, x2)
     x4 = compose(backdrop, inbox)
-    x5 = mapply(x4, x3)
+    x5 = apply_and_merge(x4, x3)
     x6 = replace(I, TWO, ZERO)
     O = fill(x6, THREE, x5)
     return O
@@ -1025,8 +1025,8 @@ def solve_5521c0d9(I):
     x2 = merge(x1)
     x3 = cover(I, x2)
     x4 = chain(to_vertical_vec, invert, height)
-    x5 = fork(shift, identity, x4)
-    x6 = mapply(x5, x1)
+    x5 = fork(shift_by_vector, identity, x4)
+    x6 = apply_and_merge(x5, x1)
     O = paint(x3, x6)
     return O
 
@@ -1079,9 +1079,9 @@ def solve_363442ee(I):
     x1 = of_color(I, ONE)
     x2 = crop(I, ORIGIN, THREE_BY_THREE)
     x3 = as_object(x2)
-    x4 = lbind(shift, x3)
+    x4 = lbind(shift_by_vector, x3)
     x5 = compose(x4, decrement)
-    x6 = mapply(x5, x1)
+    x6 = apply_and_merge(x5, x1)
     O = paint(I, x6)
     return O
 
@@ -1157,7 +1157,7 @@ def solve_54d82841(I):
 
 def solve_60b61512(I):
     x1 = as_objects(I, True, True, True)
-    x2 = mapply(delta, x1)
+    x2 = apply_and_merge(delta, x1)
     O = fill(I, SEVEN, x2)
     return O
 
@@ -1263,7 +1263,7 @@ def solve_d13f3404(I):
     x2 = rbind(shoot, UNITY)
     x3 = compose(x2, center)
     x4 = fork(recolor, color, x3)
-    x5 = mapply(x4, x1)
+    x5 = apply_and_merge(x4, x1)
     x6 = as_tuple(6, 6)
     x7 = canvas(ZERO, x6)
     O = paint(x7, x5)
@@ -1336,8 +1336,8 @@ def solve_e76a88a6(I):
     x3 = normalize(x2)
     x4 = remove(x2, x1)
     x5 = apply(upper_left_corner, x4)
-    x6 = lbind(shift, x3)
-    x7 = mapply(x6, x5)
+    x6 = lbind(shift_by_vector, x3)
+    x7 = apply_and_merge(x6, x5)
     O = paint(I, x7)
     return O
 
@@ -1397,13 +1397,13 @@ def solve_6d75e8bb(I):
     x4 = subgrid(x2, I)
     x5 = replace(x4, ZERO, TWO)
     x6 = as_object(x5)
-    x7 = shift(x6, x3)
+    x7 = shift_by_vector(x6, x3)
     O = paint(I, x7)
     return O
 
 
 def solve_3f7978a0(I):
-    x1 = fgpartition(I)
+    x1 = partition_only_foreground(I)
     x2 = matcher(color, FIVE)
     x3 = extract_first_matching(x1, x2)
     x4 = upper_left_corner(x3)
@@ -1419,7 +1419,7 @@ def solve_1190e5a7(I):
     x2 = frontiers(I)
     x3 = keep_if_condition(x2, is_vertical_line)
     x4 = difference(x2, x3)
-    x5 = as_item_tuple(x4, x3)  
+    x5 = as_generic_tuple(x4, x3)  
     x6 = apply(size, x5)
     x7 = increment(x6)
     O = canvas(x1, x7)
@@ -1458,7 +1458,7 @@ def solve_fcc82909(I):
     x5 = fork(add, lower_right_corner, x4)
     x6 = fork(as_tuple, x3, x5)
     x7 = compose(box, x6)
-    x8 = mapply(x7, x1)
+    x8 = apply_and_merge(x7, x1)
     O = fill(I, THREE, x8)
     return O
 
@@ -1509,8 +1509,8 @@ def solve_1f642eb9(I):
     x4 = first(x3)
     x5 = rbind(gravitate, x4)
     x6 = compose(crement, x5)
-    x7 = fork(shift, identity, x6)
-    x8 = mapply(x7, x2)
+    x7 = fork(shift_by_vector, identity, x6)
+    x8 = apply_and_merge(x7, x2)
     O = paint(I, x8)
     return O
 
@@ -1549,7 +1549,7 @@ def solve_7ddcd7ec(I):
     x5 = color(x4)
     x6 = lbind(position, x4)
     x7 = fork(shoot, center, x6)
-    x8 = mapply(x7, x2)
+    x8 = apply_and_merge(x7, x2)
     O = fill(I, x5, x8)
     return O
 
@@ -1634,13 +1634,13 @@ def solve_cce03e0d(I):
 
 def solve_d364b489(I):
     x1 = of_color(I, ONE)
-    x2 = shift(x1, DOWN)
+    x2 = shift_by_vector(x1, DOWN)
     x3 = fill(I, EIGHT, x2)
-    x4 = shift(x1, UP)
+    x4 = shift_by_vector(x1, UP)
     x5 = fill(x3, TWO, x4)
-    x6 = shift(x1, RIGHT)
+    x6 = shift_by_vector(x1, RIGHT)
     x7 = fill(x5, SIX, x6)
-    x8 = shift(x1, LEFT)
+    x8 = shift_by_vector(x1, LEFT)
     O = fill(x7, SEVEN, x8)
     return O
 
@@ -1652,8 +1652,8 @@ def solve_a5f85a15(I):
     x4 = apply(decrement, x3)
     x5 = papply(as_tuple, x4, x4)
     x6 = apply(upper_left_corner, x1)
-    x7 = lbind(shift, x5)
-    x8 = mapply(x7, x6)
+    x7 = lbind(shift_by_vector, x5)
+    x8 = apply_and_merge(x7, x6)
     O = fill(I, FOUR, x8)
     return O
 
@@ -1662,7 +1662,7 @@ def solve_3ac3eb23(I):
     x1 = as_objects(I, True, False, True)
     x2 = chain(diagonal_neighbors, last, first)
     x3 = fork(recolor, color, x2)
-    x4 = mapply(x3, x1)
+    x4 = apply_and_merge(x3, x1)
     x5 = paint(I, x4)
     x6 = vertical_split(x5, THREE)
     x7 = first(x6)
@@ -1676,10 +1676,10 @@ def solve_444801d8(I):
     x2 = color_filter(x1, ONE)
     x3 = rbind(to_object, I)
     x4 = chain(least_common_color, x3, delta)
-    x5 = rbind(shift, UP)
+    x5 = rbind(shift_by_vector, UP)
     x6 = compose(x5, backdrop)
     x7 = fork(recolor, x4, x6)
-    x8 = mapply(x7, x2)
+    x8 = apply_and_merge(x7, x2)
     O = underpaint(I, x8)
     return O
 
@@ -1692,7 +1692,7 @@ def solve_22168020(I):
     x5 = fork(x4, x3, x3)
     x6 = compose(merge, x5)
     x7 = fork(recolor, identity, x6)
-    x8 = mapply(x7, x2)
+    x8 = apply_and_merge(x7, x2)
     O = paint(I, x8)
     return O
 
@@ -1753,11 +1753,11 @@ def solve_8e5a5113(I):
     x1 = crop(I, ORIGIN, THREE_BY_THREE)
     x2 = rot90(x1)
     x3 = rot180(x1)
-    x4 = as_item_tuple(x2, x3)
+    x4 = as_generic_tuple(x2, x3)
     x5 = as_tuple(4, 8)
     x6 = apply(to_horizontal_vec, x5)
     x7 = apply(as_object, x4)
-    x8 = mpapply(shift, x7, x6)
+    x8 = mpapply(shift_by_vector, x7, x6)
     O = paint(I, x8)
     return O
 
@@ -1769,7 +1769,7 @@ def solve_025d127b(I):
     x4 = lbind(color_filter, x1)
     x5 = rbind(argmax, rightmost)
     x6 = compose(x5, x4)
-    x7 = mapply(x6, x2)
+    x7 = apply_and_merge(x6, x2)
     x8 = difference(x3, x7)
     O = move(I, x8, RIGHT)
     return O
@@ -1832,10 +1832,10 @@ def solve_137eaa0f(I):
     x2 = matcher(first, FIVE)
     x3 = rbind(keep_if_condition, x2)
     x4 = chain(invert, center, x3)
-    x5 = fork(shift, identity, x4)
+    x5 = fork(shift_by_vector, identity, x4)
     x6 = canvas(ZERO, THREE_BY_THREE)
-    x7 = mapply(x5, x1)
-    x8 = shift(x7, UNITY)
+    x7 = apply_and_merge(x5, x1)
+    x8 = shift_by_vector(x7, UNITY)
     O = paint(x6, x8)
     return O
 
@@ -1856,7 +1856,7 @@ def solve_6455b5f5(I):
 def solve_b8cdaf2b(I):
     x1 = least_common_color(I)
     x2 = of_color(I, x1)
-    x3 = shift(x2, UP)
+    x3 = shift_by_vector(x2, UP)
     x4 = upper_left_corner(x3)
     x5 = upper_right_corner(x3)
     x6 = shoot(x4, NEG_UNITY)
@@ -1900,7 +1900,7 @@ def solve_bbc9ae5d(I):
     x5 = rbind(shoot, UNITY)
     x6 = other(x2, ZERO)
     x7 = of_color(x4, x6)
-    x8 = mapply(x5, x7)
+    x8 = apply_and_merge(x5, x7)
     O = fill(x4, x6, x8)
     return O
 
@@ -2018,19 +2018,19 @@ def solve_3428a4f5(I):
 def solve_178fcbfb(I):
     x1 = as_objects(I, True, False, True)
     x2 = of_color(I, TWO)
-    x3 = mapply(vfrontier, x2)
+    x3 = apply_and_merge(vfrontier, x2)
     x4 = fill(I, TWO, x3)
     x5 = color_filter(x1, TWO)
     x6 = difference(x1, x5)
     x7 = compose(hfrontier, center)
     x8 = fork(recolor, color, x7)
-    x9 = mapply(x8, x6)
+    x9 = apply_and_merge(x8, x6)
     O = paint(x4, x9)
     return O
 
 
 def solve_3de23699(I):
-    x1 = fgpartition(I)
+    x1 = partition_only_foreground(I)
     x2 = size_filter(x1, FOUR)
     x3 = first(x2)
     x4 = difference(x1, x2)
@@ -2048,7 +2048,7 @@ def solve_54d9e175(I):
     x2 = size_filter(x1, ONE)
     x3 = compose(neighbors, center)
     x4 = fork(recolor, color, x3)
-    x5 = mapply(x4, x2)
+    x5 = apply_and_merge(x4, x2)
     x6 = paint(I, x5)
     x7 = replace(x6, ONE, SIX)
     x8 = replace(x7, TWO, SEVEN)
@@ -2066,7 +2066,7 @@ def solve_5ad4f10b(I):
     x6 = replace(x4, x5, ZERO)
     x7 = replace(x6, x3, x5)
     x8 = height(x7)
-    x9 = divide(x8, THREE)
+    x9 = divide(x8, 3)
     O = downscale(x7, x9)
     return O
 
@@ -2076,11 +2076,13 @@ def solve_623ea044(I):
     x2 = first(x1)
     x3 = center(x2)
     x4 = color(x2)
-    x5 = as_tuple(UNITY, NEG_UNITY)
-    x6 = as_tuple(UP_RIGHT, DOWN_LEFT)
+    #x5 = as_tuple(UNITY, NEG_UNITY)
+    x5 = as_generic_tuple(UNITY, NEG_UNITY) # mdda
+    #x6 = as_tuple(UP_RIGHT, DOWN_LEFT)
+    x6 = as_generic_tuple(UP_RIGHT, DOWN_LEFT) # mdda
     x7 = combine(x5, x6)
     x8 = lbind(shoot, x3)
-    x9 = mapply(x8, x7)
+    x9 = apply_and_merge(x8, x7)
     O = fill(I, x4, x9)
     return O
 
@@ -2094,7 +2096,7 @@ def solve_6b9890af(I):
     x6 = divide(x5, 3)
     x7 = upscale(x3, x6)
     x8 = normalize(x7)
-    x9 = shift(x8, UNITY)
+    x9 = shift_by_vector(x8, UNITY)
     O = paint(x4, x9)
     return O
 
@@ -2121,8 +2123,8 @@ def solve_88a10436(I):
     x5 = difference(x1, x2)
     x6 = first(x5)
     x7 = normalize(x6)
-    x8 = shift(x7, x4)
-    x9 = shift(x8, NEG_UNITY)
+    x8 = shift_by_vector(x7, x4)
+    x9 = shift_by_vector(x8, NEG_UNITY)
     O = paint(I, x9)
     return O
 
@@ -2134,8 +2136,10 @@ def solve_88a62173(I):
     x4 = top_half(x2)
     x5 = bottom_half(x1)
     x6 = bottom_half(x2)
-    x7 = as_tuple(x3, x4)
-    x8 = as_tuple(x5, x6)
+    #x7 = as_tuple(x3, x4)
+    x7 = as_generic_tuple(x3, x4) # mdda
+    #x8 = as_tuple(x5, x6)
+    x8 = as_generic_tuple(x5, x6) # mdda
     x9 = combine(x7, x8)
     O = least_common(x9)
     return O
@@ -2148,9 +2152,9 @@ def solve_890034e9(I):
     x4 = recolor(ZERO, x3)
     x5 = occurrences(I, x4)
     x6 = normalize(x2)
-    x7 = shift(x6, NEG_UNITY)
-    x8 = lbind(shift, x7)
-    x9 = mapply(x8, x5)
+    x7 = shift_by_vector(x6, NEG_UNITY)
+    x8 = lbind(shift_by_vector, x7)
+    x9 = apply_and_merge(x8, x5)
     O = fill(I, x1, x9)
     return O
 
@@ -2172,13 +2176,13 @@ def solve_99b1bc43(I):
 def solve_a9f96cdd(I):
     x1 = of_color(I, TWO)
     x2 = replace(I, TWO, ZERO)
-    x3 = shift(x1, NEG_UNITY)
+    x3 = shift_by_vector(x1, NEG_UNITY)
     x4 = fill(x2, THREE, x3)
-    x5 = shift(x1, UP_RIGHT)
+    x5 = shift_by_vector(x1, UP_RIGHT)
     x6 = fill(x4, SIX, x5)
-    x7 = shift(x1, DOWN_LEFT)
+    x7 = shift_by_vector(x1, DOWN_LEFT)
     x8 = fill(x6, EIGHT, x7)
-    x9 = shift(x1, UNITY)
+    x9 = shift_by_vector(x1, UNITY)
     O = fill(x8, SEVEN, x9)
     return O
 
@@ -2188,12 +2192,12 @@ def solve_af902bf9(I):
     x2 = prapply(connect, x1, x1)
     x3 = fork(either, is_vertical_line, is_horizontal_line)
     x4 = mfilter(x2, x3)
-    x5 = underfill(I, NEG_ONE, x4)
+    x5 = underfill(I, PLACEHOLDER, x4)
     x6 = as_objects(x5, False, False, True)
     x7 = compose(backdrop, inbox)
-    x8 = mapply(x7, x6)
+    x8 = apply_and_merge(x7, x6)
     x9 = fill(x5, TWO, x8)
-    O = replace(x9, NEG_ONE, ZERO)
+    O = replace(x9, PLACEHOLDER, ZERO)
     return O
 
 
@@ -2260,8 +2264,8 @@ def solve_d8c310e9(I):
     x4 = multiply(x3, 3)
     x5 = to_horizontal_vec(x3)
     x6 = to_horizontal_vec(x4)
-    x7 = shift(x2, x5)
-    x8 = shift(x2, x6)
+    x7 = shift_by_vector(x2, x5)
+    x8 = shift_by_vector(x2, x6)
     x9 = paint(I, x7)
     O = paint(x9, x8)
     return O
@@ -2285,12 +2289,12 @@ def solve_8eb1be9a(I):
     x1 = as_objects(I, True, True, True)
     x2 = first(x1)
     x3 = interval(NEG_TWO, FOUR, ONE)
-    x4 = lbind(shift, x2)
+    x4 = lbind(shift_by_vector, x2)
     x5 = height(x2)
     x6 = rbind(multiply, x5)
     x7 = apply(x6, x3)
     x8 = apply(to_vertical_vec, x7)
-    x9 = mapply(x4, x8)
+    x9 = apply_and_merge(x4, x8)
     O = paint(I, x9)
     return O
 
@@ -2302,9 +2306,9 @@ def solve_321b1fc6(I):
     x4 = first(x3)
     x5 = cover(I, x4)
     x6 = normalize(x4)
-    x7 = lbind(shift, x6)
+    x7 = lbind(shift_by_vector, x6)
     x8 = apply(upper_left_corner, x2)
-    x9 = mapply(x7, x8)
+    x9 = apply_and_merge(x7, x8)
     O = paint(x5, x9)
     return O
 
@@ -2315,10 +2319,10 @@ def solve_1caeab9d(I):
     x3 = lowermost(x2)
     x4 = lbind(subtract, x3)
     x5 = chain(to_vertical_vec, x4, lowermost)
-    x6 = fork(shift, identity, x5)
+    x6 = fork(shift_by_vector, identity, x5)
     x7 = merge(x1)
     x8 = cover(I, x7)
-    x9 = mapply(x6, x1)
+    x9 = apply_and_merge(x6, x1)
     O = paint(x8, x9)
     return O
 
@@ -2356,8 +2360,8 @@ def solve_1b60fb0c(I):
     x2 = of_color(I, ONE)
     x3 = of_color(x1, ONE)
     x4 = neighbors(ORIGIN)
-    x5 = mapply(neighbors, x4)
-    x6 = lbind(shift, x3)
+    x5 = apply_and_merge(neighbors, x4)
+    x6 = lbind(shift_by_vector, x3)
     x7 = apply(x6, x5)
     x8 = lbind(intersection, x2)
     x9 = compose(size, x8)
@@ -2375,7 +2379,7 @@ def solve_ddf7fa4f(I):
     x6 = keep_if_condition(x4, x5)
     x7 = compose(color, first)
     x8 = fork(recolor, x7, last)
-    x9 = mapply(x8, x6)
+    x9 = apply_and_merge(x8, x6)
     O = paint(I, x9)
     return O
 
@@ -2402,8 +2406,8 @@ def solve_6c434453(I):
     x5 = merge(x2)
     x6 = cover(I, x5)
     x7 = apply(upper_left_corner, x2)
-    x8 = lbind(shift, x4)
-    x9 = mapply(x8, x7)
+    x8 = lbind(shift_by_vector, x4)
+    x9 = apply_and_merge(x8, x7)
     O = fill(x6, TWO, x9)
     return O
 
@@ -2413,7 +2417,7 @@ def solve_23581191(I):
     x2 = fork(combine, vfrontier, hfrontier)
     x3 = compose(x2, center)
     x4 = fork(recolor, color, x3)
-    x5 = mapply(x4, x1)
+    x5 = apply_and_merge(x4, x1)
     x6 = paint(I, x5)
     x7 = fork(intersection, first, last)
     x8 = apply(x3, x1)
@@ -2424,14 +2428,17 @@ def solve_23581191(I):
 
 def solve_c8cbb738(I):
     x1 = most_common_color(I)
-    x2 = fgpartition(I)
-    x3 = valmax(x2, shape)
-    x4 = canvas(x1, x3)
+    x2 = partition_only_foreground(I)
+    #x3 = valmax(x2, shape) # mdda: type abuse, since shape is not an int
+    x3a = valmax(x2, height) # mdda: better type-wise
+    x3b = valmax(x2, width) # mdda: better type-wise
+    x3c = as_tuple(x3a, x3b) # mdda
+    x4 = canvas(x1, x3c) # mdda
     x5 = apply(normalize, x2)
-    x6 = lbind(subtract, x3)
+    x6 = lbind(subtract, x3c) # mdda
     x7 = chain(halve, x6, shape)
-    x8 = fork(shift, identity, x7)
-    x9 = mapply(x8, x5)
+    x8 = fork(shift_by_vector, identity, x7)
+    x9 = apply_and_merge(x8, x5)
     O = paint(x4, x9)
     return O
 
@@ -2441,10 +2448,10 @@ def solve_3eda0437(I):
     x2 = prapply(as_tuple, x1, x1)
     x3 = lbind(canvas, ZERO)
     x4 = lbind(occurrences, I)
-    x5 = lbind(lbind, shift)
+    x5 = lbind(lbind, shift_by_vector)
     x6 = fork(apply, x5, x4)
     x7 = chain(x6, as_object, x3)
-    x8 = mapply(x7, x2)
+    x8 = apply_and_merge(x7, x2)
     x9 = argmax(x8, size)
     O = fill(I, SIX, x9)
     return O
@@ -2503,7 +2510,7 @@ def solve_760b3cac(I):
     x7 = multiply(x6, 3)
     x8 = to_horizontal_vec(x7)
     x9 = vertical_mirror(x2)
-    x10 = shift(x9, x8)
+    x10 = shift_by_vector(x9, x8)
     O = fill(I, EIGHT, x10)
     return O
 
@@ -2515,9 +2522,9 @@ def solve_c444b776(I):
     x4 = backdrop(x3)
     x5 = to_object(x4, I)
     x6 = normalize(x5)
-    x7 = lbind(shift, x6)
+    x7 = lbind(shift_by_vector, x6)
     x8 = compose(x7, upper_left_corner)
-    x9 = mapply(x8, x2)
+    x9 = apply_and_merge(x8, x2)
     O = paint(I, x9)
     return O
 
@@ -2595,7 +2602,7 @@ def solve_a85d4709(I):
     x1 = of_color(I, FIVE)
     x2 = lbind(matcher, last)
     x3 = lbind(keep_if_condition, x1)
-    x4 = lbind(mapply, hfrontier)
+    x4 = lbind(apply_and_merge, hfrontier)
     x5 = chain(x4, x3, x2)
     x6 = x5(ZERO)
     x7 = x5(TWO)
@@ -2615,7 +2622,7 @@ def solve_feca6190(I):
     x6 = rbind(shoot, UNITY)
     x7 = compose(x6, center)
     x8 = fork(recolor, color, x7)
-    x9 = mapply(x8, x1)
+    x9 = apply_and_merge(x8, x1)
     x10 = paint(x5, x9)
     O = horizontal_mirror(x10)
     return O
@@ -2646,7 +2653,7 @@ def solve_beb8660c(I):
     x6 = size(x5)
     x7 = interval(ZERO, x6, ONE)
     x8 = apply(to_vertical_vec, x7)
-    x9 = mpapply(shift, x5, x8)
+    x9 = mpapply(shift_by_vector, x5, x8)
     x10 = canvas(ZERO, x1)
     x11 = paint(x10, x9)
     O = rot180(x11)
@@ -2657,9 +2664,9 @@ def solve_913fb3ed(I):
     x1 = of_color(I, THREE)
     x2 = of_color(I, EIGHT)
     x3 = of_color(I, TWO)
-    x4 = mapply(neighbors, x1)
-    x5 = mapply(neighbors, x2)
-    x6 = mapply(neighbors, x3)
+    x4 = apply_and_merge(neighbors, x1)
+    x5 = apply_and_merge(neighbors, x2)
+    x6 = apply_and_merge(neighbors, x3)
     x7 = fill(I, SIX, x4)
     x8 = fill(x7, FOUR, x5)
     O = fill(x8, ONE, x6)
@@ -2671,13 +2678,13 @@ def solve_0962bcdd(I):
     x2 = replace(I, ZERO, x1)
     x3 = least_common_color(x2)
     x4 = of_color(I, x3)
-    x5 = mapply(direct_neighbors, x4)
+    x5 = apply_and_merge(direct_neighbors, x4)
     x6 = fill(I, x3, x5)
     x7 = as_objects(x6, False, True, True)
     x8 = fork(connect, upper_left_corner, lower_right_corner)
     x9 = fork(connect, lower_left_corner, upper_right_corner)
     x10 = fork(combine, x8, x9)
-    x11 = mapply(x10, x7)
+    x11 = apply_and_merge(x10, x7)
     O = fill(x6, x1, x11)
     return O
 
@@ -2694,7 +2701,7 @@ def solve_3631a71a(I):
     x9 = vertical_mirror(x8)
     x10 = as_objects(x9, True, False, True)
     x11 = merge(x10)
-    x12 = shift(x11, TWO_BY_TWO)
+    x12 = shift_by_vector(x11, TWO_BY_TWO)
     O = paint(x6, x12)
     return O
 
@@ -2702,14 +2709,14 @@ def solve_3631a71a(I):
 def solve_05269061(I):
     x1 = as_objects(I, True, True, True)
     x2 = neighbors(ORIGIN)
-    x3 = mapply(neighbors, x2)
+    x3 = apply_and_merge(neighbors, x2)
     x4 = rbind(multiply, 3)
     x5 = apply(x4, x3)
     x6 = merge(x1)
-    x7 = lbind(shift, x6)
-    x8 = mapply(x7, x5)
-    x9 = shift(x8, UP_RIGHT)
-    x10 = shift(x8, DOWN_LEFT)
+    x7 = lbind(shift_by_vector, x6)
+    x8 = apply_and_merge(x7, x5)
+    x9 = shift_by_vector(x8, UP_RIGHT)
+    x10 = shift_by_vector(x8, DOWN_LEFT)
     x11 = paint(I, x8)
     x12 = paint(x11, x9)
     O = paint(x12, x10)
@@ -2759,7 +2766,7 @@ def solve_d43fd935(I):
     x9 = fork(add, center, x8)
     x10 = fork(connect, center, x9)
     x11 = fork(recolor, color, x10)
-    x12 = mapply(x11, x7)
+    x12 = apply_and_merge(x11, x7)
     O = paint(I, x12)
     return O
 
@@ -2771,7 +2778,7 @@ def solve_db3e9e38(I):
     x4 = shoot(x2, NEG_UNITY)
     x5 = combine(x3, x4)
     x6 = rbind(shoot, UP)
-    x7 = mapply(x6, x5)
+    x7 = apply_and_merge(x6, x5)
     x8 = last(x2)
     x9 = rbind(subtract, x8)
     x10 = chain(is_even, x9, last)
@@ -2786,7 +2793,7 @@ def solve_e73095fd(I):
     x2 = color_filter(x1, ZERO)
     x3 = fork(equality, to_indices, backdrop)
     x4 = keep_if_condition(x2, x3)
-    x5 = lbind(mapply, direct_neighbors)
+    x5 = lbind(apply_and_merge, direct_neighbors)
     x6 = chain(x5, corners, outbox)
     x7 = fork(difference, x6, outbox)
     x8 = of_color(I, FIVE)
@@ -2815,16 +2822,16 @@ def solve_1bfc4729(I):
 
 
 def solve_93b581b8(I):
-    x1 = fgpartition(I)
+    x1 = partition_only_foreground(I)
     x2 = chain(counterdiagonal_mirror, diagonal_mirror, merge)
     x3 = x2(x1)
     x4 = upscale(x3, 3)
     x5 = as_tuple(-2, -2)
-    x6 = shift(x4, x5)
+    x6 = shift_by_vector(x4, x5)
     x7 = underpaint(I, x6)
     x8 = to_indices(x3)
     x9 = fork(combine, hfrontier, vfrontier)
-    x10 = mapply(x9, x8)
+    x10 = apply_and_merge(x9, x8)
     x11 = difference(x10, x8)
     O = fill(x7, ZERO, x11)
     return O
@@ -2849,8 +2856,8 @@ def solve_a65b410d(I):
     x5 = underfill(I, THREE, x3)
     x6 = underfill(x5, ONE, x4)
     x7 = rbind(shoot, LEFT)
-    x8 = mapply(x7, x3)
-    x9 = mapply(x7, x4)
+    x8 = apply_and_merge(x7, x3)
+    x9 = apply_and_merge(x7, x4)
     x10 = underfill(x6, ONE, x9)
     O = underfill(x10, THREE, x8)
     return O
@@ -2868,7 +2875,7 @@ def solve_7447852a(I):
     x9 = interval(ZERO, x5, ONE)
     x10 = pair(x4, x9)
     x11 = keep_if_condition(x10, x8)
-    x12 = mapply(first, x11)
+    x12 = apply_and_merge(first, x11)
     O = fill(I, FOUR, x12)
     return O
 
@@ -2879,13 +2886,13 @@ def solve_97999447(I):
     x3 = rbind(shoot, RIGHT)
     x4 = compose(x3, center)
     x5 = fork(recolor, color, x4)
-    x6 = mapply(x5, x1)
+    x6 = apply_and_merge(x5, x1)
     x7 = paint(I, x6)
     x8 = interval(ZERO, FIVE, ONE)
     x9 = apply(double, x8)
     x10 = apply(increment, x9)
     x11 = apply(to_horizontal_vec, x10)
-    x12 = prapply(shift, x2, x11)
+    x12 = prapply(shift_by_vector, x2, x11)
     x13 = merge(x12)
     O = fill(x7, FIVE, x13)
     return O
@@ -2955,17 +2962,19 @@ def solve_bc1d5164(I):
     x7 = crop(I, x6, THREE_BY_THREE)
     x8 = canvas(ZERO, THREE_BY_THREE)
     x9 = rbind(of_color, x1)
-    x10 = as_tuple(x2, x3)
-    x11 = as_tuple(x5, x7)
+    #x10 = as_tuple(x2, x3)
+    x10 = as_generic_tuple(x2, x3)  # mdda
+    #x11 = as_tuple(x5, x7)
+    x11 = as_generic_tuple(x5, x7)  # mdda
     x12 = combine(x10, x11)
-    x13 = mapply(x9, x12)
+    x13 = apply_and_merge(x9, x12)
     O = fill(x8, x1, x13)
     return O
 
 
 def solve_ce602527(I):
     x1 = vertical_mirror(I)
-    x2 = fgpartition(x1)
+    x2 = partition_only_foreground(x1)
     x3 = order(x2, size)
     x4 = last(x3)
     x5 = remove(x4, x3)
@@ -2994,8 +3003,8 @@ def solve_5c2c9af4(I):
     x10 = apply(x9, x7)
     x11 = apply(x9, x8)
     x12 = pair(x10, x11)
-    x13 = mapply(box, x12)
-    x14 = shift(x13, x3)
+    x13 = apply_and_merge(box, x12)
+    x14 = shift_by_vector(x13, x3)
     O = fill(I, x1, x14)
     return O
 
@@ -3051,8 +3060,8 @@ def solve_c3f564a4(I):
     x10 = interval(x3, NINE, ONE)
     x11 = interval(NINE, x3, NEG_ONE)
     x12 = pair(x10, x11)
-    x13 = lbind(shift, x9)
-    x14 = mapply(x13, x12)
+    x13 = lbind(shift_by_vector, x9)
+    x14 = apply_and_merge(x13, x12)
     O = paint(x6, x14)
     return O
 
@@ -3068,8 +3077,8 @@ def solve_1a07d186(I):
     x8 = lbind(color_filter, x3)
     x9 = chain(first, x8, color)
     x10 = fork(gravitate, identity, x9)
-    x11 = fork(shift, identity, x10)
-    x12 = mapply(x11, x7)
+    x11 = fork(shift_by_vector, identity, x10)
+    x12 = apply_and_merge(x11, x7)
     x13 = merge(x2)
     x14 = cover(I, x13)
     O = paint(x14, x12)
@@ -3087,9 +3096,9 @@ def solve_d687bc17(I):
     x8 = lbind(color_filter, x3)
     x9 = chain(first, x8, color)
     x10 = fork(gravitate, identity, x9)
-    x11 = fork(shift, identity, x10)
+    x11 = fork(shift_by_vector, identity, x10)
     x12 = merge(x2)
-    x13 = mapply(x11, x7)
+    x13 = apply_and_merge(x11, x7)
     x14 = cover(I, x12)
     O = paint(x14, x13)
     return O
@@ -3126,9 +3135,9 @@ def solve_6e19193c(I):
     x9 = chain(first, x8, to_indices)
     x10 = fork(subtract, x4, x9)
     x11 = fork(shoot, x4, x10)
-    x12 = mapply(x11, x2)
+    x12 = apply_and_merge(x11, x2)
     x13 = fill(I, x1, x12)
-    x14 = mapply(delta, x2)
+    x14 = apply_and_merge(delta, x2)
     O = fill(x13, ZERO, x14)
     return O
 
@@ -3142,12 +3151,12 @@ def solve_ef135b50(I):
     x6 = fork(equality, x4, x5)
     x7 = keep_if_condition(x3, x6)
     x8 = fork(connect, first, last)
-    x9 = mapply(x8, x7)
+    x9 = apply_and_merge(x8, x7)
     x10 = intersection(x9, x2)
     x11 = fill(I, NINE, x10)
     x12 = trim(x11)
     x13 = as_object(x12)
-    x14 = shift(x13, UNITY)
+    x14 = shift_by_vector(x13, UNITY)
     O = paint(I, x14)
     return O
 
@@ -3166,7 +3175,7 @@ def solve_cbded52d(I):
     x11 = chain(initset, center, x10)
     x12 = compose(color, first)
     x13 = fork(recolor, x12, x11)
-    x14 = mapply(x13, x7)
+    x14 = apply_and_merge(x13, x7)
     O = paint(I, x14)
     return O
 
@@ -3185,7 +3194,7 @@ def solve_8a004b2b(I):
     x11 = width(x4)
     x12 = divide(x9, x11)
     x13 = upscale(x5, x12)
-    x14 = shift(x13, x10)
+    x14 = shift_by_vector(x13, x10)
     O = paint(x3, x14)
     return O
 
@@ -3216,7 +3225,7 @@ def solve_6cf79266(I):
     x3 = initset(x2)
     x4 = upscale(x3, 3)
     x5 = to_indices(x4)
-    x6 = lbind(shift, x5)
+    x6 = lbind(shift_by_vector, x5)
     x7 = rbind(difference, x1)
     x8 = chain(size, x7, x6)
     x9 = matcher(x8, ZERO)
@@ -3224,7 +3233,7 @@ def solve_6cf79266(I):
     x11 = chain(flip, x9, x10)
     x12 = fork(both, x9, x11)
     x13 = keep_if_condition(x1, x12)
-    x14 = mapply(x6, x13)
+    x14 = apply_and_merge(x6, x13)
     O = fill(I, ONE, x14)
     return O
 
@@ -3282,8 +3291,8 @@ def solve_4612dd53(I):
     x3 = fill(I, TWO, x2)
     x4 = subgrid(x1, x3)
     x5 = of_color(x4, ONE)
-    x6 = mapply(vfrontier, x5)
-    x7 = mapply(hfrontier, x5)
+    x6 = apply_and_merge(vfrontier, x5)
+    x7 = apply_and_merge(hfrontier, x5)
     x8 = size(x6)
     x9 = size(x7)
     x10 = is_greater(x8, x9)
@@ -3291,7 +3300,7 @@ def solve_4612dd53(I):
     x12 = fill(x4, TWO, x11)
     x13 = of_color(x12, TWO)
     x14 = upper_left_corner(x1)
-    x15 = shift(x13, x14)
+    x15 = shift_by_vector(x13, x14)
     O = underfill(I, TWO, x15)
     return O
 
@@ -3303,13 +3312,13 @@ def solve_29c11459(I):
     x4 = as_objects(x1, True, False, True)
     x5 = compose(hfrontier, center)
     x6 = fork(recolor, color, x5)
-    x7 = mapply(x6, x4)
+    x7 = apply_and_merge(x6, x4)
     x8 = paint(x1, x7)
-    x9 = mapply(x6, x3)
+    x9 = apply_and_merge(x6, x3)
     x10 = paint(I, x9)
     x11 = as_objects(x8, True, False, True)
     x12 = apply(upper_right_corner, x11)
-    x13 = shift(x12, RIGHT)
+    x13 = shift_by_vector(x12, RIGHT)
     x14 = merge(x11)
     x15 = paint(x10, x14)
     O = fill(x15, FIVE, x13)
@@ -3347,10 +3356,10 @@ def solve_ae3edfdc(I):
     x8 = x6(ONE)
     x9 = x4(THREE)
     x10 = x4(SEVEN)
-    x11 = fork(shift, identity, x7)
-    x12 = fork(shift, identity, x8)
-    x13 = mapply(x11, x9)
-    x14 = mapply(x12, x10)
+    x11 = fork(shift_by_vector, identity, x7)
+    x12 = fork(shift_by_vector, identity, x8)
+    x13 = apply_and_merge(x11, x9)
+    x14 = apply_and_merge(x12, x10)
     x15 = paint(x3, x13)
     O = paint(x15, x14)
     return O
@@ -3366,12 +3375,12 @@ def solve_1f0c79e5(I):
     x7 = compose(decrement, double)
     x8 = upper_left_corner(x5)
     x9 = invert(x8)
-    x10 = shift(x1, x9)
+    x10 = shift_by_vector(x1, x9)
     x11 = apply(x7, x10)
     x12 = interval(ZERO, NINE, ONE)
     x13 = prapply(multiply, x11, x12)
-    x14 = lbind(shift, x6)
-    x15 = mapply(x14, x13)
+    x14 = lbind(shift_by_vector, x6)
+    x15 = apply_and_merge(x14, x13)
     O = paint(I, x15)
     return O
 
@@ -3391,7 +3400,7 @@ def solve_56dc2b01(I):
     x12 = multiply(x11, x9)
     x13 = crement(x12)
     x14 = recolor(EIGHT, x4)
-    x15 = shift(x14, x13)
+    x15 = shift_by_vector(x14, x13)
     x16 = paint(I, x15)
     O = move(x16, x3, x5)
     return O
@@ -3425,7 +3434,7 @@ def solve_6773b310(I):
     x4 = rbind(multiply, 3)
     x5 = apply(x4, x3)
     x6 = as_tuple(4, 4)
-    x7 = shift(x5, x6)
+    x7 = shift_by_vector(x5, x6)
     x8 = fork(insert, identity, neighbors)
     x9 = apply(x8, x7)
     x10 = rbind(to_object, x1)
@@ -3494,13 +3503,13 @@ def solve_d9f24cd1(I):
     x8 = keep_if_condition(x7, x6)
     x9 = difference(x7, x8)
     x10 = color_filter(x9, TWO)
-    x11 = mapply(to_indices, x10)
+    x11 = apply_and_merge(to_indices, x10)
     x12 = apply(upper_right_corner, x8)
-    x13 = shift(x12, UNITY)
+    x13 = shift_by_vector(x12, UNITY)
     x14 = rbind(shoot, UP)
-    x15 = mapply(x14, x13)
+    x15 = apply_and_merge(x14, x13)
     x16 = fill(x5, TWO, x15)
-    x17 = mapply(vfrontier, x11)
+    x17 = apply_and_merge(vfrontier, x11)
     O = fill(x16, TWO, x17)
     return O
 
@@ -3541,10 +3550,10 @@ def solve_673ef223(I):
     x11 = equality(x10, ZERO)
     x12 = branch(x11, LEFT, RIGHT)
     x13 = rbind(shoot, x12)
-    x14 = mapply(x13, x2)
+    x14 = apply_and_merge(x13, x2)
     x15 = underfill(x3, EIGHT, x14)
-    x16 = shift(x2, x9)
-    x17 = mapply(hfrontier, x16)
+    x16 = shift_by_vector(x2, x9)
+    x17 = apply_and_merge(hfrontier, x16)
     O = underfill(x15, EIGHT, x17)
     return O
 
@@ -3552,7 +3561,7 @@ def solve_673ef223(I):
 def solve_f5b8619d(I):
     x1 = least_common_color(I)
     x2 = of_color(I, x1)
-    x3 = mapply(vfrontier, x2)
+    x3 = apply_and_merge(vfrontier, x2)
     x4 = underfill(I, EIGHT, x3)
     x5 = horizontal_concat(x4, x4)
     O = vertical_concat(x5, x5)
@@ -3598,7 +3607,7 @@ def solve_ecdecbb3(I):
     x14 = fill(I, TWO, x13)
     x15 = apply(x8, x4)
     x16 = intersection(x13, x15)
-    x17 = mapply(neighbors, x16)
+    x17 = apply_and_merge(neighbors, x16)
     O = fill(x14, EIGHT, x17)
     return O
 
@@ -3608,7 +3617,7 @@ def solve_e5062a87(I):
     x2 = recolor(ZERO, x1)
     x3 = normalize(x2)
     x4 = occurrences(I, x2)
-    x5 = lbind(shift, x3)
+    x5 = lbind(shift_by_vector, x3)
     x6 = apply(x5, x4)
     x7 = as_tuple(1, 3)
     x8 = as_tuple(5, 1)
@@ -3630,8 +3639,8 @@ def solve_a8d7556c(I):
     x2 = recolor(ZERO, x1)
     x3 = upscale(x2, 2)
     x4 = occurrences(I, x3)
-    x5 = lbind(shift, x3)
-    x6 = mapply(x5, x4)
+    x5 = lbind(shift_by_vector, x3)
+    x6 = apply_and_merge(x5, x4)
     x7 = fill(I, TWO, x6)
     x8 = add(6, 6)
     x9 = as_tuple(8, x8)
@@ -3657,11 +3666,11 @@ def solve_4938f0c2(I):
     x7 = to_horizontal_vec(x5)
     x8 = add(x7, ZERO_BY_TWO)
     x9 = add(x6, TWO_BY_ZERO)
-    x10 = shift(x3, x8)
+    x10 = shift_by_vector(x3, x8)
     x11 = fill(I, TWO, x10)
     x12 = of_color(x11, TWO)
     x13 = horizontal_mirror(x12)
-    x14 = shift(x13, x9)
+    x14 = shift_by_vector(x13, x9)
     x15 = fill(x11, TWO, x14)
     x16 = size(x1)
     x17 = is_greater(x16, FOUR)
@@ -3673,7 +3682,7 @@ def solve_834ec97d(I):
     x1 = as_indices(I)
     x2 = as_objects(I, True, False, True)
     x3 = first(x2)
-    x4 = shift(x3, DOWN)
+    x4 = shift_by_vector(x3, DOWN)
     x5 = fill(I, ZERO, x3)
     x6 = paint(x5, x4)
     x7 = uppermost(x4)
@@ -3708,7 +3717,7 @@ def solve_846bdb03(I):
     x14 = branch(x13, identity, vertical_mirror)
     x15 = x14(x4)
     x16 = normalize(x15)
-    x17 = shift(x16, UNITY)
+    x17 = shift_by_vector(x16, UNITY)
     O = paint(x7, x17)
     return O
 
@@ -3719,7 +3728,7 @@ def solve_90f3ed37(I):
     x3 = first(x2)
     x4 = remove(x3, x2)
     x5 = normalize(x3)
-    x6 = lbind(shift, x5)
+    x6 = lbind(shift_by_vector, x5)
     x7 = compose(x6, upper_left_corner)
     x8 = interval(TWO, NEG_ONE, NEG_ONE)
     x9 = apply(to_horizontal_vec, x8)
@@ -3727,10 +3736,10 @@ def solve_90f3ed37(I):
     x11 = lbind(compose, size)
     x12 = lbind(lbind, intersection)
     x13 = compose(x11, x12)
-    x14 = lbind(lbind, shift)
+    x14 = lbind(lbind, shift_by_vector)
     x15 = chain(x10, x14, x7)
     x16 = fork(argmax, x15, x13)
-    x17 = mapply(x16, x4)
+    x17 = apply_and_merge(x16, x4)
     O = underfill(I, ONE, x17)
     return O
 
@@ -3769,12 +3778,12 @@ def solve_91413438(I):
     x8 = horizontal_concat(I, x7)
     x9 = as_objects(x8, True, True, True)
     x10 = first(x9)
-    x11 = lbind(shift, x10)
+    x11 = lbind(shift_by_vector, x10)
     x12 = compose(x11, to_horizontal_vec)
     x13 = interval(ZERO, x2, ONE)
     x14 = rbind(multiply, 3)
     x15 = apply(x14, x13)
-    x16 = mapply(x12, x15)
+    x16 = apply_and_merge(x12, x15)
     x17 = paint(x8, x16)
     x18 = horizontal_split(x17, x1)
     O = merge(x18)
@@ -3812,7 +3821,7 @@ def solve_5daaa586(I):
     x5 = extract_first_matching(x2, x4)
     x6 = outbox(x5)
     x7 = subgrid(x6, I)
-    x8 = fgpartition(x7)
+    x8 = partition_only_foreground(x7)
     x9 = argmax(x8, size)
     x10 = color(x9)
     x11 = to_indices(x9)
@@ -3845,7 +3854,7 @@ def solve_3bdb4ada(I):
     x15 = compose(x14, x13)
     x16 = fork(keep_if_condition, first, x15)
     x17 = pair(x7, x8)
-    x18 = mapply(x16, x17)
+    x18 = apply_and_merge(x16, x17)
     O = fill(I, ZERO, x18)
     return O
 
@@ -3886,12 +3895,13 @@ def solve_2bee17df(I):
     x10 = x9(I)
     x11 = pair(x4, x10)
     x12 = keep_if_condition(x11, last)
-    x13 = mapply(hfrontier, x12)
+    x13 = apply_and_merge(hfrontier, x12)
     x14 = x9(x2)
     x15 = pair(x14, x4)
     x16 = keep_if_condition(x15, first)
-    x17 = mapply(vfrontier, x16)
-    x18 = as_tuple(x13, x17)
+    x17 = apply_and_merge(vfrontier, x16)
+    #x18 = as_tuple(x13, x17)
+    x18 = as_generic_tuple(x13, x17)  # mdda
     x19 = merge(x18)
     O = underfill(I, THREE, x19)
     return O
@@ -3915,8 +3925,8 @@ def solve_e8dc4411(I):
     x15 = interval(ONE, FIVE, ONE)
     x16 = lbind(multiply, x14)
     x17 = apply(x16, x15)
-    x18 = lbind(shift, x2)
-    x19 = mapply(x18, x17)
+    x18 = lbind(shift_by_vector, x2)
+    x19 = apply_and_merge(x18, x17)
     O = fill(I, x1, x19)
     return O
 
@@ -3924,13 +3934,13 @@ def solve_e8dc4411(I):
 def solve_e40b9e2f(I):
     x1 = as_objects(I, False, True, True)
     x2 = neighbors(ORIGIN)
-    x3 = mapply(neighbors, x2)
+    x3 = apply_and_merge(neighbors, x2)
     x4 = first(x1)
     x5 = lbind(intersection, x4)
     # NIX.start
     #x6 = compose(horizontal_mirror, vertical_mirror)
     #x7 = x6(x4)
-    #x8 = lbind(shift, x7)
+    #x8 = lbind(shift_by_vector, x7)
     #x9 = apply(x8, x3)
     #x10 = argmax(x9, x5)
     #x11 = paint(I, x10)
@@ -3941,7 +3951,7 @@ def solve_e40b9e2f(I):
     x6 = compose(size, x5)
     x7 = compose(horizontal_mirror, vertical_mirror)
     x8 = x7(x4)
-    x9 = lbind(shift, x8)
+    x9 = lbind(shift_by_vector, x8)
     x10 = apply(x9, x3)
     x11 = argmax(x10, x6)
     x12 = paint(I, x11)
@@ -3951,7 +3961,7 @@ def solve_e40b9e2f(I):
     x15 = compose(vertical_mirror, diagonal_mirror)
     # small changes
     x16 = x15(x14)
-    x17 = lbind(shift, x16)
+    x17 = lbind(shift_by_vector, x16)
     x18 = apply(x17, x3)
     x19 = argmax(x18, x6)
     O = paint(x12, x19)
@@ -4049,7 +4059,7 @@ def solve_8731374e(I):
     x16 = least_common_color(x15)
     x17 = of_color(x15, x16)
     x18 = fork(combine, vfrontier, hfrontier)
-    x19 = mapply(x18, x17)
+    x19 = apply_and_merge(x18, x17)
     O = fill(x15, x16, x19)
     return O
 
@@ -4083,7 +4093,7 @@ def solve_db93a21d(I):
     x2 = of_color(I, NINE)
     x3 = color_filter(x1, NINE)
     x4 = rbind(shoot, DOWN)
-    x5 = mapply(x4, x2)
+    x5 = apply_and_merge(x4, x2)
     x6 = underfill(I, ONE, x5)
     x7 = compose(halve, width)
     x8 = rbind(is_greater, 1)
@@ -4091,11 +4101,11 @@ def solve_db93a21d(I):
     x10 = matcher(x7, THREE)
     x11 = power(outbox, 2)
     x12 = power(outbox, 3)
-    x13 = mapply(outbox, x3)
+    x13 = apply_and_merge(outbox, x3)
     x14 = keep_if_condition(x3, x9)
     x15 = keep_if_condition(x3, x10)
-    x16 = mapply(x11, x14)
-    x17 = mapply(x12, x15)
+    x16 = apply_and_merge(x11, x14)
+    x17 = apply_and_merge(x12, x15)
     x18 = fill(x6, THREE, x13)
     x19 = fill(x18, THREE, x16)
     O = fill(x19, THREE, x17)
@@ -4111,14 +4121,14 @@ def solve_53b68214(I):
     x6 = interval(0, 9, 1)
     x7 = lbind(multiply, x5)
     x8 = apply(x7, x6)
-    x9 = lbind(shift, x3)
-    x10 = mapply(x9, x8)
+    x9 = lbind(shift_by_vector, x3)
+    x10 = apply_and_merge(x9, x8)
     x11 = as_tuple(x1, x1)
     x12 = is_portrait(x3)
     x13 = shape(x3)
     x14 = add(DOWN, x13)
     x15 = decrement(x14)
-    x16 = shift(x3, x15)
+    x16 = shift_by_vector(x3, x15)
     x17 = branch(x12, x10, x16)
     x18 = canvas(ZERO, x11)
     x19 = paint(x18, x3)
@@ -4136,11 +4146,11 @@ def solve_d6ad076f(I):
     x7 = valmax(x1, x6)
     x8 = x6(x2)
     x9 = equality(x7, x8)
-    x10 = branch(x9, NEG_ONE, ONE)
+    x10 = branch(x9, -1, 1)
     x11 = multiply(x5, x10)
     x12 = inbox(x2)
     x13 = rbind(shoot, x11)
-    x14 = mapply(x13, x12)
+    x14 = apply_and_merge(x13, x12)
     x15 = underfill(I, EIGHT, x14)
     x16 = as_objects(x15, True, False, True)
     x17 = color_filter(x16, EIGHT)
@@ -4154,7 +4164,7 @@ def solve_6cdd2623(I):
     x1 = least_common_color(I)
     x2 = of_color(I, x1)
     x3 = prapply(connect, x2, x2)
-    x4 = fgpartition(I)
+    x4 = partition_only_foreground(I)
     x5 = merge(x4)
     x6 = cover(I, x5)
     x7 = fork(either, is_horizontal_line, is_vertical_line)
@@ -4207,8 +4217,8 @@ def solve_8d510a79(I):
     x12 = lbind(matcher, x7)
     x13 = compose(x12, x7)
     x14 = fork(keep_if_condition, x11, x13)
-    x15 = mapply(x9, x1)
-    x16 = mapply(x14, x2)
+    x15 = apply_and_merge(x9, x1)
+    x16 = apply_and_merge(x14, x2)
     x17 = underfill(I, TWO, x16)
     O = fill(x17, ONE, x15)
     return O
@@ -4246,9 +4256,9 @@ def solve_3345333e(I):
     x4 = least_common_color(x3)
     x5 = of_color(x3, x4)
     x6 = neighbors(ORIGIN)
-    x7 = mapply(neighbors, x6)
+    x7 = apply_and_merge(neighbors, x6)
     x8 = vertical_mirror(x5)
-    x9 = lbind(shift, x8)
+    x9 = lbind(shift_by_vector, x8)
     x10 = apply(x9, x7)
     x11 = rbind(intersection, x5)
     x12 = compose(size, x11)
@@ -4284,18 +4294,18 @@ def solve_caa06a1f(I):
     x7 = paint(x6, x1)
     x8 = as_objects(x7, False, False, True)
     x9 = first(x8)
-    x10 = shift(x9, LEFT)
+    x10 = shift_by_vector(x9, LEFT)
     x11 = vertical_periodicity(x10)
     x12 = horizontal_periodicity(x10)
     x13 = neighbors(ORIGIN)
-    x14 = lbind(mapply, neighbors)
+    x14 = lbind(apply_and_merge, neighbors)
     x15 = power(x14, TWO)
     x16 = x15(x13)
     x17 = as_tuple(x11, x12)
     x18 = lbind(multiply, x17)
     x19 = apply(x18, x16)
-    x20 = lbind(shift, x10)
-    x21 = mapply(x20, x19)
+    x20 = lbind(shift_by_vector, x10)
+    x21 = apply_and_merge(x20, x19)
     O = paint(I, x21)
     return O
 
@@ -4308,13 +4318,13 @@ def solve_e21d9049(I):
     x5 = merge(x3)
     x6 = shape(x5)
     x7 = neighbors(ORIGIN)
-    x8 = lbind(mapply, neighbors)
+    x8 = lbind(apply_and_merge, neighbors)
     x9 = power(x8, TWO)
     x10 = x9(x7)
     x11 = lbind(multiply, x6)
-    x12 = lbind(shift, x5)
+    x12 = lbind(shift_by_vector, x5)
     x13 = apply(x11, x10)
-    x14 = mapply(x12, x13)
+    x14 = apply_and_merge(x12, x13)
     x15 = lbind(hmatching, x4)
     x16 = lbind(vmatching, x4)
     x17 = fork(either, x15, x16)
@@ -4335,7 +4345,7 @@ def solve_d89b689b(I):
     x6 = lbind(rbind, manhattan)
     x7 = compose(x5, x6)
     x8 = fork(recolor, color, x7)
-    x9 = mapply(x8, x3)
+    x9 = apply_and_merge(x8, x3)
     x10 = merge(x3)
     x11 = cover(I, x10)
     O = paint(x11, x9)
@@ -4413,12 +4423,12 @@ def solve_f9012d9b(I):
     x12 = vertical_periodicity(x10)
     x13 = horizontal_periodicity(x11)
     x14 = neighbors(ORIGIN)
-    x15 = mapply(neighbors, x14)
+    x15 = apply_and_merge(neighbors, x14)
     x16 = as_tuple(x12, x13)
     x17 = rbind(multiply, x16)
     x18 = apply(x17, x15)
-    x19 = lbind(shift, x5)
-    x20 = mapply(x19, x18)
+    x19 = lbind(shift_by_vector, x5)
+    x20 = apply_and_merge(x19, x18)
     x21 = paint(I, x20)
     O = subgrid(x2, x21)
     return O
@@ -4433,12 +4443,13 @@ def solve_4522001f(I):
     x6 = contains(TWO_BY_ZERO, x3)
     x7 = as_tuple(9, 9)
     x8 = canvas(ZERO, x7)
-    x9 = as_tuple(THREE, ORIGIN)
+    #x9 = as_tuple(THREE, ORIGIN)
+    x9 = make_cell(THREE, ORIGIN)  # mdda
     x10 = initset(x9)
     x11 = upscale(x10, 2)
     x12 = upscale(x11, 2)
     x13 = shape(x12)
-    x14 = shift(x12, x13)
+    x14 = shift_by_vector(x12, x13)
     x15 = combine(x12, x14)
     x16 = paint(x8, x15)
     x17 = rot90(x16)
@@ -4459,7 +4470,7 @@ def solve_a48eeaf7(I):
     x6 = lbind(lbind, manhattan)
     x7 = compose(x6, initset)
     x8 = compose(x5, x7)
-    x9 = mapply(x8, x4)
+    x9 = apply_and_merge(x8, x4)
     x10 = cover(I, x4)
     O = fill(x10, FIVE, x9)
     return O
@@ -4566,21 +4577,21 @@ def solve_d06dbe63(I):
     x4 = connect(ORIGIN, ZERO_BY_TWO)
     x5 = combine(x3, x4)
     x6 = subtract(x2, TWO_BY_ZERO)
-    x7 = shift(x5, x6)
+    x7 = shift_by_vector(x5, x6)
     x8 = as_tuple(-2, 2)
     x9 = interval(0, 5, 1)
     x10 = lbind(multiply, x8)
     x11 = apply(x10, x9)
-    x12 = lbind(shift, x7)
-    x13 = mapply(x12, x11)
+    x12 = lbind(shift_by_vector, x7)
+    x13 = apply_and_merge(x12, x11)
     x14 = fill(I, FIVE, x13)
     x15 = rot180(x14)
     x16 = of_color(x15, EIGHT)
     x17 = center(x16)
     x18 = subtract(x17, x6)
-    x19 = shift(x13, x18)
+    x19 = shift_by_vector(x13, x18)
     x20 = to_vertical_vec(NEG_TWO)
-    x21 = shift(x19, x20)
+    x21 = shift_by_vector(x19, x20)
     x22 = fill(x15, FIVE, x21)
     O = rot180(x22)
     return O
@@ -4596,7 +4607,7 @@ def solve_36fdfd69(I):
     x7 = cartesian_product(x3, x3)
     x8 = keep_if_condition(x7, x6)
     x9 = apply(merge, x8)
-    x10 = mapply(delta, x9)
+    x10 = apply_and_merge(delta, x9)
     x11 = fill(x1, FOUR, x10)
     x12 = merge(x3)
     x13 = paint(x11, x12)
@@ -4608,18 +4619,18 @@ def solve_0a938d79(I):
     x1 = is_portrait(I)
     x2 = branch(x1, diagonal_mirror, identity)
     x3 = x2(I)
-    x4 = fgpartition(x3)
+    x4 = partition_only_foreground(x3)
     x5 = merge(x4)
     x6 = chain(double, decrement, width)
     x7 = x6(x5)
     x8 = compose(vfrontier, to_horizontal_vec)
-    x9 = lbind(mapply, x8)
+    x9 = lbind(apply_and_merge, x8)
     x10 = rbind(interval, x7)
     x11 = width(x3)
     x12 = rbind(x10, x11)
     x13 = chain(x9, x12, leftmost)
     x14 = fork(recolor, color, x13)
-    x15 = mapply(x14, x4)
+    x15 = apply_and_merge(x14, x4)
     x16 = paint(x3, x15)
     O = x2(x16)
     return O
@@ -4629,8 +4640,8 @@ def solve_045e512c(I):
     x1 = as_objects(I, True, True, True)
     x2 = argmax(x1, size)
     x3 = remove(x2, x1)
-    x4 = lbind(shift, x2)
-    x5 = lbind(mapply, x4)
+    x4 = lbind(shift_by_vector, x2)
+    x5 = lbind(apply_and_merge, x4)
     x6 = double(TEN)
     x7 = interval(FOUR, x6, FOUR)
     x8 = rbind(apply, x7)
@@ -4639,7 +4650,7 @@ def solve_045e512c(I):
     x11 = chain(x8, x10, x9)
     x12 = compose(x5, x11)
     x13 = fork(recolor, color, x12)
-    x14 = mapply(x13, x3)
+    x14 = apply_and_merge(x13, x3)
     O = paint(I, x14)
     return O
 
@@ -4658,14 +4669,14 @@ def solve_82819916(I):
     x11 = keep_if_condition(x4, x10)
     x12 = difference(x4, x11)
     x13 = compose(to_vertical_vec, uppermost)
-    x14 = lbind(shift, x11)
-    x15 = lbind(shift, x12)
+    x14 = lbind(shift_by_vector, x11)
+    x15 = lbind(shift_by_vector, x12)
     x16 = compose(x14, x13)
     x17 = compose(x15, x13)
     x18 = fork(recolor, x7, x16)
     x19 = fork(recolor, x8, x17)
     x20 = fork(combine, x18, x19)
-    x21 = mapply(x20, x3)
+    x21 = apply_and_merge(x20, x3)
     O = paint(I, x21)
     return O
 
@@ -4676,7 +4687,7 @@ def solve_99fa7670(I):
     x3 = rbind(shoot, RIGHT)
     x4 = compose(x3, center)
     x5 = fork(recolor, color, x4)
-    x6 = mapply(x5, x2)
+    x6 = apply_and_merge(x5, x2)
     x7 = paint(I, x6)
     x8 = add(x1, DOWN_LEFT)
     x9 = initset(x8)
@@ -4693,7 +4704,7 @@ def solve_99fa7670(I):
     x20 = compose(color, first)
     x21 = fork(recolor, x20, x19)
     x22 = pair(x15, x16)
-    x23 = mapply(x21, x22)
+    x23 = apply_and_merge(x21, x22)
     O = underpaint(x7, x23)
     return O
 
@@ -4715,12 +4726,12 @@ def solve_72322fa7(I):
     x14 = lbind(rbind, add)
     x15 = compose(x14, x13)
     x16 = fork(apply, x15, x11)
-    x17 = lbind(lbind, shift)
+    x17 = lbind(lbind, shift_by_vector)
     x18 = compose(x17, normalize)
-    x19 = fork(mapply, x18, x10)
-    x20 = fork(mapply, x18, x16)
-    x21 = mapply(x19, x4)
-    x22 = mapply(x20, x4)
+    x19 = fork(apply_and_merge, x18, x10)
+    x20 = fork(apply_and_merge, x18, x16)
+    x21 = apply_and_merge(x19, x4)
+    x22 = apply_and_merge(x20, x4)
     x23 = paint(I, x21)
     O = paint(x23, x22)
     return O
@@ -4740,11 +4751,11 @@ def solve_855e0971(I):
     x12 = partition(x8)
     x13 = keep_if_condition(x12, x11)
     x14 = rbind(of_color, ZERO)
-    x15 = lbind(mapply, vfrontier)
+    x15 = lbind(apply_and_merge, vfrontier)
     x16 = chain(x15, x14, x9)
-    x17 = fork(shift, x16, upper_left_corner)
+    x17 = fork(shift_by_vector, x16, upper_left_corner)
     x18 = fork(intersection, to_indices, x17)
-    x19 = mapply(x18, x13)
+    x19 = apply_and_merge(x18, x13)
     x20 = fill(x8, ZERO, x19)
     O = x7(x20)
     return O
@@ -4770,8 +4781,8 @@ def solve_a78176bb(I):
     x17 = rbind(shoot, UNITY)
     x18 = rbind(shoot, NEG_UNITY)
     x19 = fork(combine, x17, x18)
-    x20 = mapply(x19, x15)
-    x21 = mapply(x19, x16)
+    x20 = apply_and_merge(x19, x15)
+    x21 = apply_and_merge(x19, x16)
     x22 = combine(x20, x21)
     x23 = fill(I, x4, x22)
     O = replace(x23, FIVE, ZERO)
@@ -4813,7 +4824,7 @@ def solve_6d58a25d(I):
     x14 = compose(x13, first)
     x15 = rbind(keep_if_condition, x14)
     x16 = chain(x15, vfrontier, center)
-    x17 = mapply(x16, x11)
+    x17 = apply_and_merge(x16, x11)
     O = underfill(I, x5, x17)
     return O
 
@@ -4836,13 +4847,13 @@ def solve_6aa20dc0(I):
     x15 = insert(diagonal_mirror, x14)
     x16 = fork(compose, first, last)
     x17 = lbind(occurrences, I)
-    x18 = lbind(lbind, shift)
+    x18 = lbind(lbind, shift_by_vector)
     x19 = compose(x17, x7)
     x20 = cartesian_product(x15, x10)
     x21 = apply(x16, x20)
     x22 = rapply(x21, x3)
-    x23 = fork(mapply, x18, x19)
-    x24 = mapply(x23, x22)
+    x23 = fork(apply_and_merge, x18, x19)
+    x24 = apply_and_merge(x23, x22)
     O = paint(I, x24)
     return O
 
@@ -4867,7 +4878,7 @@ def solve_e6721834(I):
     x17 = chain(first, x13, x12)
     x18 = compose(upper_left_corner, x12)
     x19 = fork(subtract, x17, x18)
-    x20 = fork(shift, identity, x19)
+    x20 = fork(shift_by_vector, identity, x19)
     x21 = apply(x20, x16)
     x22 = compose(decrement, width)
     x23 = chain(is_positive, decrement, x22)
@@ -4893,14 +4904,14 @@ def solve_447fd412(I):
     x14 = lbind(occurrences, I)
     x15 = lbind(rbind, subtract)
     x16 = lbind(apply, increment)
-    x17 = lbind(lbind, shift)
+    x17 = lbind(lbind, shift_by_vector)
     x18 = chain(x15, upper_left_corner, x7)
     x19 = chain(x14, x13, x7)
     x20 = fork(apply, x18, x19)
     x21 = compose(x16, x20)
-    x22 = fork(mapply, x17, x21)
+    x22 = fork(apply_and_merge, x17, x21)
     x23 = rapply(x10, x3)
-    x24 = mapply(x22, x23)
+    x24 = apply_and_merge(x22, x23)
     O = paint(I, x24)
     return O
 
@@ -4930,7 +4941,7 @@ def solve_2bcee788(I):
     x22 = as_tuple(x14, x15)
     x23 = multiply(x21, x22)
     x24 = add(x20, x23)
-    x25 = shift(x19, x24)
+    x25 = shift_by_vector(x19, x24)
     O = paint(x3, x25)
     return O
 
@@ -4963,8 +4974,8 @@ def solve_f35d900a(I):
     x4 = lbind(other, x3)
     x5 = compose(x4, color)
     x6 = fork(recolor, x5, outbox)
-    x7 = mapply(x6, x1)
-    x8 = mapply(to_indices, x1)
+    x7 = apply_and_merge(x6, x1)
+    x8 = apply_and_merge(to_indices, x1)
     x9 = box(x8)
     x10 = difference(x9, x8)
     x11 = lbind(argmin, x8)
@@ -5002,10 +5013,10 @@ def solve_0dfd9992(I):
     x19 = as_tuple(x17, x18)
     x20 = lbind(multiply, x19)
     x21 = neighbors(ORIGIN)
-    x22 = mapply(neighbors, x21)
+    x22 = apply_and_merge(neighbors, x21)
     x23 = apply(x20, x22)
-    x24 = lbind(shift, x6)
-    x25 = mapply(x24, x23)
+    x24 = lbind(shift_by_vector, x6)
+    x25 = apply_and_merge(x24, x23)
     O = paint(I, x25)
     return O
 
@@ -5032,10 +5043,10 @@ def solve_29ec7d0e(I):
     x19 = as_tuple(x17, x18)
     x20 = lbind(multiply, x19)
     x21 = neighbors(ORIGIN)
-    x22 = mapply(neighbors, x21)
+    x22 = apply_and_merge(neighbors, x21)
     x23 = apply(x20, x22)
-    x24 = lbind(shift, x6)
-    x25 = mapply(x24, x23)
+    x24 = lbind(shift_by_vector, x6)
+    x25 = apply_and_merge(x24, x23)
     O = paint(I, x25)
     return O
 
@@ -5049,15 +5060,17 @@ def solve_36d67576(I):
     x6 = rbind(keep_if_condition, x5)
     x7 = lbind(rbind, subtract)
     x8 = lbind(occurrences, I)
-    x9 = lbind(lbind, shift)
+    x9 = lbind(lbind, shift_by_vector)
     x10 = compose(x7, upper_left_corner)
     x11 = chain(x10, x6, normalize)
     x12 = chain(x8, x6, normalize)
     x13 = fork(apply, x11, x12)
     x14 = compose(x9, normalize)
-    x15 = fork(mapply, x14, x13)
-    x16 = as_tuple(counterdiagonal_mirror, diagonal_mirror)
-    x17 = as_tuple(horizontal_mirror, vertical_mirror)
+    x15 = fork(apply_and_merge, x14, x13)
+    #x16 = as_tuple(counterdiagonal_mirror, diagonal_mirror)
+    x16 = as_generic_tuple(counterdiagonal_mirror, diagonal_mirror) # mdda
+    #x17 = as_tuple(horizontal_mirror, vertical_mirror)
+    x17 = as_generic_tuple(horizontal_mirror, vertical_mirror) # mdda
     x18 = combine(x16, x17)
     x19 = cartesian_product(x18, x18)
     x20 = fork(compose, first, last)
@@ -5065,13 +5078,13 @@ def solve_36d67576(I):
     x22 = to_tuple(x21)
     x23 = combine(x18, x22)
     x24 = rapply(x23, x2)
-    x25 = mapply(x15, x24)
+    x25 = apply_and_merge(x15, x24)
     O = paint(I, x25)
     return O
 
 
 def solve_98cf29f8(I):
-    x1 = fgpartition(I)
+    x1 = partition_only_foreground(I)
     x2 = fork(multiply, height, width)
     x3 = fork(equality, size, x2)
     x4 = extract_first_matching(x1, x3)
@@ -5087,7 +5100,7 @@ def solve_98cf29f8(I):
     x14 = backdrop(x13)
     x15 = cover(I, x5)
     x16 = gravitate(x14, x4)
-    x17 = shift(x14, x16)
+    x17 = shift_by_vector(x14, x16)
     O = fill(x15, x6, x17)
     return O
 
@@ -5115,7 +5128,7 @@ def solve_469497ad(I):
 
 
 def solve_39e1d7f9(I):
-    x1 = fgpartition(I)
+    x1 = partition_only_foreground(I)
     x2 = as_objects(I, True, False, True)
     x3 = order(x1, height)
     x4 = last(x3)
@@ -5140,8 +5153,8 @@ def solve_39e1d7f9(I):
     #x22 = increment(x14)
     #x23 = rbind(subtract, x22)
     #x24 = apply(x23, x21)
-    #x25 = lbind(shift, x20)
-    #x26 = mapply(x25, x24)
+    #x25 = lbind(shift_by_vector, x20)
+    #x26 = apply_and_merge(x25, x24)
     #O = paint(I, x26)
     # NIX.end
     x11 = most_common_color(I)
@@ -5161,8 +5174,8 @@ def solve_39e1d7f9(I):
     x25 = increment(x17)
     x26 = rbind(subtract, x25)
     x27 = apply(x26, x24)
-    x28 = lbind(shift, x23)
-    x29 = mapply(x28, x27)
+    x28 = lbind(shift_by_vector, x23)
+    x29 = apply_and_merge(x28, x27)
     O = paint(I, x29)
     return O
 
@@ -5190,10 +5203,10 @@ def solve_484b58aa(I):
     x20 = as_tuple(x18, x19)
     x21 = lbind(multiply, x20)
     x22 = neighbors(ORIGIN)
-    x23 = mapply(neighbors, x22)
+    x23 = apply_and_merge(neighbors, x22)
     x24 = apply(x21, x23)
-    x25 = lbind(shift, x6)
-    x26 = mapply(x25, x24)
+    x25 = lbind(shift_by_vector, x6)
+    x26 = apply_and_merge(x25, x24)
     O = paint(I, x26)
     return O
 
@@ -5219,10 +5232,10 @@ def solve_3befdf3e(I):
     x18 = compose(x17, x9)
     x19 = lbind(apply, initset)
     x20 = chain(x19, corners, x15)
-    x21 = fork(mapply, x18, x20)
+    x21 = fork(apply_and_merge, x18, x20)
     x22 = fork(intersection, x15, x21)
-    x23 = mapply(x15, x1)
-    x24 = mapply(x22, x1)
+    x23 = apply_and_merge(x15, x1)
+    x24 = apply_and_merge(x22, x1)
     x25 = underfill(x6, x5, x23)
     O = fill(x25, ZERO, x24)
     return O
@@ -5234,7 +5247,7 @@ def solve_9aec4887(I):
     x3 = other(x1, x2)
     x4 = subgrid(x3, I)
     x5 = normalize(x2)
-    x6 = shift(x5, UNITY)
+    x6 = shift_by_vector(x5, UNITY)
     x7 = to_indices(x6)
     x8 = normalize(x3)
     x9 = lbind(argmin, x8)
@@ -5256,10 +5269,10 @@ def solve_9aec4887(I):
 
 def solve_49d1d64f(I):
     x1 = shape(I)
-    x2 = add(x1, TWO)
+    x2 = add(x1, 2)
     x3 = canvas(ZERO, x2)
     x4 = as_object(I)
-    x5 = shift(x4, UNITY)
+    x5 = shift_by_vector(x4, UNITY)
     x6 = paint(x3, x5)
     x7 = as_indices(x3)
     x8 = fork(difference, box, corners)
@@ -5297,11 +5310,11 @@ def solve_57aa92db(I):
     x19 = lbind(multiply, x13)
     x20 = compose(x19, width)
     x21 = fork(subtract, upper_left_corner, x20)
-    x22 = lbind(shift, x10)
+    x22 = lbind(shift_by_vector, x10)
     x23 = compose(x22, x21)
     x24 = fork(upscale, x23, width)
     x25 = fork(recolor, x18, x24)
-    x26 = mapply(x25, x14)
+    x26 = apply_and_merge(x25, x14)
     x27 = paint(I, x26)
     x28 = merge(x2)
     O = paint(x27, x28)
@@ -5310,7 +5323,7 @@ def solve_57aa92db(I):
 
 def solve_aba27056(I):
     x1 = as_objects(I, True, False, True)
-    x2 = mapply(to_indices, x1)
+    x2 = apply_and_merge(to_indices, x1)
     x3 = box(x2)
     x4 = difference(x3, x2)
     x5 = delta(x2)
@@ -5318,8 +5331,8 @@ def solve_aba27056(I):
     x7 = interval(ZERO, NINE, ONE)
     x8 = lbind(multiply, x6)
     x9 = apply(x8, x7)
-    x10 = lbind(shift, x4)
-    x11 = mapply(x10, x9)
+    x10 = lbind(shift_by_vector, x4)
+    x11 = apply_and_merge(x10, x9)
     x12 = fill(I, FOUR, x5)
     x13 = fill(x12, FOUR, x11)
     x14 = corners(x4)
@@ -5337,7 +5350,7 @@ def solve_aba27056(I):
     x26 = cartesian_product(x14, x25)
     x27 = fork(subtract, last, first)
     x28 = fork(shoot, first, x27)
-    x29 = mapply(x28, x26)
+    x29 = apply_and_merge(x28, x26)
     O = fill(x13, FOUR, x29)
     return O
 
@@ -5352,13 +5365,13 @@ def solve_f1cefba8(I):
     x7 = power(trim, TWO)
     x8 = x7(x6)
     x9 = as_indices(x8)
-    x10 = shift(x9, TWO_BY_TWO)
+    x10 = shift_by_vector(x9, TWO_BY_TWO)
     x11 = fill(x6, ZERO, x10)
     x12 = least_common_color(x11)
     x13 = remove(ZERO, x1)
     x14 = other(x13, x12)
     x15 = of_color(x11, x12)
-    x16 = shift(x15, x5)
+    x16 = shift_by_vector(x15, x5)
     x17 = of_color(I, x12)
     x18 = uppermost(x17)
     x19 = lowermost(x17)
@@ -5367,8 +5380,8 @@ def solve_f1cefba8(I):
     x22 = fork(either, x20, x21)
     x23 = keep_if_condition(x16, x22)
     x24 = difference(x16, x23)
-    x25 = mapply(vfrontier, x23)
-    x26 = mapply(hfrontier, x24)
+    x25 = apply_and_merge(vfrontier, x23)
+    x26 = apply_and_merge(hfrontier, x24)
     x27 = combine(x25, x26)
     x28 = intersection(x3, x27)
     x29 = fill(I, x14, x27)
@@ -5405,8 +5418,8 @@ def solve_1e32b0e9(I):
     x26 = papply(add, x24, x21)
     x27 = papply(add, x25, x22)
     x28 = papply(as_tuple, x26, x27)
-    x29 = lbind(shift, x11)
-    x30 = mapply(x29, x28)
+    x29 = lbind(shift_by_vector, x11)
+    x30 = apply_and_merge(x29, x28)
     O = underfill(I, x17, x30)
     return O
 
@@ -5463,7 +5476,7 @@ def solve_4c5c2cf0(I):
     x14 = extract_first_matching(x13, x6)
     x15 = center(x14)
     x16 = subtract(x8, x15)
-    x17 = shift(x12, x16)
+    x17 = shift_by_vector(x12, x16)
     x18 = paint(I, x17)
     x19 = as_objects(x18, False, True, True)
     x20 = first(x19)
@@ -5477,7 +5490,7 @@ def solve_4c5c2cf0(I):
     x28 = extract_first_matching(x25, x27)
     x29 = center(x28)
     x30 = subtract(x8, x29)
-    x31 = shift(x24, x30)
+    x31 = shift_by_vector(x24, x30)
     O = paint(x18, x31)
     return O
 
@@ -5539,8 +5552,8 @@ def solve_6d0160f0(I):
     x18 = crop(I, ORIGIN, THREE_BY_THREE)
     x19 = as_indices(x18)
     x20 = recolor(ZERO, x19)
-    x21 = lbind(shift, x20)
-    x22 = mapply(x21, x17)
+    x21 = lbind(shift_by_vector, x20)
+    x22 = apply_and_merge(x21, x17)
     x23 = paint(I, x22)
     x24 = crop(I, x13, THREE_BY_THREE)
     x25 = replace(x24, FIVE, ZERO)
@@ -5549,7 +5562,7 @@ def solve_6d0160f0(I):
     x28 = as_indices(x25)
     x29 = to_object(x28, x25)
     x30 = multiply(x27, 4)
-    x31 = shift(x29, x30)
+    x31 = shift_by_vector(x29, x30)
     O = paint(x23, x31)
     return O
 
@@ -5573,8 +5586,8 @@ def solve_f8a8fe49(I):
     x16 = first(x14)
     x17 = upper_left_corner(x8)
     x18 = increment(x17)
-    x19 = shift(x15, x18)
-    x20 = shift(x16, x18)
+    x19 = shift_by_vector(x15, x18)
+    x20 = shift_by_vector(x16, x18)
     x21 = branch(x5, width, height)
     x22 = branch(x5, to_horizontal_vec, to_vertical_vec)
     x23 = x21(x15)
@@ -5583,8 +5596,8 @@ def solve_f8a8fe49(I):
     x26 = x25(x23)
     x27 = invert(x26)
     x28 = x25(x24)
-    x29 = shift(x19, x27)
-    x30 = shift(x20, x28)
+    x29 = shift_by_vector(x19, x27)
+    x30 = shift_by_vector(x20, x28)
     x31 = paint(x2, x29)
     O = paint(x31, x30)
     return O
@@ -5608,7 +5621,7 @@ def solve_d07ae81c(I):
     x15 = fork(combine, x12, x13)
     x16 = fork(combine, x14, x15)
     x17 = compose(x16, center)
-    x18 = mapply(x17, x2)
+    x18 = apply_and_merge(x17, x2)
     x19 = intersection(x8, x18)
     x20 = intersection(x9, x18)
     x21 = first(x2)
@@ -5655,10 +5668,10 @@ def solve_6a1e5592(I):
     x26 = fork(subtract, x25, x20)
     x27 = fork(subtract, x26, x19)
     x28 = rbind(apply, x10)
-    x29 = lbind(lbind, shift)
+    x29 = lbind(lbind, shift_by_vector)
     x30 = rbind(argmax, x27)
     x31 = chain(x30, x28, x29)
-    x32 = mapply(x31, x9)
+    x32 = apply_and_merge(x31, x9)
     O = fill(x7, ONE, x32)
     return O
 
@@ -5678,15 +5691,17 @@ def solve_0e206a2e(I):
     x12 = rbind(keep_if_condition, x11)
     x13 = lbind(rbind, subtract)
     x14 = lbind(occurrences, I)
-    x15 = lbind(lbind, shift)
+    x15 = lbind(lbind, shift_by_vector)
     x16 = compose(x13, upper_left_corner)
     x17 = chain(x16, x12, normalize)
     x18 = chain(x14, x12, normalize)
     x19 = fork(apply, x17, x18)
     x20 = compose(x15, normalize)
-    x21 = fork(mapply, x20, x19)
-    x22 = as_tuple(counterdiagonal_mirror, diagonal_mirror)
-    x23 = as_tuple(horizontal_mirror, vertical_mirror)
+    x21 = fork(apply_and_merge, x20, x19)
+    #x22 = as_tuple(counterdiagonal_mirror, diagonal_mirror)
+    x22 = as_generic_tuple(counterdiagonal_mirror, diagonal_mirror)  # mdda
+    #x23 = as_tuple(horizontal_mirror, vertical_mirror)
+    x23 = as_generic_tuple(horizontal_mirror, vertical_mirror) # mdda
     x24 = combine(x22, x23)
     x25 = cartesian_product(x24, x24)
     x26 = fork(compose, first, last)
@@ -5694,8 +5709,8 @@ def solve_0e206a2e(I):
     x28 = to_tuple(x27)
     x29 = combine(x24, x28)
     x30 = lbind(rapply, x29)
-    x31 = mapply(x30, x5)
-    x32 = mapply(x21, x31)
+    x31 = apply_and_merge(x30, x5)
+    x32 = apply_and_merge(x21, x31)
     x33 = paint(I, x32)
     x34 = merge(x5)
     O = cover(x33, x34)
@@ -5736,14 +5751,14 @@ def solve_d22278a0(I):
     x31 = compose(x6, x27)
     x32 = fork(intersection, x30, x31)
     x33 = fork(recolor, color, x32)
-    x34 = mapply(x33, x2)
+    x34 = apply_and_merge(x33, x2)
     O = paint(I, x34)
     return O
 
 
 def solve_4290ef0e(I):
     x1 = most_common_color(I)
-    x2 = fgpartition(I)
+    x2 = partition_only_foreground(I)
     x3 = as_objects(I, True, False, True)
     x4 = rbind(valmax, width)
     x5 = lbind(color_filter, x3)
@@ -5769,7 +5784,7 @@ def solve_4290ef0e(I):
     x25 = apply(normalize, x17)
     x26 = interval(ZERO, x22, ONE)
     x27 = pair(x26, x26)
-    x28 = mpapply(shift, x25, x27)
+    x28 = mpapply(shift_by_vector, x25, x27)
     x29 = as_tuple(x24, x24)
     x30 = canvas(x1, x29)
     x31 = paint(x30, x28)
@@ -5819,7 +5834,7 @@ def solve_50846271(I):
     x34 = fork(connect, x30, x31)
     x35 = fork(connect, x32, x33)
     x36 = fork(combine, x34, x35)
-    x37 = mapply(x36, x29)
+    x37 = apply_and_merge(x36, x29)
     x38 = fill(x8, EIGHT, x37)
     O = fill(x38, TWO, x1)
     return O
@@ -5844,7 +5859,7 @@ def solve_b527c5c6(I):
     x16 = fork(as_tuple, x14, x15)
     x17 = compose(center, x3)
     x18 = fork(shoot, x17, x16)
-    x19 = mapply(x18, x1)
+    x19 = apply_and_merge(x18, x1)
     x20 = fill(I, TWO, x19)
     x21 = compose(is_vertical_line, x18)
     x22 = keep_if_condition(x1, x21)
@@ -5856,14 +5871,14 @@ def solve_b527c5c6(I):
     x28 = fork(x27, x26, x25)
     x29 = lbind(apply, to_vertical_vec)
     x30 = lbind(apply, to_horizontal_vec)
-    x31 = lbind(lbind, shift)
+    x31 = lbind(lbind, shift_by_vector)
     x32 = compose(x31, x18)
     x33 = compose(x29, x28)
     x34 = compose(x30, x28)
-    x35 = fork(mapply, x32, x33)
-    x36 = fork(mapply, x32, x34)
-    x37 = mapply(x35, x23)
-    x38 = mapply(x36, x22)
+    x35 = fork(apply_and_merge, x32, x33)
+    x36 = fork(apply_and_merge, x32, x34)
+    x37 = apply_and_merge(x35, x23)
+    x38 = apply_and_merge(x36, x22)
     x39 = combine(x37, x38)
     O = underfill(x20, THREE, x39)
     return O
@@ -5873,8 +5888,8 @@ def solve_150deff5(I):
     x1 = canvas(FIVE, TWO_BY_TWO)
     x2 = as_object(x1)
     x3 = occurrences(I, x2)
-    x4 = lbind(shift, x2)
-    x5 = mapply(x4, x3)
+    x4 = lbind(shift_by_vector, x2)
+    x5 = apply_and_merge(x4, x3)
     x6 = fill(I, EIGHT, x5)
     x7 = canvas(FIVE, UNITY)
     x8 = as_tuple(2, 1)
@@ -5882,33 +5897,33 @@ def solve_150deff5(I):
     x10 = vertical_concat(x9, x7)
     x11 = as_object(x10)
     x12 = occurrences(x6, x11)
-    x13 = lbind(shift, x11)
-    x14 = mapply(x13, x12)
+    x13 = lbind(shift_by_vector, x11)
+    x14 = apply_and_merge(x13, x12)
     x15 = fill(x6, TWO, x14)
     x16 = as_tuple(1, 3)
     x17 = canvas(FIVE, x16)
     x18 = as_object(x17)
     x19 = occurrences(x15, x18)
-    x20 = lbind(shift, x18)
-    x21 = mapply(x20, x19)
+    x20 = lbind(shift_by_vector, x18)
+    x21 = apply_and_merge(x20, x19)
     x22 = fill(x15, TWO, x21)
     x23 = horizontal_mirror(x10)
     x24 = as_object(x23)
     x25 = occurrences(x22, x24)
-    x26 = lbind(shift, x24)
-    x27 = mapply(x26, x25)
+    x26 = lbind(shift_by_vector, x24)
+    x27 = apply_and_merge(x26, x25)
     x28 = fill(x22, TWO, x27)
     x29 = diagonal_mirror(x10)
     x30 = as_object(x29)
     x31 = occurrences(x28, x30)
-    x32 = lbind(shift, x30)
-    x33 = mapply(x32, x31)
+    x32 = lbind(shift_by_vector, x30)
+    x33 = apply_and_merge(x32, x31)
     x34 = fill(x28, TWO, x33)
     x35 = vertical_mirror(x29)
     x36 = as_object(x35)
     x37 = occurrences(x34, x36)
-    x38 = lbind(shift, x36)
-    x39 = mapply(x38, x37)
+    x38 = lbind(shift_by_vector, x36)
+    x39 = apply_and_merge(x38, x37)
     O = fill(x34, TWO, x39)
     return O
 
@@ -5938,17 +5953,17 @@ def solve_b7249182(I):
     x22 = insert(x20, x21)
     x23 = to_object(x22, x19)
     x24 = as_tuple(0, -2)
-    x25 = shift(x23, ZERO_BY_TWO)
-    x26 = shift(x23, x24)
+    x25 = shift_by_vector(x23, ZERO_BY_TWO)
+    x26 = shift_by_vector(x23, x24)
     x27 = combine(x25, x26)
     x28 = upper_left_corner(x27)
     x29 = upper_right_corner(x27)
     x30 = connect(x28, x29)
-    x31 = shift(x30, UP)
+    x31 = shift_by_vector(x30, UP)
     x32 = lower_left_corner(x27)
     x33 = lower_right_corner(x27)
     x34 = connect(x32, x33)
-    x35 = shift(x34, DOWN)
+    x35 = shift_by_vector(x34, DOWN)
     x36 = paint(x19, x27)
     x37 = fill(x36, x10, x31)
     x38 = fill(x37, x11, x35)
@@ -5986,9 +6001,9 @@ def solve_9d9215db(I):
     x26 = compose(is_even, last)
     x27 = rbind(keep_if_condition, x26)
     x28 = chain(normalize, x27, x25)
-    x29 = fork(shift, x28, x23)
+    x29 = fork(shift_by_vector, x28, x23)
     x30 = fork(recolor, color, x29)
-    x31 = mapply(x30, x15)
+    x31 = apply_and_merge(x30, x15)
     x32 = paint(x19, x31)
     x33 = rot90(x32)
     x34 = rot180(x32)
@@ -6003,7 +6018,7 @@ def solve_9d9215db(I):
 
 
 def solve_6855a6e4(I):
-    x1 = fgpartition(I)
+    x1 = partition_only_foreground(I)
     x2 = rot90(I)
     x3 = color_filter(x1, TWO)
     x4 = first(x3)
@@ -6036,8 +6051,8 @@ def solve_6855a6e4(I):
     x31 = to_vertical_vec(x29)
     x32 = add(x16, x30)
     x33 = subtract(x17, x31)
-    x34 = shift(x23, x32)
-    x35 = shift(x25, x33)
+    x34 = shift_by_vector(x23, x32)
+    x35 = shift_by_vector(x25, x33)
     x36 = merge(x8)
     x37 = cover(x6, x36)
     x38 = paint(x37, x34)
@@ -6063,7 +6078,8 @@ def solve_264363fd(I):
     x13 = branch(x6, UP, RIGHT)
     x14 = add(x13, x11)
     x15 = color_at_location(I, x14)
-    x16 = as_tuple(x12, ORIGIN)
+    #x16 = as_tuple(x12, ORIGIN)
+    x16 = make_cell(x12, ORIGIN)  # mdda
     x17 = initset(x16)
     x18 = cover(I, x2)
     x19 = most_common_color(x18)
@@ -6073,8 +6089,8 @@ def solve_264363fd(I):
     x23 = rbind(occurrences, x17)
     x24 = rbind(subgrid, x18)
     x25 = compose(x23, x24)
-    x26 = lbind(mapply, vfrontier)
-    x27 = lbind(mapply, hfrontier)
+    x26 = lbind(apply_and_merge, vfrontier)
+    x27 = lbind(apply_and_merge, hfrontier)
     x28 = compose(x26, x25)
     x29 = compose(x27, x25)
     x30 = branch(x6, x28, x29)
@@ -6084,12 +6100,12 @@ def solve_264363fd(I):
     x34 = compose(x33, x32)
     x35 = fork(paint, x24, x34)
     x36 = compose(as_object, x35)
-    x37 = fork(shift, x36, upper_left_corner)
-    x38 = mapply(x37, x22)
+    x37 = fork(shift_by_vector, x36, upper_left_corner)
+    x38 = apply_and_merge(x37, x22)
     x39 = paint(x18, x38)
-    x40 = shift(x3, x10)
-    x41 = lbind(shift, x40)
-    x42 = mapply(x41, x21)
+    x40 = shift_by_vector(x3, x10)
+    x41 = lbind(shift_by_vector, x40)
+    x42 = apply_and_merge(x41, x21)
     x43 = paint(x39, x42)
     O = fill(x43, x19, x20)
     return O
@@ -6109,7 +6125,7 @@ def solve_7df24a62(I):
     x11 = rbind(of_color, ONE)
     x12 = compose(normalize, x11)
     x13 = rbind(of_color, FOUR)
-    x14 = rbind(shift, x5)
+    x14 = rbind(shift_by_vector, x5)
     x15 = compose(x14, x13)
     x16 = lbind(subtract, x1)
     x17 = chain(increment, x16, height)
@@ -6120,11 +6136,13 @@ def solve_7df24a62(I):
     x22 = compose(x21, x17)
     x23 = compose(x21, x19)
     x24 = fork(cartesian_product, x22, x23)
-    x25 = rbind(shift, NEG_UNITY)
-    x26 = lbind(lbind, shift)
+    x25 = rbind(shift_by_vector, NEG_UNITY)
+    x26 = lbind(lbind, shift_by_vector)
     x27 = chain(x26, x25, x12)
-    x28 = as_tuple(x6, x7)
-    x29 = as_tuple(x8, x9)
+    #x28 = as_tuple(x6, x7)
+    x28 = as_generic_tuple(x6, x7)  # mdda
+    #x29 = as_tuple(x8, x9)
+    x29 = as_generic_tuple(x8, x9)  # mdda
     x30 = combine(x28, x29)
     x31 = apply(x15, x30)
     x32 = lbind(difference, x4)
@@ -6139,7 +6157,7 @@ def solve_7df24a62(I):
     x41 = apply(x40, x39)
     x42 = papply(keep_if_condition, x35, x41)
     x43 = apply(x27, x30)
-    x44 = mpapply(mapply, x43, x42)
+    x44 = mpapply(apply_and_merge, x43, x42)
     O = fill(I, ONE, x44)
     return O
 
@@ -6161,7 +6179,7 @@ def solve_f15e1fac(I):
     x14 = of_color(x13, EIGHT)
     x15 = of_color(x13, TWO)
     x16 = rbind(shoot, DOWN)
-    x17 = mapply(x16, x14)
+    x17 = apply_and_merge(x16, x14)
     x18 = height(x13)
     x19 = apply(first, x15)
     x20 = insert(ZERO, x19)
@@ -6185,7 +6203,7 @@ def solve_f15e1fac(I):
     x38 = lbind(compose, x36)
     x39 = chain(x30, x38, x37)
     x40 = apply(x39, x29)
-    x41 = papply(shift, x40, x28)
+    x41 = papply(shift_by_vector, x40, x28)
     x42 = merge(x41)
     x43 = fill(x13, EIGHT, x42)
     x44 = chain(x3, x7, x12)
@@ -6215,7 +6233,8 @@ def solve_234bbc79(I):
     x19 = fork(argmin, x12, x17)
     x20 = compose(last, x18)
     x21 = compose(last, x19)
-    x22 = as_tuple(ZERO, DOWN_LEFT)
+    #x22 = as_tuple(ZERO, DOWN_LEFT)
+    x22 = make_cell(ZERO, DOWN_LEFT)  # mdda
     x23 = initset(x22)
     x24 = lbind(add, RIGHT)
     x25 = chain(x20, first, last)
@@ -6223,13 +6242,14 @@ def solve_234bbc79(I):
     x27 = fork(subtract, x26, x25)
     x28 = compose(first, last)
     x29 = compose(x24, x27)
-    x30 = fork(shift, x28, x29)
+    x30 = fork(shift_by_vector, x28, x29)
     x31 = fork(combine, first, x30)
     x32 = fork(remove, x28, last)
     x33 = fork(as_tuple, x31, x32)
     x34 = size(x1)
     x35 = power(x33, x34)
-    x36 = as_tuple(x23, x6)
+    #x36 = as_tuple(x23, x6)
+    x36 = as_generic_tuple(x23, x6) # mdda
     x37 = x35(x36)
     x38 = first(x37)
     x39 = width(x38)
@@ -6246,12 +6266,12 @@ def solve_22233c11(I):
     x3 = chain(invert, halve, shape)
     x4 = fork(combine, hfrontier, vfrontier)
     x5 = compose(x2, vertical_mirror)
-    x6 = fork(shift, x5, x3)
+    x6 = fork(shift_by_vector, x5, x3)
     x7 = compose(to_indices, x6)
-    x8 = lbind(mapply, x4)
+    x8 = lbind(apply_and_merge, x4)
     x9 = compose(x8, to_indices)
     x10 = fork(difference, x7, x9)
-    x11 = mapply(x10, x1)
+    x11 = apply_and_merge(x10, x1)
     O = fill(I, EIGHT, x11)
     return O
 
@@ -6314,7 +6334,7 @@ def solve_a64e4611(I):
     x4 = compose(as_object, x3)
     x5 = fork(multiply, first, last)
     x6 = compose(is_positive, size)
-    x7 = lbind(lbind, shift)
+    x7 = lbind(lbind, shift_by_vector)
     x8 = rbind(fork, x5)
     x9 = lbind(x8, multiply)
     x10 = lbind(chain, x6)
@@ -6327,17 +6347,20 @@ def solve_a64e4611(I):
     x17 = chain(x7, x4, x16)
     x18 = compose(x4, x16)
     x19 = fork(occurrences, last, x18)
-    x20 = fork(mapply, x17, x19)
+    x20 = fork(apply_and_merge, x17, x19)
     x21 = multiply(2, 6)
     x22 = interval(3, x21, 1)
-    x23 = as_tuple(x22, I)
+    #x23 = as_tuple(x22, I)
+    x23 = as_generic_tuple(x22, I)  # mdda
     x24 = x20(x23)
     x25 = fill(I, THREE, x24)
     x26 = interval(THREE, TEN, ONE)
-    x27 = as_tuple(x26, x25)
+    #x27 = as_tuple(x26, x25)
+    x27 = as_generic_tuple(x26, x25)  # mdda
     x28 = x20(x27)
     x29 = fill(x25, THREE, x28)
-    x30 = as_tuple(x26, x29)
+    #x30 = as_tuple(x26, x29)
+    x30 = as_generic_tuple(x26, x29)  # mdda
     x31 = x20(x30)
     x32 = fill(x29, THREE, x31)
     x33 = rbind(to_object, x32)
@@ -6360,7 +6383,7 @@ def solve_a64e4611(I):
 
 
 def solve_7837ac64(I):
-    x1 = fgpartition(I)
+    x1 = partition_only_foreground(I)
     x2 = argmax(x1, size)
     x3 = remove(x2, x1)
     x4 = merge(x3)
@@ -6380,7 +6403,7 @@ def solve_7837ac64(I):
     x18 = keep_if_condition(x9, x17)
     x19 = compose(color, x11)
     x20 = fork(recolor, x19, identity)
-    x21 = mapply(x20, x18)
+    x21 = apply_and_merge(x20, x18)
     x22 = paint(x5, x21)
     x23 = first(x9)
     x24 = height(x23)
@@ -6415,7 +6438,7 @@ def solve_a8c38be5(I):
     x11 = compose(x9, x10)
     x12 = chain(outbox, outbox, initset)
     x13 = corners(x6)
-    x14 = mapply(x12, x13)
+    x14 = apply_and_merge(x12, x13)
     x15 = difference(x7, x14)
     x16 = inbox(x7)
     x17 = keep_if_condition(x16, x11)
@@ -6427,8 +6450,8 @@ def solve_a8c38be5(I):
     x23 = lbind(extract_first_matching, x21)
     x24 = chain(upper_left_corner, x23, x22)
     x25 = compose(x24, to_indices)
-    x26 = fork(shift, identity, x25)
-    x27 = mapply(x26, x3)
+    x26 = fork(shift_by_vector, identity, x25)
+    x27 = apply_and_merge(x26, x3)
     O = paint(x5, x27)
     return O
 
@@ -6454,10 +6477,10 @@ def solve_b775ac94(I):
     x18 = fork(multiply, shape, x16)
     x19 = fork(multiply, shape, x17)
     x20 = fork(multiply, shape, x15)
-    x21 = fork(shift, horizontal_mirror, x18)
-    x22 = fork(shift, vertical_mirror, x19)
+    x21 = fork(shift_by_vector, horizontal_mirror, x18)
+    x22 = fork(shift_by_vector, vertical_mirror, x19)
     x23 = compose(horizontal_mirror, vertical_mirror)
-    x24 = fork(shift, x23, x20)
+    x24 = fork(shift_by_vector, x23, x20)
     x25 = lbind(compose, x5)
     x26 = x25(x21)
     x27 = x25(x22)
@@ -6467,9 +6490,9 @@ def solve_b775ac94(I):
     x31 = x30(x16)
     x32 = x30(x17)
     x33 = x30(x15)
-    x34 = fork(shift, x26, x31)
-    x35 = fork(shift, x27, x32)
-    x36 = fork(shift, x28, x33)
+    x34 = fork(shift_by_vector, x26, x31)
+    x35 = fork(shift_by_vector, x27, x32)
+    x36 = fork(shift_by_vector, x28, x33)
     x37 = lbind(color_at_location, I)
     x38 = lbind(compose, to_indices)
     x39 = x38(x14)
@@ -6485,9 +6508,9 @@ def solve_b775ac94(I):
     x49 = fork(recolor, x46, x34)
     x50 = fork(recolor, x47, x35)
     x51 = fork(recolor, x48, x36)
-    x52 = mapply(x49, x1)
-    x53 = mapply(x50, x1)
-    x54 = mapply(x51, x1)
+    x52 = apply_and_merge(x49, x1)
+    x53 = apply_and_merge(x50, x1)
+    x54 = apply_and_merge(x51, x1)
     x55 = paint(I, x52)
     x56 = paint(x55, x53)
     O = paint(x56, x54)
@@ -6504,7 +6527,7 @@ def solve_97a05b5b(I):
     x7 = lbind(rbind, subtract)
     x8 = switch(x3, TWO, ZERO)
     x9 = lbind(occurrences, x8)
-    x10 = lbind(lbind, shift)
+    x10 = lbind(lbind, shift_by_vector)
     x11 = compose(x7, upper_left_corner)
     x12 = matcher(first, TWO)
     x13 = compose(flip, x12)
@@ -6532,16 +6555,18 @@ def solve_97a05b5b(I):
     x35 = fork(keep_if_condition, x31, x34)
     x36 = fork(apply, x19, x35)
     x37 = compose(x10, normalize)
-    x38 = fork(mapply, x37, x36)
-    x39 = as_tuple(counterdiagonal_mirror, diagonal_mirror)
-    x40 = as_tuple(horizontal_mirror, vertical_mirror)
+    x38 = fork(apply_and_merge, x37, x36)
+    #x39 = as_tuple(counterdiagonal_mirror, diagonal_mirror)
+    x39 = as_generic_tuple(counterdiagonal_mirror, diagonal_mirror)  # mdda
+    #x40 = as_tuple(horizontal_mirror, vertical_mirror)
+    x40 = as_generic_tuple(horizontal_mirror, vertical_mirror)  # mdda
     x41 = combine(x39, x40)
     x42 = cartesian_product(x41, x41)
     x43 = fork(compose, first, last)
     x44 = apply(x43, x42)
     x45 = lbind(rapply, x44)
-    x46 = mapply(x45, x6)
-    x47 = mapply(x38, x46)
+    x46 = apply_and_merge(x45, x6)
+    x47 = apply_and_merge(x38, x46)
     x48 = paint(x3, x47)
     x49 = palette(x47)
     x50 = lbind(remove, TWO)
@@ -6551,9 +6576,9 @@ def solve_97a05b5b(I):
     x54 = chain(flip, x53, x52)
     x55 = keep_if_condition(x6, x54)
     x56 = fork(apply, x19, x22)
-    x57 = fork(mapply, x37, x56)
-    x58 = mapply(x45, x55)
-    x59 = mapply(x57, x58)
+    x57 = fork(apply_and_merge, x37, x56)
+    x58 = apply_and_merge(x45, x55)
+    x59 = apply_and_merge(x57, x58)
     O = paint(x48, x59)
     return O
 
@@ -6562,8 +6587,10 @@ def solve_3e980e27(I):
     x1 = as_objects(I, False, True, True)
     x2 = as_tuple(10, 10)
     x3 = invert(x2)
-    x4 = as_tuple(TWO, x3)
-    x5 = as_tuple(THREE, x3)
+    #x4 = as_tuple(TWO, x3)
+    x4 = make_cell(TWO, x3)
+    #x5 = as_tuple(THREE, x3)
+    x5 = make_cell(THREE, x3)
     x6 = initset(x4)
     x7 = insert(x5, x6)
     x8 = insert(x7, x1)
@@ -6574,11 +6601,11 @@ def solve_3e980e27(I):
     x13 = lbind(rbind, keep_if_condition)
     x14 = compose(x12, x13)
     x15 = rbind(compose, center)
-    x16 = lbind(lbind, shift)
+    x16 = lbind(lbind, shift_by_vector)
     x17 = x14(x9)
     x18 = x14(x10)
-    x19 = fork(shift, identity, x17)
-    x20 = fork(shift, identity, x18)
+    x19 = fork(shift_by_vector, identity, x17)
+    x20 = fork(shift_by_vector, identity, x18)
     x21 = compose(x9, palette)
     x22 = compose(x10, palette)
     x23 = keep_if_condition(x8, x21)
@@ -6587,13 +6614,13 @@ def solve_3e980e27(I):
     x26 = vertical_mirror(x24)
     x27 = chain(x15, x16, x19)
     x28 = x27(x26)
-    x29 = mapply(x28, x25)
+    x29 = apply_and_merge(x28, x25)
     x30 = keep_if_condition(x8, x22)
     x31 = argmax(x30, size)
     x32 = remove(x31, x30)
     x33 = chain(x15, x16, x20)
     x34 = x33(x31)
-    x35 = mapply(x34, x32)
+    x35 = apply_and_merge(x34, x32)
     x36 = combine(x29, x35)
     O = paint(I, x36)
     return O

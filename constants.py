@@ -1,5 +1,6 @@
 from arc_types import Color
 
+PLACEHOLDER: Color = -1
 ZERO: Color = 0
 ONE: Color = 1
 TWO: Color = 2

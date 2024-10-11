@@ -89,7 +89,10 @@ def test_solvers_formatting(solvers_module, dsl_module):
                 variables.add(variable)
                 calls.add(call)
                 assert function in dsl_interface or function in variables
-                assert args[-1] == ')'
+                if '#' in args: # Strip off comments
+                    args=args[:args.find('#')]
+                args = args.strip()
+                assert args[-1] == ')', f"'{args}' does not end in ')'"
                 args = [args[:-1]] if ',' not in args else args[:-1].split(', ')
                 for arg in args:
                     #print(f"\n'{arg}', {variables}, {dsl_interface}, {constants}")

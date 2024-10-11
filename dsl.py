@@ -9,7 +9,11 @@ def identity(
 
 
 #def add(a: Numerical, b: Numerical) -> Numerical:
-def add[T: Numerical](a:T, b:T) -> T:
+@overload
+def add[T: Numerical](a: T, b: int) -> T: ...  # Order matters...
+@overload
+def add[T: Numerical](a: T, b: T) -> T: ...
+def add(a, b):
     """ addition """
     if isinstance(a, int) and isinstance(b, int):
         return a + b
@@ -32,10 +36,12 @@ def subtract[T: Numerical](a:T, b:T) -> T:
     return (a[0] - b, a[1] - b)
 
 
-def multiply(
-    a: Numerical,
-    b: Numerical
-) -> Numerical:
+#def multiply(a: Numerical, b: Numerical) -> Numerical:
+@overload
+def multiply[T: Numerical](a: T, b: int) -> T: ...  # Order matters...
+@overload
+def multiply[T: Numerical](a: T, b: T) -> T: ...
+def multiply(a, b):
     """ multiplication """
     if isinstance(a, int) and isinstance(b, int):
         return a * b
@@ -46,10 +52,8 @@ def multiply(
     return (a[0] * b, a[1] * b)
     
 
-def divide(
-    a: Numerical,
-    b: Numerical
-) -> Numerical:
+#def divide(a: Numerical, b: Numerical) -> Numerical:
+def divide[T: Numerical](a: T, b: T) -> T:
     """ floor division """
     if isinstance(a, int) and isinstance(b, int):
         return a // b
@@ -60,9 +64,8 @@ def divide(
     return (a[0] // b, a[1] // b)
 
 
-def invert(
-    n: Numerical
-) -> Numerical:
+#def invert(n: Numerical) -> Numerical:
+def invert[T: Numerical](n: T) -> T:
     """ inversion with respect to addition """
     return -n if isinstance(n, int) else (-n[0], -n[1])
 
@@ -74,19 +77,14 @@ def is_even(
     return n % 2 == 0
 
 
-def double(
-    n: Numerical
-) -> Numerical:
+#def double(n: Numerical) -> Numerical:
+def double[T: Numerical](n: T) -> T:
     """ scaling by two """
     return n * 2 if isinstance(n, int) else (n[0] * 2, n[1] * 2)
 
 
 #def halve(n: Numerical) -> Numerical:
-@overload
-def halve(n: Integer) -> Integer: ...
-@overload
-def halve(n: IntegerTuple) -> IntegerTuple: ...
-def halve(n):
+def halve[T: Numerical](n: T) -> T:
     """ scaling by one half """
     return n // 2 if isinstance(n, int) else (n[0] // 2, n[1] // 2)
 
@@ -176,22 +174,21 @@ def size(
 @overload
 def merge(x: FrozenSet[Object]) -> Object: ...
 @overload
-def merge(x: Grid) -> Grid: ...
+def merge(x: Grid) -> Grid: ...        # ??
+@overload
+def merge(x: Indices) -> Indices: ...  # ??
 def merge(containers):
     """ merging """
     return type(containers)(e for c in containers for e in c)
 
 
-def maximum(
-    container: IntegerSet
-) -> Integer:
+#def maximum(container: IntegerSet) -> Integer:
+def maximum(container: Container) -> Integer:
     """ maximum """
     return max(container, default=0)
 
-
-def minimum(
-    container: IntegerSet
-) -> Integer:
+#def minimum(container: IntegerSet) -> Integer:
+def minimum(container: Container) -> Integer:
     """ minimum """
     return min(container, default=0)
 
@@ -288,7 +285,7 @@ def decrement[T: Numerical](x: T) -> T:
     return x - 1 if isinstance(x, int) else (x[0] - 1, x[1] - 1)
 
 
-def crement(x: Numerical) -> Numerical:
+def crement[T: Numerical](x: T) -> T:
     """ incrementing positive and decrementing negative """
     if isinstance(x, int):
         return 0 if x == 0 else (x + 1 if x > 0 else x - 1)
@@ -385,10 +382,8 @@ def insert(
     return container.union(frozenset({value}))
 
 
-def remove(
-    value: Any,
-    container: Container
-) -> Container:
+#def remove(value: Any, container: Container) -> Container:
+def remove[T: Container](value: Any, container: T) -> T:
     """ remove item from container """
     return type(container)(e for e in container if e != value)
 
@@ -409,7 +404,8 @@ def interval(
     """ range """
     return tuple(range(start, stop, step))
 
-def as_item_tuple[T:Union[Grid, Objects]](a: T, b: T) -> Tuple:
+#def as_item_tuple[T:Union[Grid, Objects, Tuple]](a: T, b: T) -> Tuple:
+def as_generic_tuple[T](a: T, b: T) -> Tuple:  # Tuple[T]
     """ constructs a tuple of two items """
     return (a, b)
 
@@ -530,9 +526,10 @@ def rapply(functions: Container, value: Any) -> Container:
     return type(functions)(function(value) for function in functions)
 
 
-def mapply(
+def apply_and_merge(
     function: Callable,
-    container: ContainerContainer
+    #container: ContainerContainer
+    container: Union[ContainerContainer,ColorSet]  # mdda
 ) -> FrozenSet:
     """ apply and merge """
     return merge(apply(function, container))
@@ -714,11 +711,8 @@ def recolor(
     return frozenset((color, index) for index in to_indices(patch))
 
 
-def shift(
-    patch: Patch,
-    directions: IntegerTuple
-) -> Patch:
-    """ shift patch """
+def shift_by_vector[T:Union[Patch,Objects]](patch: T, directions: IntegerTuple) -> T:
+    """ shift patch by vector """
     if len(patch) == 0:
         return patch
     di, dj = directions
@@ -727,13 +721,12 @@ def shift(
     return frozenset((i + di, j + dj) for i, j in patch)
 
 
-def normalize(
-    patch: Patch
-) -> Patch:
+#def normalize(patch: Patch) -> Patch:
+def normalize[T:Patch](patch: T) -> T:
     """ moves upper left corner to origin """
     if len(patch) == 0:
         return patch
-    return shift(patch, (-uppermost(patch), -leftmost(patch)))
+    return shift_by_vector(patch, (-uppermost(patch), -leftmost(patch)))
 
 
 def direct_neighbors(
@@ -804,14 +797,14 @@ def partition(
     )
 
 
-def fgpartition(
+def partition_only_foreground(
     grid: Grid
 ) -> Objects:
-    """ each cell with the same value part of the same object without background """
+    """ objects, each segregated by color ignoring the background """
     return frozenset(
         frozenset(
-            (v, (i, j)) for i, r in enumerate(grid) for j, v in enumerate(r) if v == value
-        ) for value in palette(grid) - {most_common_color(grid)}
+            (c, (i, j)) for i, r in enumerate(grid) for j, c in enumerate(r) if c == color
+        ) for color in palette(grid) - {most_common_color(grid)}
     )
 
 
@@ -1016,7 +1009,7 @@ def fill(
     grid: Grid,
     color: Color,
     #patch: Patch
-    patch: Union[Patch,Objects]  # mdda
+    patch: Union[Patch,Objects,Tuple]  # mdda
 ) -> Grid:
     """ fill value at indices """
     h, w = len(grid), len(grid[0])
@@ -1044,7 +1037,8 @@ def paint(
 def underfill(
     grid: Grid,
     color: Color,
-    patch: Patch
+    #patch: Patch
+    patch: Piece # mdda
 ) -> Grid:
     """ fill value at indices that are background """
     h, w = len(grid), len(grid[0])
@@ -1059,7 +1053,8 @@ def underfill(
 
 def underpaint(
     grid: Grid,
-    obj: Object
+    #obj: Object
+    obj: Union[Object, Tuple, Indices]  # mdda
 ) -> Grid:
     """ paint object to grid where there is background """
     h, w = len(grid), len(grid[0])
@@ -1097,7 +1092,7 @@ def vertical_upscale(
     return g
 
 
-def upscale[T: Element](element: T, factor: Integer) -> T:
+def upscale[T: Union[Element,Patch]](element: T, factor: Integer) -> T:
     """ upscale object or grid """
     if isinstance(element, tuple):
         g = tuple()
@@ -1112,13 +1107,13 @@ def upscale[T: Element](element: T, factor: Integer) -> T:
             return frozenset()
         di_inv, dj_inv = upper_left_corner(element)
         di, dj = (-di_inv, -dj_inv)
-        normed_obj = shift(element, (di, dj))
+        normed_obj = shift_by_vector(element, (di, dj))
         o = set()
         for value, (i, j) in normed_obj:
             for io in range(factor):
                 for jo in range(factor):
                     o.add((value, (i * factor + io, j * factor + jo)))
-        return shift(frozenset(o), (di_inv, dj_inv))
+        return shift_by_vector(frozenset(o), (di_inv, dj_inv))
 
 
 def downscale(
@@ -1316,7 +1311,7 @@ def move(
     offset: IntegerTuple
 ) -> Grid:
     """ move object on grid """
-    return paint(cover(grid, obj), shift(obj, offset))
+    return paint(cover(grid, obj), shift_by_vector(obj, offset))
 
 
 def top_half(
@@ -1400,7 +1395,7 @@ def gravitate(
         c += 1
         gi += i
         gj += j
-        source = shift(source, (i, j))
+        source = shift_by_vector(source, (i, j))
     return (gi - i, gj - j)
 
 
@@ -1466,7 +1461,7 @@ def occurrences(
     for i in range(h2):
         for j in range(w2):
             occurs = True
-            for v, (a, b) in shift(normed, (i, j)):
+            for v, (a, b) in shift_by_vector(normed, (i, j)):
                 if not (0 <= a < h and 0 <= b < w and grid[a][b] == v):
                     occurs = False
                     break
@@ -1501,7 +1496,7 @@ def horizontal_periodicity(
     normalized = normalize(obj)
     w = width(normalized)
     for p in range(1, w):
-        offsetted = shift(normalized, (0, -p))
+        offsetted = shift_by_vector(normalized, (0, -p))
         pruned = frozenset({(c, (i, j)) for c, (i, j) in offsetted if j >= 0})
         if pruned.issubset(normalized):
             return p
@@ -1515,7 +1510,7 @@ def vertical_periodicity(
     normalized = normalize(obj)
     h = height(normalized)
     for p in range(1, h):
-        offsetted = shift(normalized, (-p, 0))
+        offsetted = shift_by_vector(normalized, (-p, 0))
         pruned = frozenset({(c, (i, j)) for c, (i, j) in offsetted if i >= 0})
         if pruned.issubset(normalized):
             return p
