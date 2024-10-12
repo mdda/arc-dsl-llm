@@ -1,4 +1,4 @@
-from arc_types import Color
+from .arc_types import Color
 
 PLACEHOLDER: Color = -1
 ZERO: Color = 0

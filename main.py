@@ -3,20 +3,19 @@ import json
 import inspect
 import tqdm
 
-import arc_types
-#from . import arc_types
-#from ..arc_dsl import arc_types
-import constants
-import dsl
-import tests
-import solvers
+
+from . import arc_types
+from . import constants
+from . import dsl
+from . import tests
+from . import solvers
 
 import sys, traceback
 
 def get_data(train=True):
     #path = f'../data/{"training" if train else "evaluation"}'
-    #path = f'../../ARC-Challenge/ARC-800-tasks/{"training" if train else "evaluation"}'
-    path = f'../ARC-AGI/data/{"training" if train else "evaluation"}'
+    #path = f'../ARC-AGI/data/{"training" if train else "evaluation"}'
+    path = f'./ARC-AGI/data/{"training" if train else "evaluation"}'
     
     data = {}
     for fn in os.listdir(path):
@@ -61,7 +60,7 @@ def run_dsl_tests(dsl_module, test_module):
 
 def test_solvers_formatting(solvers_module, dsl_module):
     """ tests the implemented solvers for formatting """
-    with open('constants.py', 'r') as f:
+    with open('./arc_dsl/constants.py', 'r') as f:
         def parse_constant(s):
             s = s.split(' = ')[0]
             if ':' in s:

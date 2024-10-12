@@ -1,5 +1,4 @@
-from arc_types import *
-
+from .arc_types import *
 
 def identity(
     x: Any
