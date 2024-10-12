@@ -57,19 +57,25 @@ def run_dsl_tests(dsl_module, test_module):
         getattr(test_module, fun)()
 
 
-def test_solvers_formatting(solvers_module, dsl_module):
-    """ tests the implemented solvers for formatting """
-    with open('./arc_dsl/constants.py', 'r') as f:
-        def parse_constant(s):
-            s = s.split(' = ')[0]
-            if ':' in s:
-                s = s.split(':')[0]
-            return s
-        constants = [parse_constant(c) for c in f.readlines() if ' = ' in c]
-    definitions = {
+def get_constants(path='./arc_dsl/constants.py'):
+    def parse_constant(s):
+        s = s.split(' = ')[0]
+        if ':' in s:
+            s = s.split(':')[0]
+        return s
+    with open(path, 'r') as f:
+        return [parse_constant(c) for c in f.readlines() if ' = ' in c]
+
+def get_definitions(solvers_module):
+    return {
         function: inspect.getsource(getattr(solvers_module, function)) \
             for function in get_functions(solvers_module.__file__)
     }
+
+def test_solvers_formatting(solvers_module, dsl_module):
+    """ tests the implemented solvers for formatting """
+    constants = get_constants()
+    definitions = get_definitions(solvers_module)
     dsl_interface = get_functions(dsl_module.__file__)
     n_correct = 0
     n = len(definitions)
