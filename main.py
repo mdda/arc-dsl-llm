@@ -4,6 +4,8 @@ import inspect
 import tqdm
 
 import arc_types
+#from . import arc_types
+#from ..arc_dsl import arc_types
 import constants
 import dsl
 import tests
@@ -123,7 +125,7 @@ def test_solvers_formatting(solvers_module, dsl_module):
 
 def test_solvers_correctness(data, solvers_module):
     """ tests the implemented solvers for correctness """
-    known_failures="4c5c2cf0"
+    known_failures=""  # All fixed now!
     n_correct = 0
     n = len(data["train"])
     for key in tqdm.tqdm(data['train'].keys(), total=n):
@@ -153,26 +155,9 @@ if __name__ == '__main__':
     main()
 
 """
-# https://github.com/michaelhodel/arc-dsl/issues/8
-Solvers for the following problems are failing for me:
-
-39e1d7f9 FIXED (PR)
-e40b9e2f FIXED (PR)
-
-# See : https://github.com/michaelhodel/arc-dsl/issues/8#issuecomment-2407862655
-
-4290ef0e mdda too
-6a1e5592 mdda too
-4c5c2cf0 mdda too
-
-"""
-
-"""
 ARC-Prize .org GAME CONSTANTS
 
 /* Game */
-
-
 :root {
     --magenta-light: #ff7bcc;
     --gray: #555555;
@@ -182,53 +167,50 @@ ARC-Prize .org GAME CONSTANTS
     background-color: var(--black);
     --black: #000000;
 }
-
 .symbol_1 {
     background-color: var(--blue);
     --blue: #1E93FF;
 }
-
 .symbol_2 {
     background-color: var(--red);
     --red: #F93C31;
 }
-
 .symbol_3 {
     background-color: var(--green);
     --green: #4FCC30;
 }
-
 .symbol_4 {
     background-color: var(--yellow);
     --yellow: #FFDC00;
 }
-
 .symbol_5 {
     background-color: var(--gray-light);
     --gray-light: #999999;
 }
-
 .symbol_6 {
     background-color: var(--magenta);
     --magenta: #E53AA3;
 }
-
 .symbol_7 {
     background-color: var(--orange);
     --orange: #FF851B;
 }
-
 .symbol_8 {
     background-color: var(--blue-light);
     --blue-light: #87D8F1;
     azure?
 }
-
 .symbol_9 {
     background-color: var(--maroon);
     --maroon: #921231;  # BROWN ??
 }
+"""
 
+"""
+
+# https://github.com/michaelhodel/arc-dsl/issues/8
+Solvers for the following problems are all fixed now!
 
 
 """
+
