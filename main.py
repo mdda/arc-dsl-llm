@@ -14,8 +14,7 @@ import sys, traceback
 
 def get_data(train=True):
     #path = f'../data/{"training" if train else "evaluation"}'
-    #path = f'../ARC-AGI/data/{"training" if train else "evaluation"}'
-    path = f'./ARC-AGI/data/{"training" if train else "evaluation"}'
+    path = f'../ARC-AGI/data/{"training" if train else "evaluation"}'
     
     data = {}
     for fn in os.listdir(path):
