@@ -37,20 +37,22 @@ def get_functions(path):
     """ returns a list of available functions """
     with open(path, 'r') as f:
         code = f.read()
-    functions = []
+    functions, functions_returning_functions = [], []
     for row in code.split('\n'):
         if row.startswith('def '):
             function = row.split('def ')[1].split('(')[0]
             if '[' in function:  # Cope with Generic annotations
                 function=function[:function.find('[')]
             functions.append(function)
-    return functions
+            if '-> Callable' in row:
+                functions_returning_functions.append(function)
+    return (functions, functions_returning_functions)
 
 
 def run_dsl_tests(dsl_module, test_module):
     """ test DSL primitives """
-    dsl_functions = get_functions(dsl_module.__file__)
-    test_functions = get_functions(test_module.__file__)
+    dsl_functions, _ = get_functions(dsl_module.__file__)
+    test_functions, _ = get_functions(test_module.__file__)
     expected = set([f'test_{f}' for f in dsl_functions])
     assert set(test_functions) == expected, expected.difference(test_functions)
     for fun in test_functions:
@@ -69,14 +71,14 @@ def get_constants(path='./arc_dsl/constants.py'):
 def get_definitions(solvers_module):
     return {
         function: inspect.getsource(getattr(solvers_module, function)) \
-            for function in get_functions(solvers_module.__file__)
+            for function in get_functions(solvers_module.__file__)[0]
     }
 
 def test_solvers_formatting(solvers_module, dsl_module):
     """ tests the implemented solvers for formatting """
     constants = get_constants()
     definitions = get_definitions(solvers_module)
-    dsl_interface = get_functions(dsl_module.__file__)
+    dsl_interface, _ = get_functions(dsl_module.__file__)
     n_correct = 0
     n = len(definitions)
     for key, definition in definitions.items():

@@ -443,35 +443,22 @@ def condition_if_else(
     return a if condition else b
 
 
-def compose(
-    outer: Callable,
-    inner: Callable
-) -> Callable:
+def compose( outer: Callable, inner: Callable ) -> Callable:
     """ function composition """
     return lambda x: outer(inner(x))
 
 
-def chain(
-    h: Callable,
-    g: Callable,
-    f: Callable,
-) -> Callable:
+def chain( h: Callable, g: Callable, f: Callable ) -> Callable:
     """ function composition with three functions """
     return lambda x: h(g(f(x)))
 
 
-def matcher(
-    function: Callable,
-    target: Any
-) -> Callable:
+def matcher( function: Callable, target: Any ) -> Callable:
     """ construction of equality function """
     return lambda x: function(x) == target
 
 
-def rbind(
-    function: Callable,
-    fixed: Any
-) -> Callable:
+def rbind( function: Callable, fixed: Any ) -> Callable:
     """ fix the rightmost argument """
     n = function.__code__.co_argcount
     if n == 2:
@@ -482,10 +469,7 @@ def rbind(
         return lambda x, y, z: function(x, y, z, fixed)
 
 
-def lbind(
-    function: Callable,
-    fixed: Any
-) -> Callable:
+def lbind( function: Callable, fixed: Any ) -> Callable:
     """ fix the leftmost argument """
     n = function.__code__.co_argcount
     if n == 2:
@@ -496,21 +480,14 @@ def lbind(
         return lambda y, z, a: function(fixed, y, z, a)
 
 
-def power(
-    function: Callable,
-    n: Integer
-) -> Callable:
+def power( function: Callable, n: Integer ) -> Callable:
     """ power of function """
     if n == 1:
         return function
     return compose(function, power(function, n - 1))
 
 
-def combine_two_function_results(
-    outer: Callable,
-    a: Callable,
-    b: Callable
-) -> Callable:
+def combine_two_function_results( outer: Callable, a: Callable, b: Callable ) -> Callable:
     """ creates a wrapper function """
     return lambda x: outer(a(x), b(x))
 
