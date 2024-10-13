@@ -152,16 +152,16 @@ def test_initset():
     assert initset(2) == frozenset({2})
  
 
-def test_both():
-    assert not both(True, False)
-    assert both(True, True)
-    assert not both(False, False)
+def test_logical_and():
+    assert not logical_and(True, False)
+    assert logical_and(True, True)
+    assert not logical_and(False, False)
  
 
-def test_either():
-    assert either(True, False)
-    assert either(True, True)
-    assert not either(False, False)
+def test_logical_or():
+    assert logical_or(True, False)
+    assert logical_or(True, True)
+    assert not logical_or(False, False)
  
 
 def test_increment():
@@ -201,8 +201,8 @@ def test_keep_if_condition():
     assert keep_if_condition(frozenset({2, 3, 4}), lambda x: x % 2 == 0) == frozenset({2, 4})
  
 
-def test_mfilter():
-    assert mfilter(frozenset({frozenset({(2, (3, 3))}), frozenset({(1, (0, 0))}), frozenset({(1, (1, 1)), (1, (0, 1))})}), lambda x: len(x) == 1) == frozenset({(1, (0, 0)), (2, (3, 3))})
+def test_keep_if_condition_and_merge():
+    assert keep_if_condition_and_merge(frozenset({frozenset({(2, (3, 3))}), frozenset({(1, (0, 0))}), frozenset({(1, (1, 1)), (1, (0, 1))})}), lambda x: len(x) == 1) == frozenset({(1, (0, 0)), (2, (3, 3))})
  
 
 def test_extract_first_matching():
@@ -214,12 +214,12 @@ def test_to_tuple():
     assert to_tuple({1}) == (1,)
  
 
-def test_first():
-    assert first((2, 3)) == 2
+def test_get_first():
+    assert get_first((2, 3)) == 2
  
 
-def test_last():
-    assert last((2, 3)) == 3
+def test_get_last():
+    assert get_last((2, 3)) == 3
  
 
 def test_insert():
@@ -230,8 +230,8 @@ def test_remove():
     assert remove(1, frozenset({1, 2})) == frozenset({2})
  
 
-def test_other():
-    assert other({1, 2}, 1) == 2
+def test_get_other():
+    assert get_other({1, 2}, 1) == 2
  
 
 def test_interval():
@@ -297,20 +297,20 @@ def test_apply():
     assert apply(lambda x: x % 2, frozenset({1, 2})) == frozenset({0, 1})
  
 
-def test_rapply():
-    assert rapply(frozenset({lambda x: x + 1, lambda x: x - 1}), 1) == {0, 2}
+def test_apply_each_function():
+    assert apply_each_function(frozenset({lambda x: x + 1, lambda x: x - 1}), 1) == {0, 2}
  
 
 def test_apply_and_merge():
     assert apply_and_merge(lambda x: frozenset({(v + 1, (i, j)) for v, (i, j) in x}), frozenset({frozenset({(1, (0, 0))}), frozenset({(1, (1, 1)), (1, (0, 1))})})) == frozenset({(2, (0, 0)), (2, (1, 1)), (2, (0, 1))})
  
 
-def test_papply():
-    assert papply(lambda x, y: x + y, (1, 2), (3, 4)) == (4, 6)
+def test_apply_to_both():
+    assert apply_to_both(lambda x, y: x + y, (1, 2), (3, 4)) == (4, 6)
  
 
-def test_mpapply():
-    #assert mpapply(lambda x, y: frozenset({(x, (i, j)) for _, (i, j) in y}), (3, 4), frozenset({frozenset({(1, (0, 0))}), frozenset({(1, (1, 1)), (1, (0, 1))})})) == ((3, (0, 0)), (4, (1, 1)), (4, (0, 1)))
+def test_apply_to_both_and_merge():
+    #assert apply_to_both_and_merge(lambda x, y: frozenset({(x, (i, j)) for _, (i, j) in y}), (3, 4), frozenset({frozenset({(1, (0, 0))}), frozenset({(1, (1, 1)), (1, (0, 1))})})) == ((3, (0, 0)), (4, (1, 1)), (4, (0, 1)))
     input_tuple: tuple[int, int] = (3, 4)
     input_data: Tuple[Tuple[Cell,], Tuple[Cell, Cell]] = (
         ((1, (0, 0)),),
@@ -321,14 +321,14 @@ def test_mpapply():
         (4, (1, 1)),
         (4, (0, 1))
     )
-    computed = mpapply(lambda x, y: tuple((x, (i, j))
+    computed = apply_to_both_and_merge(lambda x, y: tuple((x, (i, j))
                        for _, (i, j) in y), input_tuple, input_data)
     assert computed == expected
 
  
 
-def test_prapply():
-    assert prapply(lambda x, y: x + y, {1, 2}, {2, 3}) == frozenset({3, 4, 5})
+def test_apply_function_on_cartesian_product():
+    assert apply_function_on_cartesian_product(lambda x, y: x + y, {1, 2}, {2, 3}) == frozenset({3, 4, 5})
  
 
 def test_most_common_color():
@@ -780,12 +780,12 @@ def test_right_half():
     assert right_half(D) == ((3,), (6,), (0,))
  
 
-def test_vfrontier():
-    assert vfrontier((3, 4)) == frozenset({(i, 4) for i in range(30)})
+def test_vertical_frontier():
+    assert vertical_frontier((3, 4)) == frozenset({(i, 4) for i in range(30)})
  
 
-def test_hfrontier():
-    assert hfrontier((3, 4)) == frozenset({(3, i) for i in range(30)})
+def test_horizontal_frontier():
+    assert horizontal_frontier((3, 4)) == frozenset({(3, i) for i in range(30)})
  
 
 def test_backdrop():

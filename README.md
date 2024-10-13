@@ -68,6 +68,13 @@ square      is_square
             is_vertical_line
             is_horizontal_line
 
+first       get_first
+last        get_last
+other       get_other
+
+both        logical_and
+either      logical_or
+
             horizontal_mirror
             vertical_mirror
             diagonal_mirror
@@ -100,6 +107,15 @@ lrcorner    lower_right_corner
 product     cartesian_product
 
 sfilter     keep_if_condition
+mfilter     keep_if_condition_and_merge
+
+mapply      apply_and_merge
+papply      apply_to_both
+mpapply     apply_to_both_and_merge
+rapply      apply_each_function
+prapply     apply_function_on_cartesian_product(
+
+
             extract_first_matching
 branch      condition_if_else
 fork        combine_two_function_results
@@ -109,10 +125,11 @@ vvec        to_vertical_vec
 
 shift       shift_by_vector
 
-mapply      apply_and_merge
-
             direct_neighbors
             diagonal_neighbors
+
+vfrontier   vertical_frontier
+hfrontier   horizontal_frontier
 
             logical_not
 
@@ -120,7 +137,6 @@ fgpartition partition_only_foreground
 
 mostcolor   most_common_color
 leastcolor  least_common_color
-
 
             as_generic_tuple
             make_cell

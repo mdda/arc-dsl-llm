@@ -244,16 +244,16 @@ def initset(
     """ initialize container """
     return frozenset({value})
 
-
-def both(
+# was both
+def logical_and(
     a: Boolean,
     b: Boolean
 ) -> Boolean:
     """ logical and """
     return a and b
 
-
-def either(
+# was either
+def logical_or(
     a: Boolean,
     b: Boolean
 ) -> Boolean:
@@ -295,11 +295,12 @@ def crement[T: Numerical](x: T) -> T:
 
 
 #def sign(x: Numerical) -> Numerical:
-@overload
-def sign(x: Integer) -> Integer: ...
-@overload
-def sign(x: IntegerTuple) -> IntegerTuple: ...
-def sign(x):
+#@overload
+#def sign(x: Integer) -> Integer: ...
+#@overload
+#def sign(x: IntegerTuple) -> IntegerTuple: ...
+#def sign(x):
+def sign[T: Numerical](x: T) -> T:
     """ sign """
     if isinstance(x, int):
         return 0 if x == 0 else (1 if x > 0 else -1)
@@ -335,8 +336,8 @@ def keep_if_condition[T: Container](container: T, condition: Callable) -> T:
     """ keep elements in container that satisfy condition """
     return type(container)(e for e in container if condition(e))
 
-
-def mfilter(
+# was mfilter
+def keep_if_condition_and_merge(
     container: Container,
     function: Callable
 ) -> FrozenSet:
@@ -359,14 +360,14 @@ def to_tuple(
     return tuple(container)
 
 
-def first(
+def get_first(
     container: Container
 ) -> Any:
     """ first item of container """
     return next(iter(container))
 
 
-def last(
+def get_last(
     container: Container
 ) -> Any:
     """ last item of container """
@@ -387,12 +388,12 @@ def remove[T: Container](value: Any, container: T) -> T:
     return type(container)(e for e in container if e != value)
 
 
-def other(
+def get_other(
     container: Container,
     value: Any
 ) -> Any:
     """ other value in the container """
-    return first(remove(value, container))
+    return get_first(remove(value, container))
 
 
 def interval(
@@ -519,11 +520,10 @@ def apply[T: Container](function: Callable, container: T) -> T:
     """ apply function to each item in container """
     return type(container)(function(e) for e in container)
 
-
-def rapply(functions: Container, value: Any) -> Container:
+# was rapply
+def apply_each_function(functions: Container, value: Any) -> Container:
     """ apply each function in container to value """
     return type(functions)(function(value) for function in functions)
-
 
 def apply_and_merge(
     function: Callable,
@@ -533,8 +533,8 @@ def apply_and_merge(
     """ apply and merge """
     return merge(apply(function, container))
 
-
-def papply(
+# was papply
+def apply_to_both(
     function: Callable,
     a: Tuple,
     b: Tuple
@@ -542,17 +542,17 @@ def papply(
     """ apply function on two vectors """
     return tuple(function(i, j) for i, j in zip(a, b))
 
-
-def mpapply(
+# was mpapply
+def apply_to_both_and_merge(
     function: Callable,
     a: Tuple,
     b: Tuple
 ) -> Tuple:
     """ apply function on two vectors and merge """
-    return merge(papply(function, a, b))
+    return merge(apply_to_both(function, a, b))
 
-
-def prapply(
+# was prapply
+def apply_function_on_cartesian_product(
     function,
     a: Container,
     b: Container
@@ -1341,14 +1341,15 @@ def right_half(
     return rot270(bottom_half(rot90(grid)))
 
 
-def vfrontier(
+# was vfrontier
+def vertical_frontier(
     location: IntegerTuple
 ) -> Indices:
     """ vertical frontier """
     return frozenset((i, location[1]) for i in range(30))
 
-
-def hfrontier(
+# was hfrontier
+def horizontal_frontier(
     location: IntegerTuple
 ) -> Indices:
     """ horizontal frontier """
