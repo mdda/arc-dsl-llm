@@ -714,7 +714,7 @@ def solve_e9afcf9a(I):
 
 def solve_48d8fb45(I):
     x1 = as_objects(I, True, True, True)
-    x2 = matcher(size, COLOR_ONE)
+    x2 = matcher(size, 1)
     x3 = extract_first_matching(x1, x2)
     x4 = lbind(adjacent, x3)
     x5 = extract_first_matching(x1, x4)
