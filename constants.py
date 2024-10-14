@@ -1,17 +1,17 @@
 from .arc_types import Color
 
-PLACEHOLDER: Color = -1
-ZERO: Color = 0
-ONE: Color = 1
-TWO: Color = 2
-THREE: Color = 3
-FOUR: Color = 4
-FIVE: Color = 5
-SIX: Color = 6
-SEVEN: Color = 7
-EIGHT: Color = 8
-NINE: Color = 9
-TEN: Color = 10
+COLOR_PLACEHOLDER: Color = -1
+COLOR_ZERO: Color = 0
+COLOR_ONE: Color = 1
+COLOR_TWO: Color = 2
+COLOR_THREE: Color = 3
+COLOR_FOUR: Color = 4
+COLOR_FIVE: Color = 5
+COLOR_SIX: Color = 6
+COLOR_SEVEN: Color = 7
+COLOR_EIGHT: Color = 8
+COLOR_NINE: Color = 9
+#COLOR_TEN: Color = 10
 
 #F = False
 #T = True

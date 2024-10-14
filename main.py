@@ -210,13 +210,30 @@ ARC-Prize .org GAME CONSTANTS
     background-color: var(--maroon);
     --maroon: #921231;  # BROWN ??
 }
+
+Greenblatt : 
+color_to_num = {
+    "black": 0,
+    "blue": 1,
+    "red": 2,
+    "green": 3,
+    "yellow": 4,
+    "grey": 5,
+    "pink": 6,
+    "orange": 7,
+    "purple": 8,
+    "brown": 9,
+}
 """
 
 """
-
 # https://github.com/michaelhodel/arc-dsl/issues/8
 Solvers for the following problems are all fixed now!
 
-
 """
 
+"""
+Type-checking:
+pyright solvers.py
+
+"""
