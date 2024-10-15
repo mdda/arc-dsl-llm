@@ -416,9 +416,13 @@ def solve_44d8ac46(I):
 
 def solve_1e0a9b12(I):
     x1 = rot270(I)
-    x2 = rbind(order, identity)  # mdda : This relies on BLACK being < other colors NAUGHTY
-    x3 = apply(x2, x1)
-    O = rot90(x3)
+    x1r = replace(x1, COLOR_ZERO, COLOR_PLACEHOLDER) # mdda new
+    x2 = rbind(order, identity)  # mdda : This relies on BLACK being < other colors - FIXED
+    #x3 = apply(x2, x1)
+    x3 = apply(x2, x1r)
+    x3r = replace(x3, COLOR_PLACEHOLDER, COLOR_ZERO) # mdda new
+    #O = rot90(x3)
+    O = rot90(x3r)
     return O
 
 
@@ -1003,8 +1007,40 @@ def solve_08ed6ac7(I):
     x2 = to_tuple(x1)
     x3 = order(x1, height)
     x4 = size(x2)
-    x5 = interval(x4, 0, -1)  # mdda : This seems to be over colors... NAUGHTY
-    x6 = apply_to_both_and_merge(recolor, x5, x3)
+    # 
+    #x5 = interval(x4, 0, -1)  # mdda : This seems to be over colors... NAUGHTY
+    #x6 = apply_to_both_and_merge(recolor, x5, x3)
+    #
+    # mdda : Figure out how to do a tuple of COLORs
+    x5a = as_generic_tuple(COLOR_FOUR, COLOR_THREE)
+    x5b = as_generic_tuple(COLOR_TWO, COLOR_ONE)
+    x5c = combine(x5a, x5b)
+    x6 = apply_to_both_and_merge(recolor, x5c, x3)
+    #  as_generic_tuple
+    #  combine
+    #
+    #  BAD IDEA!
+    #
+    #m4 = rbind(is_equal, 4)
+    #m3 = rbind(is_equal, 3)
+    #m2 = rbind(is_equal, 2)
+    #m1 = rbind(is_equal, 1)
+    #c4 = lbind(recolor, COLOR_FOUR)
+    #c3 = lbind(recolor, COLOR_THREE)
+    #c2 = lbind(recolor, COLOR_TWO)
+    #c1 = lbind(recolor, COLOR_ONE)
+    #f4 = condition_if_else(m4, c4, identity)
+    #f3 = condition_if_else(m3, c3, identity)
+    #f2 = condition_if_else(m2, c2, identity)
+    #f1 = condition_if_else(m1, c1, identity)
+    ##ch1 = chain(f2, f3, f4)    
+    ##ch2 = compose(f1, ch1)    
+    #r4 = apply_to_both(f4, x5, x3)
+    #r3 = apply_to_both(f3, x5, r4)
+    #r2 = apply_to_both(f2, x5, r3)
+    #r1 = apply_to_both(f1, x5, r2)
+    #x6 = merge(r1)
+    #
     O = paint(I, x6)
     return O
 
@@ -1333,7 +1369,7 @@ def solve_ff805c23(I):
 def solve_e76a88a6(I):
     x1 = as_objects(I, False, False, True)
     x2 = argmax(x1, count_colors)
-    x3 = normalize(x2)
+    x3 = shift_to_origin(x2)
     x4 = remove(x2, x1)
     x5 = apply(upper_left_corner, x4)
     x6 = lbind(shift_by_vector, x3)
@@ -1369,9 +1405,9 @@ def solve_7f4411dc(I):
 def solve_b230c067(I):
     x1 = as_objects(I, True, True, True)
     x2 = to_tuple(x1)
-    x3 = apply(normalize, x2)
+    x3 = apply(shift_to_origin, x2)
     x4 = least_common(x3)
-    x5 = matcher(normalize, x4)
+    x5 = matcher(shift_to_origin, x4)
     x6 = extract_first_matching(x1, x5)
     x7 = replace(I, COLOR_EIGHT, COLOR_ONE)
     O = fill(x7, COLOR_TWO, x6)
@@ -1568,12 +1604,14 @@ def solve_3bd67248(I):
 
 
 def solve_73251a56(I):
-    x1 = diagonal_mirror(I)
-    x2 = apply_to_both(pair, I, x1)
-    x3 = lbind(apply, maximum)  # mdda : Assumes that BLACK < other colors NAUGHTY
+    Ipost = replace(I, COLOR_ZERO, COLOR_PLACEHOLDER)  # mdda added
+    x1 = diagonal_mirror(Ipost)
+    x2 = apply_to_both(pair, Ipost, x1)
+    x3 = lbind(apply, maximum)  # mdda : Assumes that BLACK < other colors - FIXED
     x4 = apply(x3, x2)
     x5 = most_common_color(x4)
-    x6 = replace(x4, COLOR_ZERO, x5)
+    #x6 = replace(x4, COLOR_ZERO, x5)
+    x6 = replace(x4, COLOR_PLACEHOLDER, x5)   # mdda added
     x7 = color_at_location(x6, ORIGIN)
     x8 = shoot(ORIGIN, UNITY)
     O = fill(x6, x7, x8)
@@ -1607,7 +1645,7 @@ def solve_8f2ea7aa(I):
 
 
 def solve_b8825c91(I):
-    #x1 = replace(I, COLOR_FOUR, COLOR_ZERO)  # mdda : Assumes that COLOR_BLACK < all other colors NAUGHTY
+    #x1 = replace(I, COLOR_FOUR, COLOR_ZERO)  # mdda : Assumes that COLOR_BLACK < all other colors - FIXED
     x1 = replace(I, COLOR_FOUR, COLOR_PLACEHOLDER)  # mdda fixed
     x2 = diagonal_mirror(x1)
     x3 = apply_to_both(pair, x1, x2)
@@ -1744,7 +1782,7 @@ def solve_681b3aeb(I):
     x4 = argmin(x2, size)
     x5 = color(x4)
     x6 = canvas(x5, THREE_BY_THREE)
-    x7 = normalize(x3)
+    x7 = shift_to_origin(x3)
     x8 = paint(x6, x7)
     O = rot90(x8)
     return O
@@ -2096,7 +2134,7 @@ def solve_6b9890af(I):
     x5 = width(x4)
     x6 = divide(x5, 3)
     x7 = upscale(x3, x6)
-    x8 = normalize(x7)
+    x8 = shift_to_origin(x7)
     x9 = shift_by_vector(x8, UNITY)
     O = paint(x4, x9)
     return O
@@ -2123,7 +2161,7 @@ def solve_88a10436(I):
     x4 = center(x3)
     x5 = difference(x1, x2)
     x6 = get_first(x5)
-    x7 = normalize(x6)
+    x7 = shift_to_origin(x6)
     x8 = shift_by_vector(x7, x4)
     x9 = shift_by_vector(x8, NEG_UNITY)
     O = paint(I, x9)
@@ -2152,7 +2190,7 @@ def solve_890034e9(I):
     x3 = inbox(x2)
     x4 = recolor(COLOR_ZERO, x3)
     x5 = occurrences(I, x4)
-    x6 = normalize(x2)
+    x6 = shift_to_origin(x2)
     x7 = shift_by_vector(x6, NEG_UNITY)
     x8 = lbind(shift_by_vector, x7)
     x9 = apply_and_merge(x8, x5)
@@ -2306,7 +2344,7 @@ def solve_321b1fc6(I):
     x3 = difference(x1, x2)
     x4 = get_first(x3)
     x5 = cover(I, x4)
-    x6 = normalize(x4)
+    x6 = shift_to_origin(x4)
     x7 = lbind(shift_by_vector, x6)
     x8 = apply(upper_left_corner, x2)
     x9 = apply_and_merge(x7, x8)
@@ -2376,7 +2414,7 @@ def solve_ddf7fa4f(I):
     x2 = size_filter(x1, 1)
     x3 = color_filter(x1, COLOR_FIVE)
     x4 = cartesian_product(x2, x3)
-    x5 = combine_two_function_results(vmatching, get_first, get_last)
+    x5 = combine_two_function_results(vertical_matching, get_first, get_last)
     x6 = keep_if_condition(x4, x5)
     x7 = compose(color, get_first)
     x8 = combine_two_function_results(recolor, x7, get_last)
@@ -2435,7 +2473,7 @@ def solve_c8cbb738(I):
     x3b = valmax(x2, width) # mdda: better type-wise
     x3c = as_tuple(x3a, x3b) # mdda
     x4 = canvas(x1, x3c) # mdda
-    x5 = apply(normalize, x2)
+    x5 = apply(shift_to_origin, x2)
     x6 = lbind(subtract, x3c) # mdda
     x7 = chain(halve, x6, shape)
     x8 = combine_two_function_results(shift_by_vector, identity, x7)
@@ -2460,8 +2498,8 @@ def solve_3eda0437(I):
 
 def solve_dc0a314f(I):
     x1 = of_color(I, COLOR_THREE)
-    #x2 = replace(I, COLOR_THREE, COLOR_ZERO)  # mdda : Assumes that COLOR_BLACK < other colors : NAUGHTY
-    x2 = replace(I, COLOR_THREE, COLOR_PLACEHOLDER)
+    #x2 = replace(I, COLOR_THREE, COLOR_ZERO)  # mdda : Assumes that COLOR_BLACK < other colors
+    x2 = replace(I, COLOR_THREE, COLOR_PLACEHOLDER)  # mdda : FIXED
     x3 = diagonal_mirror(x2)
     x4 = apply_to_both(pair, x2, x3)
     x5 = lbind(apply, maximum)   # assumption here
@@ -2523,7 +2561,7 @@ def solve_c444b776(I):
     x3 = argmin(x2, size)
     x4 = backdrop(x3)
     x5 = to_object(x4, I)
-    x6 = normalize(x5)
+    x6 = shift_to_origin(x5)
     x7 = lbind(shift_by_vector, x6)
     x8 = compose(x7, upper_left_corner)
     x9 = apply_and_merge(x8, x2)
@@ -2592,7 +2630,7 @@ def solve_7e0986d6(I):
 def solve_09629e4f(I):
     x1 = as_objects(I, False, True, True)
     x2 = argmin(x1, count_colors)
-    x3 = normalize(x2)
+    x3 = shift_to_origin(x2)
     x4 = upscale(x3, 4)
     x5 = paint(I, x4)
     x6 = of_color(I, COLOR_FIVE)
@@ -2615,16 +2653,21 @@ def solve_a85d4709(I):
     return O
 
 
-def solve_feca6190(I):
-    x1 = as_objects(I, True, False, True)
-    x2 = size(x1)
+def solve_feca6190(I):  # mdda : Not sure why this is color palette order dependent...  FIXED
+    #x1 = as_objects(I, True, False, True)   # mdda : The test case is 0456 - so most common color isn't correct idea
+    x1 = as_objects(I, True, False, False)   # mdda : All colors are valid since none is most common
+    x1bg = color_filter(x1, COLOR_ZERO)      # mdda - take out COLOR_ZERO ourselves
+    x1fg = difference(x1, x1bg)              # mdda - take out COLOR_ZERO ourselves
+    x2 = size(x1fg)
+    #x2 = size(x1)
     x3 = multiply(x2, 5)
     x4 = as_tuple(x3, x3)
     x5 = canvas(COLOR_ZERO, x4)
     x6 = rbind(shoot, UNITY)
     x7 = compose(x6, center)
     x8 = combine_two_function_results(recolor, color, x7)
-    x9 = apply_and_merge(x8, x1)
+    #x9 = apply_and_merge(x8, x1)
+    x9 = apply_and_merge(x8, x1fg)
     x10 = paint(x5, x9)
     O = horizontal_mirror(x10)
     return O
@@ -2651,7 +2694,7 @@ def solve_beb8660c(I):
     x2 = as_objects(I, True, False, True)
     x3 = compose(invert, size)
     x4 = order(x2, x3)
-    x5 = apply(normalize, x4)
+    x5 = apply(shift_to_origin, x4)
     x6 = size(x5)
     x7 = interval(0, x6, 1)
     x8 = apply(to_vertical_vec, x7)
@@ -2693,11 +2736,13 @@ def solve_0962bcdd(I):
 
 def solve_3631a71a(I):
     x1 = shape(I)
-    x2 = replace(I, COLOR_NINE, COLOR_ZERO)
-    x3 = lbind(apply, maximum)  # mdda : Is this over colors??  NAUGHTY
+    #x2 = replace(I, COLOR_NINE, COLOR_ZERO)
+    x2 = replace(I, COLOR_NINE, COLOR_PLACEHOLDER)  # mdda new
+    x3 = lbind(apply, maximum)  # mdda : Is this over colors??  FIXED now since PLACEHOLDER<other_colors
     x4 = diagonal_mirror(x2)
     x5 = apply_to_both(pair, x2, x4)
-    x6 = apply(x3, x5)
+    x6pre = apply(x3, x5)
+    x6 = replace(x6pre, COLOR_PLACEHOLDER, COLOR_ZERO)  # mdda changed - refers to old x6
     x7 = subtract(x1, TWO_BY_TWO)
     x8 = crop(x6, TWO_BY_TWO, x7)
     x9 = vertical_mirror(x8)
@@ -2760,8 +2805,8 @@ def solve_d43fd935(I):
     x1 = as_objects(I, True, False, True)
     x2 = of_color(I, COLOR_THREE)
     x3 = size_filter(x1, 1)
-    x4 = rbind(vmatching, x2)
-    x5 = rbind(hmatching, x2)
+    x4 = rbind(vertical_matching, x2)
+    x5 = rbind(horizontal_matching, x2)
     x6 = combine_two_function_results(logical_or, x4, x5)
     x7 = keep_if_condition(x3, x6)
     x8 = rbind(gravitate, x2)
@@ -2980,9 +3025,9 @@ def solve_ce602527(I):
     x3 = order(x2, size)
     x4 = get_last(x3)
     x5 = remove(x4, x3)
-    x6 = compose(to_indices, normalize)
+    x6 = compose(to_indices, shift_to_origin)
     x7 = rbind(upscale, 2)
-    x8 = chain(to_indices, x7, normalize)
+    x8 = chain(to_indices, x7, shift_to_origin)
     x9 = x6(x4)
     x10 = rbind(intersection, x9)
     x11 = chain(size, x10, x8)
@@ -3167,8 +3212,8 @@ def solve_cbded52d(I):
     x1 = as_objects(I, True, False, True)
     x2 = size_filter(x1, 1)
     x3 = cartesian_product(x2, x2)
-    x4 = combine_two_function_results(vmatching, get_first, get_last)
-    x5 = combine_two_function_results(hmatching, get_first, get_last)
+    x4 = combine_two_function_results(vertical_matching, get_first, get_last)
+    x5 = combine_two_function_results(horizontal_matching, get_first, get_last)
     x6 = combine_two_function_results(logical_or, x4, x5)
     x7 = keep_if_condition(x3, x6)
     x8 = compose(center, get_first)
@@ -3187,7 +3232,7 @@ def solve_8a004b2b(I):
     x2 = of_color(I, COLOR_FOUR)
     x3 = smallest_subgrid_containing(x2, I)
     x4 = argmax(x1, lowermost)
-    x5 = normalize(x4)
+    x5 = shift_to_origin(x4)
     x6 = replace(x3, COLOR_FOUR, COLOR_ZERO)
     x7 = as_objects(x6, True, False, True)
     x8 = merge(x7)
@@ -3205,8 +3250,8 @@ def solve_e26a3af2(I):
     x1 = rot90(I)
     x2 = apply(most_common, I)
     x3 = apply(most_common, x1)
-    x4 = repeat(x2, COLOR_ONE)
-    x5 = repeat(x3, COLOR_ONE)
+    x4 = repeat(x2, 1)
+    x5 = repeat(x3, 1)
     x6 = compose(size, dedupe)
     x7 = x6(x2)
     x8 = x6(x3)
@@ -3263,15 +3308,17 @@ def solve_4093f84a(I):
     x3 = of_color(I, COLOR_FIVE)
     x4 = is_portrait(x3)
     m5 = condition_if_else(x4, identity, diagonal_mirror)
-    x6 = m5(x2)
+    x6pre = m5(x2)
+    x6 = replace(x6pre, COLOR_ZERO, COLOR_PLACEHOLDER)  # mdda - added
     x7 = left_half(x6)
     x8 = right_half(x6)
-    x9 = rbind(order, identity)  # mdda: depends on BLACK being < other colors NAUGHTY
-    x10 = rbind(order, invert)   # mdda: depends on BLACK being < other colors NAUGHTY
+    x9 = rbind(order, identity)  # mdda: depends on BLACK being < other colors NAUGHTY  FIXED
+    x10 = rbind(order, invert)   # mdda: depends on BLACK being < other colors NAUGHTY  FIXED
     x11 = apply(x9, x7)
     x12 = apply(x10, x8)
-    x13 = horizontal_concat(x11, x12)
-    O = m5(x13)
+    x13pre = horizontal_concat(x11, x12)
+    x13 = replace(x13pre, COLOR_PLACEHOLDER, COLOR_ZERO)  # mdda - added
+    O = m5(x13)  
     return O
 
 
@@ -3494,24 +3541,24 @@ def solve_2204b7a8(I):
     return O
 
 
-def solve_d9f24cd1(I):  # mdda : Not sure why this doesn't work under COLOR permutation : NAUGHTY
+def solve_d9f24cd1(I):  # mdda : Fixed - count_colors should be compared to int, not COLOR
     x1 = of_color(I, COLOR_TWO)
     x2 = of_color(I, COLOR_FIVE)
     x3 = apply_function_on_cartesian_product(line_between, x1, x2)
     x4 = keep_if_condition_and_merge(x3, is_vertical_line)
-    x5 = underfill(I, COLOR_TWO, x4)
-    x6 = matcher(count_colors, COLOR_TWO)
-    x7 = as_objects(x5, False, False, True)
-    x8 = keep_if_condition(x7, x6)
-    x9 = difference(x7, x8)
+    x5 = underfill(I, COLOR_TWO, x4)        # Draw lines up to COLOR_TWO points
+    x6 = matcher(count_colors, 2)       
+    x7 = as_objects(x5, False, False, True) # Get objects now
+    x8 = keep_if_condition(x7, x6)          # The lines with 2 colors
+    x9 = difference(x7, x8)                 # The single points
     x10 = color_filter(x9, COLOR_TWO)
-    x11 = apply_and_merge(to_indices, x10)
+    x11 = apply_and_merge(to_indices, x10)  # Just the solitary COLOR_TWO points
     x12 = apply(upper_right_corner, x8)
     x13 = shift_by_vector(x12, UNITY)
     x14 = rbind(shoot, UP)
     x15 = apply_and_merge(x14, x13)
     x16 = fill(x5, COLOR_TWO, x15)
-    x17 = apply_and_merge(vertical_frontier, x11)
+    x17 = apply_and_merge(vertical_frontier, x11)   # Shoot the solitary ones up
     O = fill(x16, COLOR_TWO, x17)
     return O
 
@@ -3617,7 +3664,7 @@ def solve_ecdecbb3(I):
 def solve_e5062a87(I):
     x1 = of_color(I, COLOR_TWO)
     x2 = recolor(COLOR_ZERO, x1)
-    x3 = normalize(x2)
+    x3 = shift_to_origin(x2)
     x4 = occurrences(I, x2)
     x5 = lbind(shift_by_vector, x3)
     x6 = apply(x5, x4)
@@ -3718,7 +3765,7 @@ def solve_846bdb03(I):
     x13 = is_equal(x8, x12)
     x14 = condition_if_else(x13, identity, vertical_mirror)
     x15 = x14(x4)
-    x16 = normalize(x15)
+    x16 = shift_to_origin(x15)
     x17 = shift_by_vector(x16, UNITY)
     O = paint(x7, x17)
     return O
@@ -3729,7 +3776,7 @@ def solve_90f3ed37(I):
     x2 = order(x1, uppermost)
     x3 = get_first(x2)
     x4 = remove(x3, x2)
-    x5 = normalize(x3)
+    x5 = shift_to_origin(x3)
     x6 = lbind(shift_by_vector, x5)
     x7 = compose(x6, upper_left_corner)
     x8 = interval(2, -1, -1)
@@ -4074,8 +4121,8 @@ def solve_272f95fa(I):
     x5 = compose(logical_not, x4)
     x6 = extract_first_matching(x3, x5)
     x7 = remove(x6, x3)
-    x8 = lbind(vmatching, x6)
-    x9 = lbind(hmatching, x6)
+    x8 = lbind(vertical_matching, x6)
+    x9 = lbind(horizontal_matching, x6)
     x10 = keep_if_condition(x7, x8)
     x11 = keep_if_condition(x7, x9)
     x12 = argmin(x10, uppermost)
@@ -4142,7 +4189,7 @@ def solve_d6ad076f(I):
     x1 = as_objects(I, True, False, True)
     x2 = argmin(x1, size)
     x3 = argmax(x1, size)
-    x4 = vmatching(x2, x3)
+    x4 = vertical_matching(x2, x3)
     x5 = condition_if_else(x4, DOWN, RIGHT)
     x6 = condition_if_else(x4, uppermost, leftmost)
     x7 = valmax(x1, x6)
@@ -4327,8 +4374,8 @@ def solve_e21d9049(I):
     x12 = lbind(shift_by_vector, x5)
     x13 = apply(x11, x10)
     x14 = apply_and_merge(x12, x13)
-    x15 = lbind(hmatching, x4)
-    x16 = lbind(vmatching, x4)
+    x15 = lbind(horizontal_matching, x4)
+    x16 = lbind(vertical_matching, x4)
     x17 = combine_two_function_results(logical_or, x15, x16)
     x18 = compose(x17, initset)
     x19 = paint(I, x14)
@@ -4373,9 +4420,9 @@ def solve_63613498(I):
     x2 = of_color(x1, COLOR_ZERO)
     x3 = as_indices(x1)
     x4 = difference(x3, x2)
-    x5 = normalize(x4)
+    x5 = shift_to_origin(x4)
     x6 = as_objects(I, True, False, True)
-    x7 = compose(to_indices, normalize)
+    x7 = compose(to_indices, shift_to_origin)
     x8 = matcher(x7, x5)
     x9 = keep_if_condition_and_merge(x6, x8)
     x10 = fill(I, COLOR_FIVE, x9)
@@ -4527,7 +4574,7 @@ def solve_228f6490(I):
     x6 = get_first(x5)
     x7 = get_last(x5)
     x8 = difference(x1, x2)
-    x9 = compose(normalize, to_indices)
+    x9 = compose(shift_to_origin, to_indices)
     x10 = x9(x6)
     x11 = x9(x7)
     x12 = matcher(x9, x10)
@@ -4548,24 +4595,52 @@ def solve_228f6490(I):
 def solve_995c5fa3(I):
     x1 = horizontal_split(I, 3)
     x2 = as_tuple(2, 1)
-    x3 = rbind(of_color, COLOR_ZERO)
+    x3 = rbind(of_color, COLOR_ZERO)      # Look for black pieces
     x4 = compose(upper_left_corner, x3)
     x5 = compose(size, x3)
-    x6 = matcher(x5, 0)
-    x7 = matcher(x4, UNITY)
-    x8 = matcher(x4, DOWN)
-    x9 = matcher(x4, x2)
-    x10 = rbind(multiply, 3)   # mdda : These are computing COLOR integers, rather than look-up : NAUGHTY
-    x11 = power(double, 2)
-    x12 = compose(double, x6)
-    x13 = chain(x11, double, x7)
-    x14 = compose(x10, x8)
-    x15 = compose(x11, x9)
+    x6 = matcher(x5, 0)                   # No black pieces -> COLOR_TWO
+    x7 = matcher(x4, UNITY)               # black at 1,1    -> COLOR_EIGHT
+    x8 = matcher(x4, DOWN)                # black at 1,0    -> COLOR_THREE
+    x9 = matcher(x4, x2)                  # black at 2,1    -> COLOR_FOUR
+
+    #x10 = rbind(multiply, 3)      # 3x mdda : These lines are computing COLOR integers, rather than look-up : NAUGHTY
+    #x11 = power(double, 2)        # 4x
+
+    #x12 = compose(double, x6)     # 2x   = 2
+    #x13 = chain(x11, double, x7)  # 2x4x = 8
+    #x14 = compose(x10, x8)        # 3x   = 3
+    #x15 = compose(x11, x9)        # 4x   = 4
+
+    # Instead, let's compute a simple index since we can add integers, only one of which is non-zero
+    x10a = rbind(multiply, 0)
+    x10b = rbind(multiply, 1)
+    x10c = rbind(multiply, 2)
+    x10d = rbind(multiply, 3)
+
+    x12 = compose(x10a, x6)
+    x13 = compose(x10b, x7)
+    x14 = compose(x10c, x8)
+    x15 = compose(x10d, x9)
+
     x16 = combine_two_function_results(add, x12, x13)
     x17 = combine_two_function_results(add, x14, x15)
     x18 = combine_two_function_results(add, x16, x17)
+
+    # mdda : Now we have an index that we can use to look into a tuple...
+
+    c12 = as_generic_tuple(COLOR_TWO, COLOR_EIGHT)
+    c34 = as_generic_tuple(COLOR_THREE, COLOR_FOUR)
+    c4 = combine(c12, c34)
+    cgrid = as_generic_tuple(c4, c4)  # Two row grid - so was can do color_at_location
+    
+    #x18loc = as_tuple(x18, 0)
+    #x18post = color_at_location(cgrid, x18loc)
+    x18loc = lbind(as_tuple, 0)
+    x18post = lbind(color_at_location, cgrid)
+    x18lookup = chain(x18post, x18loc, x18)
+
     x19 = rbind(canvas, UNITY)
-    x20 = compose(x19, x18)
+    x20 = compose(x19, x18lookup)  # mdda : refer to table look-up
     x21 = apply(x20, x1)
     x22 = merge(x21)
     O = horizontal_upscale(x22, 3)
@@ -4661,7 +4736,7 @@ def solve_82819916(I):
     x1 = as_objects(I, False, True, True)
     x2 = argmax(x1, size)
     x3 = remove(x2, x1)
-    x4 = normalize(x2)
+    x4 = shift_to_origin(x2)
     x5 = compose(get_last, get_last)
     x6 = rbind(argmin, x5)
     x7 = compose(get_first, x6)
@@ -4729,7 +4804,7 @@ def solve_72322fa7(I):
     x15 = compose(x14, x13)
     x16 = combine_two_function_results(apply, x15, x11)
     x17 = lbind(lbind, shift_by_vector)
-    x18 = compose(x17, normalize)
+    x18 = compose(x17, shift_to_origin)
     x19 = combine_two_function_results(apply_and_merge, x18, x10)
     x20 = combine_two_function_results(apply_and_merge, x18, x16)
     x21 = apply_and_merge(x19, x4)
@@ -4818,7 +4893,7 @@ def solve_6d58a25d(I):
     x6 = uppermost(x2)
     x7 = rbind(is_greater, x6)
     x8 = compose(x7, uppermost)
-    x9 = rbind(vmatching, x2)
+    x9 = rbind(vertical_matching, x2)
     x10 = combine_two_function_results(logical_and, x9, x8)
     x11 = keep_if_condition(x3, x10)
     x12 = increment(x6)
@@ -4834,7 +4909,7 @@ def solve_6d58a25d(I):
 def solve_6aa20dc0(I):
     x1 = as_objects(I, False, True, True)
     x2 = argmax(x1, count_colors)
-    x3 = normalize(x2)
+    x3 = shift_to_origin(x2)
     x4 = lbind(matcher, get_first)
     x5 = compose(x4, most_common_color)
     x6 = combine_two_function_results(keep_if_condition, identity, x5)
@@ -4892,7 +4967,7 @@ def solve_e6721834(I):
 def solve_447fd412(I):
     x1 = as_objects(I, False, True, True)
     x2 = argmax(x1, count_colors)
-    x3 = normalize(x2)
+    x3 = shift_to_origin(x2)
     x4 = lbind(matcher, get_first)
     x5 = compose(x4, most_common_color)
     x6 = combine_two_function_results(keep_if_condition, identity, x5)
@@ -4959,9 +5034,9 @@ def solve_776ffc46(I):
     x8 = matcher(get_first, COLOR_ZERO)
     x9 = compose(logical_not, x8)
     x10 = keep_if_condition(x7, x9)
-    x11 = normalize(x10)
+    x11 = shift_to_origin(x10)
     x12 = to_indices(x11)
-    x13 = compose(to_indices, normalize)
+    x13 = compose(to_indices, shift_to_origin)
     x14 = matcher(x13, x12)
     x15 = keep_if_condition_and_merge(x1, x14)
     x16 = color(x11)
@@ -5064,10 +5139,10 @@ def solve_36d67576(I):
     x8 = lbind(occurrences, I)
     x9 = lbind(lbind, shift_by_vector)
     x10 = compose(x7, upper_left_corner)
-    x11 = chain(x10, x6, normalize)
-    x12 = chain(x8, x6, normalize)
+    x11 = chain(x10, x6, shift_to_origin)
+    x12 = chain(x8, x6, shift_to_origin)
     x13 = combine_two_function_results(apply, x11, x12)
-    x14 = compose(x9, normalize)
+    x14 = compose(x9, shift_to_origin)
     x15 = combine_two_function_results(apply_and_merge, x14, x13)
     #x16 = as_tuple(counterdiagonal_mirror, diagonal_mirror)
     x16 = as_generic_tuple(counterdiagonal_mirror, diagonal_mirror) # mdda
@@ -5248,10 +5323,10 @@ def solve_9aec4887(I):
     x2 = argmin(x1, count_colors)
     x3 = get_other(x1, x2)
     x4 = smallest_subgrid_containing(x3, I)
-    x5 = normalize(x2)
+    x5 = shift_to_origin(x2)
     x6 = shift_by_vector(x5, UNITY)
     x7 = to_indices(x6)
-    x8 = normalize(x3)
+    x8 = shift_to_origin(x3)
     x9 = lbind(argmin, x8)
     x11 = lbind(rbind, manhattan)
     x12 = rbind(compose, initset)
@@ -5300,7 +5375,7 @@ def solve_57aa92db(I):
     x7 = combine_two_function_results(subtract, x5, x6)
     x8 = argmax(x1, x7)
     x9 = least_common_color(x8)
-    x10 = normalize(x8)
+    x10 = shift_to_origin(x8)
     x11 = matcher(get_first, x9)
     x12 = keep_if_condition(x10, x11)
     x13 = upper_left_corner(x12)
@@ -5589,7 +5664,7 @@ def solve_f8a8fe49(I):
     x10 = trim(x9)
     x11 = x7(x10)
     x12 = x6(x11, 2)
-    x13 = compose(normalize, as_object)
+    x13 = compose(shift_to_origin, as_object)
     x14 = apply(x13, x12)
     x15 = get_last(x14)
     x16 = get_first(x14)
@@ -5656,7 +5731,7 @@ def solve_6a1e5592(I):
     x5 = color_filter(x2, COLOR_FIVE)
     x6 = merge(x5)
     x7 = cover(I, x6)
-    x8 = compose(to_indices, normalize)
+    x8 = compose(to_indices, shift_to_origin)
     x9 = apply(x8, x5)
     x10 = as_indices(x4)
     x11 = of_color(x4, COLOR_ZERO)
@@ -5706,10 +5781,10 @@ def solve_0e206a2e(I):
     x14 = lbind(occurrences, I)
     x15 = lbind(lbind, shift_by_vector)
     x16 = compose(x13, upper_left_corner)
-    x17 = chain(x16, x12, normalize)
-    x18 = chain(x14, x12, normalize)
+    x17 = chain(x16, x12, shift_to_origin)
+    x18 = chain(x14, x12, shift_to_origin)
     x19 = combine_two_function_results(apply, x17, x18)
-    x20 = compose(x15, normalize)
+    x20 = compose(x15, shift_to_origin)
     x21 = combine_two_function_results(apply_and_merge, x20, x19)
     #x22 = as_tuple(counterdiagonal_mirror, diagonal_mirror)
     x22 = as_generic_tuple(counterdiagonal_mirror, diagonal_mirror)  # mdda
@@ -5810,7 +5885,7 @@ def solve_4290ef0e(I):
     x22 = condition_if_else(x20, x18, x21)
     x23 = double(x22)
     x24 = decrement(x23)
-    x25 = apply(normalize, x17)
+    x25 = apply(shift_to_origin, x17)
     x26 = interval(0, x22, 1)
     x27 = pair(x26, x26)
     x28 = apply_to_both_and_merge(shift_by_vector, x25, x27)
@@ -6002,10 +6077,11 @@ def solve_b7249182(I):
 
 
 def solve_9d9215db(I):
-    x1 = rot90(I)
-    x2 = rot180(I)
-    x3 = rot270(I)
-    x4 = initset(I)
+    Ipost = replace(I, COLOR_ZERO, COLOR_PLACEHOLDER)  # mdda added 
+    x1 = rot90(Ipost)
+    x2 = rot180(Ipost)
+    x3 = rot270(Ipost)
+    x4 = initset(Ipost)
     x5 = chain(count_colors, left_half, top_half)
     x6 = insert(x1, x4)
     x7 = insert(x2, x6)
@@ -6013,7 +6089,7 @@ def solve_9d9215db(I):
     x9 = argmax(x8, x5)
     x10 = vertical_mirror(x9)
     x11 = apply_to_both(pair, x9, x10)
-    x12 = lbind(apply, maximum)   # mdda: Implicitly assumes BLACK < other colors NAUGHTY
+    x12 = lbind(apply, maximum)   # mdda: Implicitly assumes BLACK < other colors FIXED
     x13 = apply(x12, x11)
     x14 = partition(x13)
     x15 = size_filter(x14, 4)
@@ -6029,7 +6105,7 @@ def solve_9d9215db(I):
     x25 = combine_two_function_results(line_between, x23, x24)
     x26 = compose(is_even, get_last)
     x27 = rbind(keep_if_condition, x26)
-    x28 = chain(normalize, x27, x25)
+    x28 = chain(shift_to_origin, x27, x25)
     x29 = combine_two_function_results(shift_by_vector, x28, x23)
     x30 = combine_two_function_results(recolor, color, x29)
     x31 = apply_and_merge(x30, x15)
@@ -6042,7 +6118,8 @@ def solve_9d9215db(I):
     x38 = apply_to_both(pair, x37, x34)
     x39 = apply(x12, x38)
     x40 = apply_to_both(pair, x39, x35)
-    O = apply(x12, x40)
+    Opre = apply(x12, x40)
+    O = replace(Opre, COLOR_PLACEHOLDER, COLOR_ZERO) # mdda added
     return O
 
 
@@ -6094,7 +6171,7 @@ def solve_6855a6e4(I):
 def solve_264363fd(I):
     x1 = as_objects(I, False, False, True)
     x2 = argmin(x1, size)
-    x3 = normalize(x2)
+    x3 = shift_to_origin(x2)
     x4 = height(x2)
     x5 = width(x2)
     x6 = is_equal(x4, 5)
@@ -6152,7 +6229,7 @@ def solve_7df24a62(I):
     x9 = rot270(x6)
     x10 = matcher(size, 0)
     x11 = rbind(of_color, COLOR_ONE)
-    x12 = compose(normalize, x11)
+    x12 = compose(shift_to_origin, x11)
     x13 = rbind(of_color, COLOR_FOUR)
     x14 = rbind(shift_by_vector, x5)
     x15 = compose(x14, x13)
@@ -6176,7 +6253,7 @@ def solve_7df24a62(I):
     x31 = apply(x15, x30)
     x32 = lbind(difference, x4)
     x33 = apply(x32, x31)
-    x34 = apply(normalize, x31)
+    x34 = apply(shift_to_origin, x31)
     x35 = apply(x24, x34)
     x36 = lbind(rbind, difference)
     x37 = apply(x26, x34)
@@ -6456,7 +6533,7 @@ def solve_7837ac64(I):
 def solve_a8c38be5(I):
     x1 = replace(I, COLOR_FIVE, COLOR_ZERO)
     x2 = as_objects(x1, True, False, True)
-    x3 = apply(normalize, x2)
+    x3 = apply(shift_to_origin, x2)
     x4 = as_tuple(9, 9)
     x5 = canvas(COLOR_FIVE, x4)
     x6 = as_indices(x5)
@@ -6475,7 +6552,7 @@ def solve_a8c38be5(I):
     x19 = fill(x5, COLOR_ONE, x18)
     x20 = as_objects(x19, True, False, True)
     x21 = apply(to_indices, x20)
-    x22 = lbind(matcher, normalize)
+    x22 = lbind(matcher, shift_to_origin)
     x23 = lbind(extract_first_matching, x21)
     x24 = chain(upper_left_corner, x23, x22)
     x25 = compose(x24, to_indices)
@@ -6565,10 +6642,10 @@ def solve_97a05b5b(I):
     x16 = lbind(recolor, COLOR_ZERO)
     x17 = compose(x16, x15)
     x18 = combine_two_function_results(combine, x17, x14)
-    x19 = chain(x11, x18, normalize)
+    x19 = chain(x11, x18, shift_to_origin)
     x20 = as_objects(x8, True, True, True)
     x21 = apply(to_indices, x20)
-    x22 = chain(x9, x18, normalize)
+    x22 = chain(x9, x18, shift_to_origin)
     x23 = rbind(color_count, COLOR_TWO)
     x24 = lbind(keep_if_condition, x21)
     x25 = chain(size, get_first, x24)
@@ -6583,7 +6660,7 @@ def solve_97a05b5b(I):
     x34 = chain(x33, x32, x23)
     x35 = combine_two_function_results(keep_if_condition, x31, x34)
     x36 = combine_two_function_results(apply, x19, x35)
-    x37 = compose(x10, normalize)
+    x37 = compose(x10, shift_to_origin)
     x38 = combine_two_function_results(apply_and_merge, x37, x36)
     #x39 = as_tuple(counterdiagonal_mirror, diagonal_mirror)
     x39 = as_generic_tuple(counterdiagonal_mirror, diagonal_mirror)  # mdda

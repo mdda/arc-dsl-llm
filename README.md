@@ -74,6 +74,7 @@ other       get_other
 
 both        logical_and
 either      logical_or
+            logical_not
 
             horizontal_mirror
             vertical_mirror
@@ -124,6 +125,7 @@ hvec        to_horizontal_vec
 vvec        to_vertical_vec
 
 shift       shift_by_vector
+normalize   shift_to_origin
 
             direct_neighbors
             diagonal_neighbors
@@ -131,7 +133,9 @@ shift       shift_by_vector
 vfrontier   vertical_frontier
 hfrontier   horizontal_frontier
 
-            logical_not
+vmatching   vertical_matching
+hmatching   horizontal_matching
+
 
 fgpartition partition_only_foreground
 

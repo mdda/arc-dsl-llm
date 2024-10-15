@@ -433,9 +433,9 @@ def test_shift_by_vector():
     assert shift_by_vector(frozenset({(1, 3), (0, 2), (3, 4)}), (0, -1)) == frozenset({(1, 2), (0, 1), (3, 3)})
  
 
-def test_normalize():
-    assert normalize(frozenset({(2, (1, 1)), (4, (1, 2)), (1, (2, 3))})) == frozenset({(2, (0, 0)), (4, (0, 1)), (1, (1, 2))})
-    assert normalize(frozenset({(1, 0), (0, 2), (3, 4)})) == frozenset({(1, 0), (0, 2), (3, 4)})
+def test_shift_to_origin():
+    assert shift_to_origin(frozenset({(2, (1, 1)), (4, (1, 2)), (1, (2, 3))})) == frozenset({(2, (0, 0)), (4, (0, 1)), (1, (1, 2))})
+    assert shift_to_origin(frozenset({(1, 0), (0, 2), (3, 4)})) == frozenset({(1, 0), (0, 2), (3, 4)})
  
 
 def test_direct_neighbors():
@@ -516,14 +516,14 @@ def test_is_horizontal_line():
     assert not is_horizontal_line(frozenset({(1, 1), (0, 1)}))
  
 
-def test_hmatching():
-    assert hmatching(frozenset({(1, (1, 1)), (2, (0, 0)), (2, (1, 0)), (3, (0, 1))}), frozenset({(1, (1, 3)), (2, (1, 4))}))
-    assert not hmatching(frozenset({(1, (1, 1)), (2, (0, 0)), (2, (1, 0)), (3, (0, 1))}), frozenset({(1, (2, 3)), (2, (2, 4))}))
+def test_horizontal_matching():
+    assert horizontal_matching(frozenset({(1, (1, 1)), (2, (0, 0)), (2, (1, 0)), (3, (0, 1))}), frozenset({(1, (1, 3)), (2, (1, 4))}))
+    assert not horizontal_matching(frozenset({(1, (1, 1)), (2, (0, 0)), (2, (1, 0)), (3, (0, 1))}), frozenset({(1, (2, 3)), (2, (2, 4))}))
  
 
-def test_vmatching():
-    assert vmatching(frozenset({(1, (1, 1)), (2, (0, 0)), (2, (1, 0)), (3, (0, 1))}), frozenset({(1, (3, 1)), (2, (4, 1))}))
-    assert not vmatching(frozenset({(1, (1, 1)), (2, (0, 0)), (2, (1, 0)), (3, (0, 1))}), frozenset({(1, (3, 2)), (2, (4, 2))}))
+def test_vertical_matching():
+    assert vertical_matching(frozenset({(1, (1, 1)), (2, (0, 0)), (2, (1, 0)), (3, (0, 1))}), frozenset({(1, (3, 1)), (2, (4, 1))}))
+    assert not vertical_matching(frozenset({(1, (1, 1)), (2, (0, 0)), (2, (1, 0)), (3, (0, 1))}), frozenset({(1, (3, 2)), (2, (4, 2))}))
  
 
 def test_manhattan():

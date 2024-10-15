@@ -542,16 +542,16 @@ def most_common_color(
     element: Element
 ) -> Color:
     """ most common color """
-    values = [v for r in element for v in r] if isinstance(element, tuple) else [v for v, _ in element]
-    return max(set(values), key=values.count)
+    colors = [c for r in element for c in r] if isinstance(element, tuple) else [c for c, _ in element]
+    return max(set(colors), key=colors.count)
     
 
 def least_common_color(
     element: Element
 ) -> Color:
     """ least common color """
-    values = [v for r in element for v in r] if isinstance(element, tuple) else [v for v, _ in element]
-    return min(set(values), key=values.count)
+    colors = [c for r in element for c in r] if isinstance(element, tuple) else [c for c, _ in element]
+    return min(set(colors), key=colors.count)
 
 
 def height(
@@ -698,7 +698,7 @@ def shift_by_vector[T:Union[Patch,Objects]](patch: T, directions: IntegerTuple) 
 
 
 #def normalize(patch: Patch) -> Patch:
-def normalize[T:Patch](patch: T) -> T:
+def shift_to_origin[T:Patch](patch: T) -> T:
     """ moves upper left corner to origin """
     if len(patch) == 0:
         return patch
@@ -768,8 +768,8 @@ def partition(
     """ each cell with the same value part of the same object """
     return frozenset(
         frozenset(
-            (v, (i, j)) for i, r in enumerate(grid) for j, v in enumerate(r) if v == value
-        ) for value in palette(grid)
+            (c, (i, j)) for i, r in enumerate(grid) for j, c in enumerate(r) if c == color
+        ) for color in palette(grid)
     )
 
 
@@ -833,7 +833,7 @@ def is_horizontal_line(
     return width(patch) == len(patch) and height(patch) == 1
 
 
-def hmatching(
+def horizontal_matching(
     a: Patch,
     b: Patch
 ) -> Boolean:
@@ -841,7 +841,7 @@ def hmatching(
     return len(set(i for i, j in to_indices(a)) & set(i for i, j in to_indices(b))) > 0
 
 
-def vmatching(
+def vertical_matching(
     a: Patch,
     b: Patch
 ) -> Boolean:
@@ -1248,7 +1248,7 @@ def line_between(
     a: IntegerTuple,
     b: IntegerTuple
 ) -> Indices:
-    """ line between two points """
+    """ line between two points, if horizontal, vertical or exactly diagonal """
     ai, aj = a
     bi, bj = b
     si = min(ai, bi)
@@ -1362,7 +1362,7 @@ def gravitate(
     si, sj = center(source)
     di, dj = center(destination)
     i, j = 0, 0
-    if vmatching(source, destination):
+    if vertical_matching(source, destination):
         i = 1 if si < di else -1
     else:
         j = 1 if sj < dj else -1
@@ -1431,7 +1431,7 @@ def occurrences(
 ) -> Indices:
     """ locations of occurrences of object in grid """
     occs = set()
-    normed = normalize(obj)
+    normed = shift_to_origin(obj)
     h, w = len(grid), len(grid[0])
     oh, ow = shape(obj)
     h2, w2 = h - oh + 1, w - ow + 1
@@ -1470,7 +1470,7 @@ def horizontal_periodicity(
     obj: Object
 ) -> Integer:
     """ horizontal periodicity """
-    normalized = normalize(obj)
+    normalized = shift_to_origin(obj)
     w = width(normalized)
     for p in range(1, w):
         offsetted = shift_by_vector(normalized, (0, -p))
@@ -1484,7 +1484,7 @@ def vertical_periodicity(
     obj: Object
 ) -> Integer:
     """ vertical periodicity """
-    normalized = normalize(obj)
+    normalized = shift_to_origin(obj)
     h = height(normalized)
     for p in range(1, h):
         offsetted = shift_by_vector(normalized, (-p, 0))
