@@ -12,6 +12,8 @@ from . import solvers
 
 import sys, traceback
 
+grid_to_tuples = lambda g: tuple(tuple(r) for r in g)
+
 def get_data(train=True):
     #path = f'../data/{"training" if train else "evaluation"}'
     path = f'../ARC-AGI/data/{"training" if train else "evaluation"}'
@@ -20,15 +22,14 @@ def get_data(train=True):
     for fn in os.listdir(path):
         with open(f'{path}/{fn}') as f:
             data[fn.rstrip('.json')] = json.load(f)
-    ast = lambda g: tuple(tuple(r) for r in g)
     return {
         'train': {k: [{
-            'input': ast(e['input']),
-            'output': ast(e['output']),
+            'input': grid_to_tuples(e['input']),
+            'output': grid_to_tuples(e['output']),
         } for e in v['train']] for k, v in data.items()},
         'test': {k: [{
-            'input': ast(e['input']),
-            'output': ast(e['output']),
+            'input': grid_to_tuples(e['input']),
+            'output': grid_to_tuples(e['output']),
         } for e in v['test']] for k, v in data.items()}
     }
 
@@ -233,6 +234,9 @@ Solvers for the following problems are all fixed now!
 """
 
 """
+Solver checking:
+python -m arc_dsl.main
+
 Type-checking:
 pyright solvers.py
 
