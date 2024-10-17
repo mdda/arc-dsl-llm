@@ -1,6 +1,7 @@
 from .arc_types import Color
 
-COLOR_PLACEHOLDER: Color = -1
+
+COLOR_BELOW: Color = -1
 COLOR_ZERO: Color = 0
 COLOR_ONE: Color = 1
 COLOR_TWO: Color = 2
@@ -12,6 +13,7 @@ COLOR_SEVEN: Color = 7
 COLOR_EIGHT: Color = 8
 COLOR_NINE: Color = 9
 #COLOR_TEN: Color = 10
+COLOR_ABOVE: Color = 10
 
 #F = False
 #T = True

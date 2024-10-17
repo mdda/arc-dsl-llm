@@ -84,13 +84,17 @@ def test_solvers_formatting(solvers_module, dsl_module):
     n = len(definitions)
     for key, definition in definitions.items():
         try:
-            lines = definition.split('\n')
-            assert lines[0] == f'def {key}(I):'
+            lines = [
+                l[:l.find('#')].rstrip() if '#' in l else l.rstrip()   # Strip of text following a comment '#'
+                for l in definition.split('\n')
+            ]
+            assert lines[0] == f'def {key}(I):', lines[0]
             assert lines[-1] == ''
             variables = set()
             calls = set()
             for line in lines[1:-2]:
-                if line.lstrip().startswith('#'): continue # Skip commented lines
+                #if line.lstrip().startswith('#'): continue # Skip commented lines (already killed above)
+                if len(line.lstrip())==0: continue         # Skip blank lines
                 variable, call = line.lstrip().split(' = ')
                 function, args = call.split('(')
                 assert variable not in dsl_interface

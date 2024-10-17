@@ -416,11 +416,11 @@ def solve_44d8ac46(I):
 
 def solve_1e0a9b12(I):
     x1 = rot270(I)
-    x1r = replace(x1, COLOR_ZERO, COLOR_PLACEHOLDER) # mdda new
+    x1r = replace(x1, COLOR_ZERO, COLOR_BELOW) # mdda new
     x2 = rbind(order, identity)  # mdda : This relies on BLACK being < other colors - FIXED
     #x3 = apply(x2, x1)
     x3 = apply(x2, x1r)
-    x3r = replace(x3, COLOR_PLACEHOLDER, COLOR_ZERO) # mdda new
+    x3r = replace(x3, COLOR_BELOW, COLOR_ZERO) # mdda new
     #O = rot90(x3)
     O = rot90(x3r)
     return O
@@ -1604,14 +1604,14 @@ def solve_3bd67248(I):
 
 
 def solve_73251a56(I):
-    Ipost = replace(I, COLOR_ZERO, COLOR_PLACEHOLDER)  # mdda added
+    Ipost = replace(I, COLOR_ZERO, COLOR_BELOW)  # mdda added
     x1 = diagonal_mirror(Ipost)
     x2 = apply_to_both(pair, Ipost, x1)
     x3 = lbind(apply, maximum)  # mdda : Assumes that BLACK < other colors - FIXED
     x4 = apply(x3, x2)
     x5 = most_common_color(x4)
     #x6 = replace(x4, COLOR_ZERO, x5)
-    x6 = replace(x4, COLOR_PLACEHOLDER, x5)   # mdda added
+    x6 = replace(x4, COLOR_BELOW, x5)   # mdda added
     x7 = color_at_location(x6, ORIGIN)
     x8 = shoot(ORIGIN, UNITY)
     O = fill(x6, x7, x8)
@@ -1646,7 +1646,7 @@ def solve_8f2ea7aa(I):
 
 def solve_b8825c91(I):
     #x1 = replace(I, COLOR_FOUR, COLOR_ZERO)  # mdda : Assumes that COLOR_BLACK < all other colors - FIXED
-    x1 = replace(I, COLOR_FOUR, COLOR_PLACEHOLDER)  # mdda fixed
+    x1 = replace(I, COLOR_FOUR, COLOR_BELOW)  # mdda fixed
     x2 = diagonal_mirror(x1)
     x3 = apply_to_both(pair, x1, x2)
     x4 = lbind(apply, maximum)  
@@ -2231,12 +2231,12 @@ def solve_af902bf9(I):
     x2 = apply_function_on_cartesian_product(line_between, x1, x1)
     x3 = combine_two_function_results(logical_or, is_vertical_line, is_horizontal_line)
     x4 = keep_if_condition_and_merge(x2, x3)
-    x5 = underfill(I, COLOR_PLACEHOLDER, x4)
+    x5 = underfill(I, COLOR_BELOW, x4)
     x6 = as_objects(x5, False, False, True)
     x7 = compose(backdrop, inbox)
     x8 = apply_and_merge(x7, x6)
     x9 = fill(x5, COLOR_TWO, x8)
-    O = replace(x9, COLOR_PLACEHOLDER, COLOR_ZERO)
+    O = replace(x9, COLOR_BELOW, COLOR_ZERO)
     return O
 
 
@@ -2499,7 +2499,7 @@ def solve_3eda0437(I):
 def solve_dc0a314f(I):
     x1 = of_color(I, COLOR_THREE)
     #x2 = replace(I, COLOR_THREE, COLOR_ZERO)  # mdda : Assumes that COLOR_BLACK < other colors
-    x2 = replace(I, COLOR_THREE, COLOR_PLACEHOLDER)  # mdda : FIXED
+    x2 = replace(I, COLOR_THREE, COLOR_BELOW)  # mdda : FIXED
     x3 = diagonal_mirror(x2)
     x4 = apply_to_both(pair, x2, x3)
     x5 = lbind(apply, maximum)   # assumption here
@@ -2737,12 +2737,12 @@ def solve_0962bcdd(I):
 def solve_3631a71a(I):
     x1 = shape(I)
     #x2 = replace(I, COLOR_NINE, COLOR_ZERO)
-    x2 = replace(I, COLOR_NINE, COLOR_PLACEHOLDER)  # mdda new
+    x2 = replace(I, COLOR_NINE, COLOR_BELOW)  # mdda new
     x3 = lbind(apply, maximum)  # mdda : Is this over colors??  FIXED now since PLACEHOLDER<other_colors
     x4 = diagonal_mirror(x2)
     x5 = apply_to_both(pair, x2, x4)
     x6pre = apply(x3, x5)
-    x6 = replace(x6pre, COLOR_PLACEHOLDER, COLOR_ZERO)  # mdda changed - refers to old x6
+    x6 = replace(x6pre, COLOR_BELOW, COLOR_ZERO)  # mdda changed - refers to old x6
     x7 = subtract(x1, TWO_BY_TWO)
     x8 = crop(x6, TWO_BY_TWO, x7)
     x9 = vertical_mirror(x8)
@@ -3309,7 +3309,7 @@ def solve_4093f84a(I):
     x4 = is_portrait(x3)
     m5 = condition_if_else(x4, identity, diagonal_mirror)
     x6pre = m5(x2)
-    x6 = replace(x6pre, COLOR_ZERO, COLOR_PLACEHOLDER)  # mdda - added
+    x6 = replace(x6pre, COLOR_ZERO, COLOR_BELOW)  # mdda - added
     x7 = left_half(x6)
     x8 = right_half(x6)
     x9 = rbind(order, identity)  # mdda: depends on BLACK being < other colors NAUGHTY  FIXED
@@ -3317,7 +3317,7 @@ def solve_4093f84a(I):
     x11 = apply(x9, x7)
     x12 = apply(x10, x8)
     x13pre = horizontal_concat(x11, x12)
-    x13 = replace(x13pre, COLOR_PLACEHOLDER, COLOR_ZERO)  # mdda - added
+    x13 = replace(x13pre, COLOR_BELOW, COLOR_ZERO)  # mdda - added
     O = m5(x13)  
     return O
 
@@ -6077,7 +6077,7 @@ def solve_b7249182(I):
 
 
 def solve_9d9215db(I):
-    Ipost = replace(I, COLOR_ZERO, COLOR_PLACEHOLDER)  # mdda added 
+    Ipost = replace(I, COLOR_ZERO, COLOR_BELOW)  # mdda added 
     x1 = rot90(Ipost)
     x2 = rot180(Ipost)
     x3 = rot270(Ipost)
@@ -6119,7 +6119,7 @@ def solve_9d9215db(I):
     x39 = apply(x12, x38)
     x40 = apply_to_both(pair, x39, x35)
     Opre = apply(x12, x40)
-    O = replace(Opre, COLOR_PLACEHOLDER, COLOR_ZERO) # mdda added
+    O = replace(Opre, COLOR_BELOW, COLOR_ZERO) # mdda added
     return O
 
 
