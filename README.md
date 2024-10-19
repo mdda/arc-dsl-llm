@@ -59,6 +59,11 @@ Changes made
 
 
 
+invert      negate
+combine     union
+dedupe      remove_duplicates
+order       sort
+
 even        is_even
 positive    is_positive
 equality    is_equal
@@ -76,10 +81,10 @@ both        logical_and
 either      logical_or
             logical_not
 
-            horizontal_mirror
-            vertical_mirror
-            diagonal_mirror
-            counterdiagonal_mirror
+hmirror     horizontal_mirror
+vmirror     vertical_mirror
+?dmirror     diagonal_mirror
+?cmirror     counterdiagonal_mirror
 
             horizontal_upscale
             vertical_upscale
@@ -110,16 +115,18 @@ product     cartesian_product
 sfilter     keep_if_condition
 mfilter     keep_if_condition_and_merge
 
-mapply      apply_and_merge
-papply      apply_to_both
-mpapply     apply_to_both_and_merge
+apply       transform
+mapply      transform_and_flatten
+papply      transform_both  
+mpapply     transform_both_and_flatten apply_to_both_and_merge
 rapply      apply_each_function
 prapply     apply_function_on_cartesian_product(
-
 
             extract_first_matching
 branch      condition_if_else
 fork        combine_two_function_results
+
+matcher     equals
 
 hvec        to_horizontal_vec
 vvec        to_vertical_vec
@@ -142,8 +149,17 @@ fgpartition partition_only_foreground
 mostcolor   most_common_color
 leastcolor  least_common_color
 
+manhattan   manhattan_distance
             as_generic_tuple
             make_cell
+
+backdrop    bounding_box_indices
+delta       bounding_box_delta
+            
+canvas      create_grid
+cover       erase_patch
+trim        trim_border
+move        move_object
 
 T           True
 F           False

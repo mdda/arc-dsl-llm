@@ -38,9 +38,9 @@ def test_divide():
     assert divide(9, 2) == 4
  
 
-def test_invert():
-    assert invert(1) == -1
-    assert invert(-4) == 4
+def test_negate():
+    assert negate(1) == -1
+    assert negate(-4) == 4
  
 
 def test_is_even():
@@ -72,9 +72,9 @@ def test_contains():
     assert not contains(2, {3, 4})
  
 
-def test_combine():
-    assert combine(frozenset({1, 2}), frozenset({3, 4})) == frozenset({1, 2, 3, 4})
-    assert combine((1, 2), (3, 4)) == (1, 2, 3, 4)
+def test_union():
+    assert union(frozenset({1, 2}), frozenset({3, 4})) == frozenset({1, 2, 3, 4})
+    assert union((1, 2), (3, 4)) == (1, 2, 3, 4)
  
 
 def test_intersection():
@@ -85,22 +85,22 @@ def test_difference():
     assert difference(frozenset({1, 2, 3}), frozenset({1, 2})) == frozenset({3})
  
 
-def test_dedupe():
-    assert dedupe((1, 2, 3, 3, 2, 4, 1)) == (1, 2, 3, 4)
+def test_remove_duplicates():
+    assert remove_duplicates((1, 2, 3, 3, 2, 4, 1)) == (1, 2, 3, 4)
  
 
-def test_order():
-    assert order(((1,), (1, 2, 3), (1, 2)), len) == ((1,), (1, 2), (1, 2, 3))
-    assert order((1, 4, -3), abs) == (1, -3, 4)
+def test_sort():
+    assert sort(((1,), (1, 2, 3), (1, 2)), len) == ((1,), (1, 2), (1, 2, 3))
+    assert sort((1, 4, -3), abs) == (1, -3, 4)
  
 
 def test_repeat():
     assert repeat(C, 3) == (C, C, C)
  
 
-def test_is_greater():
-    assert is_greater(2, 1)
-    assert not is_greater(4, 10)
+def test_greater_than():
+    assert greater_than(2, 1)
+    assert not greater_than(4, 10)
  
 
 def test_size():
@@ -108,10 +108,10 @@ def test_size():
     assert size(frozenset({2, 5})) == 2
  
 
-def test_merge():
-    assert merge(frozenset({frozenset({(1, (0, 0))}), frozenset({(1, (1, 1)), (1, (0, 1))})})) == frozenset({(1, (0, 0)), (1, (1, 1)), (1, (0, 1))})
-    assert merge(((1, 2), (3, 4, 5))) == (1, 2, 3, 4, 5)
-    assert merge(((4, 5), (7,))) == (4, 5, 7)
+def test_flatten():
+    assert flatten(frozenset({frozenset({(1, (0, 0))}), frozenset({(1, (1, 1)), (1, (0, 1))})})) == frozenset({(1, (0, 0)), (1, (1, 1)), (1, (0, 1))})
+    assert flatten(((1, 2), (3, 4, 5))) == (1, 2, 3, 4, 5)
+    assert flatten(((4, 5), (7,))) == (4, 5, 7)
  
 
 def test_maximum():
@@ -201,8 +201,8 @@ def test_keep_if_condition():
     assert keep_if_condition(frozenset({2, 3, 4}), lambda x: x % 2 == 0) == frozenset({2, 4})
  
 
-def test_keep_if_condition_and_merge():
-    assert keep_if_condition_and_merge(frozenset({frozenset({(2, (3, 3))}), frozenset({(1, (0, 0))}), frozenset({(1, (1, 1)), (1, (0, 1))})}), lambda x: len(x) == 1) == frozenset({(1, (0, 0)), (2, (3, 3))})
+def test_keep_if_condition_and_flatten():
+    assert keep_if_condition_and_flatten(frozenset({frozenset({(2, (3, 3))}), frozenset({(1, (0, 0))}), frozenset({(1, (1, 1)), (1, (0, 1))})}), lambda x: len(x) == 1) == frozenset({(1, (0, 0)), (2, (3, 3))})
  
 
 def test_extract_first_matching():
@@ -251,8 +251,8 @@ def test_cartesian_product():
     assert cartesian_product({1, 2}, {2, 3}) == frozenset({(1, 2), (1, 3), (2, 2), (2, 3)})
  
 
-def test_pair():
-    assert pair((1, 2), (4, 3)) == ((1, 4), (2, 3))
+def test_pairwise():
+    assert pairwise((1, 2), (4, 3)) == ((1, 4), (2, 3))
  
 
 def test_condition_if_else():
@@ -269,19 +269,19 @@ def test_chain():
     assert chain(lambda x: x + 3, lambda x: x ** 2, lambda x: x + 1)(2) == 12
  
 
-def test_matcher():
-    assert matcher(lambda x: x + 1, 3)(2)
-    assert not matcher(lambda x: x - 1, 3)(2)
+def test_equals():
+    assert equals(lambda x: x + 1, 3)(2)
+    assert not equals(lambda x: x - 1, 3)(2)
  
 
-def test_rbind():
-    assert rbind(lambda a, b: a + b, 2)(3) == 5
-    assert rbind(lambda a, b: a == b, 2)(2)
+def test_fix_last_argument():
+    assert fix_last_argument(lambda a, b: a + b, 2)(3) == 5
+    assert fix_last_argument(lambda a, b: a == b, 2)(2)
  
 
-def test_lbind():
-    assert lbind(lambda a, b: a + b, 2)(3) == 5
-    assert lbind(lambda a, b: a == b, 2)(2)
+def test_fix_first_argument():
+    assert fix_first_argument(lambda a, b: a + b, 2)(3) == 5
+    assert fix_first_argument(lambda a, b: a == b, 2)(2)
  
 
 def test_power():
@@ -292,25 +292,25 @@ def test_combine_two_function_results():
     assert combine_two_function_results(lambda x, y: x * y, lambda x: x + 1, lambda x: x + 2)(2) == 12
  
 
-def test_apply():
-    assert apply(lambda x: x ** 2, (1, 2, 3)) == (1, 4, 9)
-    assert apply(lambda x: x % 2, frozenset({1, 2})) == frozenset({0, 1})
+def test_transform():
+    assert transform(lambda x: x ** 2, (1, 2, 3)) == (1, 4, 9)
+    assert transform(lambda x: x % 2, frozenset({1, 2})) == frozenset({0, 1})
  
 
 def test_apply_each_function():
     assert apply_each_function(frozenset({lambda x: x + 1, lambda x: x - 1}), 1) == {0, 2}
  
 
-def test_apply_and_merge():
-    assert apply_and_merge(lambda x: frozenset({(v + 1, (i, j)) for v, (i, j) in x}), frozenset({frozenset({(1, (0, 0))}), frozenset({(1, (1, 1)), (1, (0, 1))})})) == frozenset({(2, (0, 0)), (2, (1, 1)), (2, (0, 1))})
+def test_transform_and_flatten():
+    assert transform_and_flatten(lambda x: frozenset({(v + 1, (i, j)) for v, (i, j) in x}), frozenset({frozenset({(1, (0, 0))}), frozenset({(1, (1, 1)), (1, (0, 1))})})) == frozenset({(2, (0, 0)), (2, (1, 1)), (2, (0, 1))})
  
 
-def test_apply_to_both():
-    assert apply_to_both(lambda x, y: x + y, (1, 2), (3, 4)) == (4, 6)
+def test_transform_both():
+    assert transform_both(lambda x, y: x + y, (1, 2), (3, 4)) == (4, 6)
  
 
-def test_apply_to_both_and_merge():
-    #assert apply_to_both_and_merge(lambda x, y: frozenset({(x, (i, j)) for _, (i, j) in y}), (3, 4), frozenset({frozenset({(1, (0, 0))}), frozenset({(1, (1, 1)), (1, (0, 1))})})) == ((3, (0, 0)), (4, (1, 1)), (4, (0, 1)))
+def test_transform_both_and_flatten():
+    #assert transform_both_and_flatten(lambda x, y: frozenset({(x, (i, j)) for _, (i, j) in y}), (3, 4), frozenset({frozenset({(1, (0, 0))}), frozenset({(1, (1, 1)), (1, (0, 1))})})) == ((3, (0, 0)), (4, (1, 1)), (4, (0, 1)))
     input_tuple: tuple[int, int] = (3, 4)
     input_data: Tuple[Tuple[Cell,], Tuple[Cell, Cell]] = (
         ((1, (0, 0)),),
@@ -321,7 +321,7 @@ def test_apply_to_both_and_merge():
         (4, (1, 1)),
         (4, (0, 1))
     )
-    computed = apply_to_both_and_merge(lambda x, y: tuple((x, (i, j))
+    computed = transform_both_and_flatten(lambda x, y: tuple((x, (i, j))
                        for _, (i, j) in y), input_tuple, input_data)
     assert computed == expected
 
@@ -526,9 +526,9 @@ def test_vertical_matching():
     assert not vertical_matching(frozenset({(1, (1, 1)), (2, (0, 0)), (2, (1, 0)), (3, (0, 1))}), frozenset({(1, (3, 2)), (2, (4, 2))}))
  
 
-def test_manhattan():
-    assert manhattan(frozenset({(0, 0), (1, 1)}), frozenset({(1, 2), (2, 3)})) == 1
-    assert manhattan(frozenset({(1, 1)}), frozenset({(2, 3)})) == 3
+def test_manhattan_distance():
+    assert manhattan_distance(frozenset({(0, 0), (1, 1)}), frozenset({(1, 2), (2, 3)})) == 1
+    assert manhattan_distance(frozenset({(1, 1)}), frozenset({(2, 3)})) == 3
  
 
 def test_adjacent():
@@ -733,14 +733,14 @@ def test_color_at_location():
     assert color_at_location(D, (1, 2)) == 6
  
 
-def test_canvas():
-    assert canvas(3, (1, 2)) == ((3, 3),)
-    assert canvas(2, (3, 1)) == ((2,), (2,), (2,))
+def test_create_grid():
+    assert create_grid(3, (1, 2)) == ((3, 3),)
+    assert create_grid(2, (3, 1)) == ((2,), (2,), (2,))
  
 
-def test_corners():
-    assert corners(frozenset({(1, 2), (0, 3), (4, 0)})) == frozenset({(0, 0), (0, 3), (4, 0), (4, 3)})
-    assert corners(frozenset({(1, 2), (0, 0), (4, 3)})) == frozenset({(0, 0), (0, 3), (4, 0), (4, 3)})
+def test_corner_indices():
+    assert corner_indices(frozenset({(1, 2), (0, 3), (4, 0)})) == frozenset({(0, 0), (0, 3), (4, 0), (4, 3)})
+    assert corner_indices(frozenset({(1, 2), (0, 0), (4, 3)})) == frozenset({(0, 0), (0, 3), (4, 0), (4, 3)})
  
 
 def test_line_between():
@@ -748,16 +748,16 @@ def test_line_between():
     assert line_between((1, 1), (1, 4)) == frozenset({(1, 1), (1, 2), (1, 3), (1, 4)})
  
 
-def test_cover():
-    assert cover(C, frozenset({(0, 0)})) == ((5, 4), (5, 5))
+def test_erase_patch():
+    assert erase_patch(C, frozenset({(0, 0)})) == ((5, 4), (5, 5))
  
 
-def test_trim():
-    assert trim(D) == ((5,),)
+def test_trim_border():
+    assert trim_border(D) == ((5,),)
  
 
-def test_move():
-    assert move(C, frozenset({(3, (0, 0))}), (1, 1)) == ((5, 4), (5, 3))
+def test_move_object():
+    assert move_object(C, frozenset({(3, (0, 0))}), (1, 1)) == ((5, 4), (5, 3))
  
 
 def test_top_half():
@@ -780,20 +780,20 @@ def test_right_half():
     assert right_half(D) == ((3,), (6,), (0,))
  
 
-def test_vertical_frontier():
-    assert vertical_frontier((3, 4)) == frozenset({(i, 4) for i in range(30)})
+def test_vertical_line():
+    assert vertical_line((3, 4)) == frozenset({(i, 4) for i in range(30)})
  
 
-def test_horizontal_frontier():
-    assert horizontal_frontier((3, 4)) == frozenset({(3, i) for i in range(30)})
+def test_horizontal_line():
+    assert horizontal_line((3, 4)) == frozenset({(3, i) for i in range(30)})
  
 
-def test_backdrop():
-    assert backdrop(frozenset({(2, 3), (3, 2), (3, 3), (4, 1)})) == frozenset({(2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (3, 3), (4, 1), (4, 2), (4, 3),})
+def test_bounding_box_indices():
+    assert bounding_box_indices(frozenset({(2, 3), (3, 2), (3, 3), (4, 1)})) == frozenset({(2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (3, 3), (4, 1), (4, 2), (4, 3),})
  
 
-def test_delta():
-    assert delta(frozenset({(2, 3), (3, 2), (3, 3), (4, 1)})) == frozenset({(2, 1), (2, 2), (3, 1), (4, 2), (4, 3)})
+def test_bounding_box_delta():
+    assert bounding_box_delta(frozenset({(2, 3), (3, 2), (3, 3), (4, 1)})) == frozenset({(2, 1), (2, 2), (3, 1), (4, 2), (4, 3)})
  
 
 def test_gravitate():
