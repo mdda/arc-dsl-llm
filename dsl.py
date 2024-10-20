@@ -594,16 +594,13 @@ def uppermost(patch: Patch) -> Integer:
     """ row index of uppermost occupied cell """
     return min(i for i, j in to_indices(patch))
 
-
 def lowermost(patch: Patch) -> Integer:
     """ row index of lowermost occupied cell """
     return max(i for i, j in to_indices(patch))
 
-
 def leftmost(patch: Patch) -> Integer:
     """ column index of leftmost occupied cell """
     return min(j for i, j in to_indices(patch))
-
 
 def rightmost(patch: Patch) -> Integer:
     """ column index of rightmost occupied cell """
@@ -614,11 +611,9 @@ def is_square(piece: Piece) -> Boolean:
     """ whether the piece forms a square """
     return len(piece) == len(piece[0]) if isinstance(piece, tuple) else height(piece) * width(piece) == len(piece) and height(piece) == width(piece)
 
-
 def is_vertical_line(patch: Patch) -> Boolean:
     """ whether the piece forms a vertical line """
     return height(patch) == len(patch) and width(patch) == 1
-
 
 def is_horizontal_line(patch: Patch) -> Boolean:
     """ whether the piece forms a horizontal line """
@@ -629,7 +624,6 @@ def horizontal_matching(a: Patch, b: Patch) -> Boolean:
     """ whether there exists a row for which both patches have cells """
     return len(set(i for i, j in to_indices(a)) & set(i for i, j in to_indices(b))) > 0
 
-
 def vertical_matching(a: Patch, b: Patch) -> Boolean:
     """ whether there exists a column for which both patches have cells """
     return len(set(j for i, j in to_indices(a)) & set(j for i, j in to_indices(b))) > 0
@@ -638,7 +632,6 @@ def vertical_matching(a: Patch, b: Patch) -> Boolean:
 def manhattan_distance(a: Patch, b: Patch) -> Integer:
     """ closest manhattan distance between two patches """
     return min(abs(ai - bi) + abs(aj - bj) for ai, aj in to_indices(a) for bi, bj in to_indices(b))
-
 
 def adjacent(a: Patch, b: Patch) -> Boolean:
     """ whether two patches are adjacent """

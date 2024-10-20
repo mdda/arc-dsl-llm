@@ -218,16 +218,8 @@ ARC-Prize .org GAME CONSTANTS
 
 Greenblatt : 
 color_to_num = {
-    "black": 0,
-    "blue": 1,
-    "red": 2,
-    "green": 3,
-    "yellow": 4,
-    "grey": 5,
-    "pink": 6,
-    "orange": 7,
-    "purple": 8,
-    "brown": 9,
+    "black": 0, "blue": 1, "red": 2, "green": 3, "yellow": 4,
+    "grey": 5, "pink": 6, "orange": 7, "purple": 8, "brown": 9,
 }
 """
 
