@@ -314,7 +314,7 @@ def solve_56ff96f3(I):
     x1 = partition_only_foreground(I)
     x2 = combine_two_function_results(recolor, color, bounding_box_indices)
     x3 = transform_and_flatten(x2, x1)
-    O = paint(I, x3)
+    O = paint_onto_grid(I, x3)
     return O
 
 
@@ -500,7 +500,7 @@ def solve_9565186b(I):
     x2 = as_objects(I, True, False, False)
     x3 = argmax(x2, size)
     x4 = create_grid(COLOR_FIVE, x1)
-    O = paint(x4, x3)
+    O = paint_onto_grid(x4, x3)
     return O
 
 
@@ -527,7 +527,7 @@ def solve_e98196ab(I):
     x2 = bottom_half(I)
     x3 = as_objects(x1, True, False, True)
     x4 = flatten(x3)
-    O = paint(x2, x4)
+    O = paint_onto_grid(x2, x4)
     return O
 
 
@@ -554,7 +554,7 @@ def solve_22eb0ac0(I):
     x2 = combine_two_function_results(recolor, color, bounding_box_indices)
     x3 = transform(x2, x1)
     x4 = keep_if_condition_and_flatten(x3, is_horizontal_line)
-    O = paint(I, x4)
+    O = paint_onto_grid(I, x4)
     return O
 
 
@@ -682,7 +682,7 @@ def solve_d037b0a7(I):
     x3 = compose(x2, center)
     x4 = combine_two_function_results(recolor, color, x3)
     x5 = transform_and_flatten(x4, x1)
-    O = paint(I, x5)
+    O = paint_onto_grid(I, x5)
     return O
 
 
@@ -702,7 +702,7 @@ def solve_e3497940(I):
     x3 = vertical_mirror(x2)
     x4 = as_objects(x3, True, False, True)
     x5 = flatten(x4)
-    O = paint(x1, x5)
+    O = paint_onto_grid(x1, x5)
     return O
 
 
@@ -855,7 +855,7 @@ def solve_1f876c06(I):
     x4 = combine_two_function_results(line_between, x2, x3)
     x5 = combine_two_function_results(recolor, color, x4)
     x6 = transform_and_flatten(x5, x1)
-    O = paint(I, x6)
+    O = paint_onto_grid(I, x6)
     return O
 
 
@@ -1041,7 +1041,7 @@ def solve_08ed6ac7(I):
     #r1 = transform_both(f1, x5, r2)
     #x6 = flatten(r1)
     #
-    O = paint(I, x6)
+    O = paint_onto_grid(I, x6)
     return O
 
 
@@ -1051,8 +1051,8 @@ def solve_40853293(I):
     x3 = transform(x2, x1)
     x4 = keep_if_condition_and_flatten(x3, is_horizontal_line)
     x5 = keep_if_condition_and_flatten(x3, is_vertical_line)
-    x6 = paint(I, x4)
-    O = paint(x6, x5)
+    x6 = paint_onto_grid(I, x4)
+    O = paint_onto_grid(x6, x5)
     return O
 
 
@@ -1063,7 +1063,7 @@ def solve_5521c0d9(I):
     x4 = chain(to_vertical_vec, negate, height)
     x5 = combine_two_function_results(shift_by_vector, identity, x4)
     x6 = transform_and_flatten(x5, x1)
-    O = paint(x3, x6)
+    O = paint_onto_grid(x3, x6)
     return O
 
 
@@ -1085,7 +1085,7 @@ def solve_85c4e7cd(I):
     x4 = sort(x1, x2)
     x5 = transform(color, x4)
     x6 = transform_both_and_flatten(recolor, x5, x3)
-    O = paint(I, x6)
+    O = paint_onto_grid(I, x6)
     return O
 
 
@@ -1118,7 +1118,7 @@ def solve_363442ee(I):
     x4 = fix_first_argument(shift_by_vector, x3)
     x5 = compose(x4, decrement)
     x6 = transform_and_flatten(x5, x1)
-    O = paint(I, x6)
+    O = paint_onto_grid(I, x6)
     return O
 
 
@@ -1302,7 +1302,7 @@ def solve_d13f3404(I):
     x5 = transform_and_flatten(x4, x1)
     x6 = as_tuple(6, 6)
     x7 = create_grid(COLOR_ZERO, x6)
-    O = paint(x7, x5)
+    O = paint_onto_grid(x7, x5)
     return O
 
 
@@ -1374,7 +1374,7 @@ def solve_e76a88a6(I):
     x5 = transform(upper_left_corner, x4)
     x6 = fix_first_argument(shift_by_vector, x3)
     x7 = transform_and_flatten(x6, x5)
-    O = paint(I, x7)
+    O = paint_onto_grid(I, x7)
     return O
 
 
@@ -1434,7 +1434,7 @@ def solve_6d75e8bb(I):
     x5 = replace(x4, COLOR_ZERO, COLOR_TWO)
     x6 = as_object(x5)
     x7 = shift_by_vector(x6, x3)
-    O = paint(I, x7)
+    O = paint_onto_grid(I, x7)
     return O
 
 
@@ -1482,7 +1482,7 @@ def solve_a61f2674(I):
     x5 = recolor(COLOR_ONE, x2)
     x6 = recolor(COLOR_TWO, x3)
     x7 = union(x5, x6)
-    O = paint(x4, x7)
+    O = paint_onto_grid(x4, x7)
     return O
 
 
@@ -1547,7 +1547,7 @@ def solve_1f642eb9(I):
     x6 = compose(crement, x5)
     x7 = combine_two_function_results(shift_by_vector, identity, x6)
     x8 = transform_and_flatten(x7, x2)
-    O = paint(I, x8)
+    O = paint_onto_grid(I, x8)
     return O
 
 
@@ -1702,7 +1702,7 @@ def solve_3ac3eb23(I):
     x2 = chain(diagonal_neighbors, get_last, get_first)
     x3 = combine_two_function_results(recolor, color, x2)
     x4 = transform_and_flatten(x3, x1)
-    x5 = paint(I, x4)
+    x5 = paint_onto_grid(I, x4)
     x6 = vertical_split(x5, 3)
     x7 = get_first(x6)
     x8 = vertical_concat(x7, x7)
@@ -1719,7 +1719,7 @@ def solve_444801d8(I):
     x6 = compose(x5, bounding_box_indices)
     x7 = combine_two_function_results(recolor, x4, x6)
     x8 = transform_and_flatten(x7, x2)
-    O = underpaint(I, x8)
+    O = paint_onto_grid_background(I, x8)
     return O
 
 
@@ -1732,7 +1732,7 @@ def solve_22168020(I):
     x6 = compose(flatten, x5)
     x7 = combine_two_function_results(recolor, identity, x6)
     x8 = transform_and_flatten(x7, x2)
-    O = paint(I, x8)
+    O = paint_onto_grid(I, x8)
     return O
 
 
@@ -1783,7 +1783,7 @@ def solve_681b3aeb(I):
     x5 = color(x4)
     x6 = create_grid(x5, THREE_BY_THREE)
     x7 = shift_to_origin(x3)
-    x8 = paint(x6, x7)
+    x8 = paint_onto_grid(x6, x7)
     O = rot90(x8)
     return O
 
@@ -1797,7 +1797,7 @@ def solve_8e5a5113(I):
     x6 = transform(to_horizontal_vec, x5)
     x7 = transform(as_object, x4)
     x8 = transform_both_and_flatten(shift_by_vector, x7, x6)
-    O = paint(I, x8)
+    O = paint_onto_grid(I, x8)
     return O
 
 
@@ -1862,7 +1862,7 @@ def solve_bda2d7a6(I):
     x6 = repeat(x4, 1)
     x7 = union(x6, x5)
     x8 = transform_both_and_flatten(recolor, x3, x7)
-    O = paint(I, x8)
+    O = paint_onto_grid(I, x8)
     return O
 
 
@@ -1875,7 +1875,7 @@ def solve_137eaa0f(I):
     x6 = create_grid(COLOR_ZERO, THREE_BY_THREE)
     x7 = transform_and_flatten(x5, x1)
     x8 = shift_by_vector(x7, UNITY)
-    O = paint(x6, x8)
+    O = paint_onto_grid(x6, x8)
     return O
 
 
@@ -1887,7 +1887,7 @@ def solve_6455b5f5(I):
     x5 = size_filter(x2, x4)
     x6 = recolor(COLOR_ONE, x3)
     x7 = flatten(x5)
-    x8 = paint(I, x6)
+    x8 = paint_onto_grid(I, x6)
     O = fill(x8, COLOR_EIGHT, x7)
     return O
 
@@ -2007,8 +2007,8 @@ def solve_83302e8f(I):
     x6 = recolor(COLOR_THREE, x5)
     x7 = flatten(x4)
     x8 = recolor(COLOR_FOUR, x7)
-    x9 = paint(I, x6)
-    O = paint(x9, x8)
+    x9 = paint_onto_grid(I, x6)
+    O = paint_onto_grid(x9, x8)
     return O
 
 
@@ -2033,10 +2033,10 @@ def solve_11852cab(I):
     x4 = vertical_mirror(x2)
     x5 = diagonal_mirror(x2)
     x6 = counterdiagonal_mirror(x2)
-    x7 = paint(I, x3)
-    x8 = paint(x7, x4)
-    x9 = paint(x8, x5)
-    O = paint(x9, x6)
+    x7 = paint_onto_grid(I, x3)
+    x8 = paint_onto_grid(x7, x4)
+    x9 = paint_onto_grid(x8, x5)
+    O = paint_onto_grid(x9, x6)
     return O
 
 
@@ -2064,7 +2064,7 @@ def solve_178fcbfb(I):
     x7 = compose(horizontal_line, center)
     x8 = combine_two_function_results(recolor, color, x7)
     x9 = transform_and_flatten(x8, x6)
-    O = paint(x4, x9)
+    O = paint_onto_grid(x4, x9)
     return O
 
 
@@ -2088,7 +2088,7 @@ def solve_54d9e175(I):
     x3 = compose(neighbors, center)
     x4 = combine_two_function_results(recolor, color, x3)
     x5 = transform_and_flatten(x4, x2)
-    x6 = paint(I, x5)
+    x6 = paint_onto_grid(I, x5)
     x7 = replace(x6, COLOR_ONE, COLOR_SIX)
     x8 = replace(x7, COLOR_TWO, COLOR_SEVEN)
     x9 = replace(x8, COLOR_THREE, COLOR_EIGHT)
@@ -2136,7 +2136,7 @@ def solve_6b9890af(I):
     x7 = upscale(x3, x6)
     x8 = shift_to_origin(x7)
     x9 = shift_by_vector(x8, UNITY)
-    O = paint(x4, x9)
+    O = paint_onto_grid(x4, x9)
     return O
 
 
@@ -2164,7 +2164,7 @@ def solve_88a10436(I):
     x7 = shift_to_origin(x6)
     x8 = shift_by_vector(x7, x4)
     x9 = shift_by_vector(x8, NEG_UNITY)
-    O = paint(I, x9)
+    O = paint_onto_grid(I, x9)
     return O
 
 
@@ -2305,8 +2305,8 @@ def solve_d8c310e9(I):
     x6 = to_horizontal_vec(x4)
     x7 = shift_by_vector(x2, x5)
     x8 = shift_by_vector(x2, x6)
-    x9 = paint(I, x7)
-    O = paint(x9, x8)
+    x9 = paint_onto_grid(I, x7)
+    O = paint_onto_grid(x9, x8)
     return O
 
 
@@ -2334,7 +2334,7 @@ def solve_8eb1be9a(I):
     x7 = transform(x6, x3)
     x8 = transform(to_vertical_vec, x7)
     x9 = transform_and_flatten(x4, x8)
-    O = paint(I, x9)
+    O = paint_onto_grid(I, x9)
     return O
 
 
@@ -2348,7 +2348,7 @@ def solve_321b1fc6(I):
     x7 = fix_first_argument(shift_by_vector, x6)
     x8 = transform(upper_left_corner, x2)
     x9 = transform_and_flatten(x7, x8)
-    O = paint(x5, x9)
+    O = paint_onto_grid(x5, x9)
     return O
 
 
@@ -2362,7 +2362,7 @@ def solve_1caeab9d(I):
     x7 = flatten(x1)
     x8 = erase_patch(I, x7)
     x9 = transform_and_flatten(x6, x1)
-    O = paint(x8, x9)
+    O = paint_onto_grid(x8, x9)
     return O
 
 
@@ -2419,7 +2419,7 @@ def solve_ddf7fa4f(I):
     x7 = compose(color, get_first)
     x8 = combine_two_function_results(recolor, x7, get_last)
     x9 = transform_and_flatten(x8, x6)
-    O = paint(I, x9)
+    O = paint_onto_grid(I, x9)
     return O
 
 
@@ -2457,7 +2457,7 @@ def solve_23581191(I):
     x3 = compose(x2, center)
     x4 = combine_two_function_results(recolor, color, x3)
     x5 = transform_and_flatten(x4, x1)
-    x6 = paint(I, x5)
+    x6 = paint_onto_grid(I, x5)
     x7 = combine_two_function_results(intersection, get_first, get_last)
     x8 = transform(x3, x1)
     x9 = x7(x8)
@@ -2478,7 +2478,7 @@ def solve_c8cbb738(I):
     x7 = chain(halve, x6, shape)
     x8 = combine_two_function_results(shift_by_vector, identity, x7)
     x9 = transform_and_flatten(x8, x5)
-    O = paint(x4, x9)
+    O = paint_onto_grid(x4, x9)
     return O
 
 
@@ -2565,7 +2565,7 @@ def solve_c444b776(I):
     x7 = fix_first_argument(shift_by_vector, x6)
     x8 = compose(x7, upper_left_corner)
     x9 = transform_and_flatten(x8, x2)
-    O = paint(I, x9)
+    O = paint_onto_grid(I, x9)
     return O
 
 
@@ -2632,7 +2632,7 @@ def solve_09629e4f(I):
     x2 = argmin(x1, count_colors)
     x3 = shift_to_origin(x2)
     x4 = upscale(x3, 4)
-    x5 = paint(I, x4)
+    x5 = paint_onto_grid(I, x4)
     x6 = of_color(I, COLOR_FIVE)
     O = fill(x5, COLOR_FIVE, x6)
     return O
@@ -2668,7 +2668,7 @@ def solve_feca6190(I):  # mdda : Not sure why this is color palette order depend
     x8 = combine_two_function_results(recolor, color, x7)
     #x9 = transform_and_flatten(x8, x1)
     x9 = transform_and_flatten(x8, x1fg)
-    x10 = paint(x5, x9)
+    x10 = paint_onto_grid(x5, x9)
     O = horizontal_mirror(x10)
     return O
 
@@ -2700,7 +2700,7 @@ def solve_beb8660c(I):
     x8 = transform(to_vertical_vec, x7)
     x9 = transform_both_and_flatten(shift_by_vector, x5, x8)
     x10 = create_grid(COLOR_ZERO, x1)
-    x11 = paint(x10, x9)
+    x11 = paint_onto_grid(x10, x9)
     O = rot180(x11)
     return O
 
@@ -2749,7 +2749,7 @@ def solve_3631a71a(I):
     x10 = as_objects(x9, True, False, True)
     x11 = flatten(x10)
     x12 = shift_by_vector(x11, TWO_BY_TWO)
-    O = paint(x6, x12)
+    O = paint_onto_grid(x6, x12)
     return O
 
 
@@ -2764,9 +2764,9 @@ def solve_05269061(I):
     x8 = transform_and_flatten(x7, x5)
     x9 = shift_by_vector(x8, UP_RIGHT)
     x10 = shift_by_vector(x8, DOWN_LEFT)
-    x11 = paint(I, x8)
-    x12 = paint(x11, x9)
-    O = paint(x12, x10)
+    x11 = paint_onto_grid(I, x8)
+    x12 = paint_onto_grid(x11, x9)
+    O = paint_onto_grid(x12, x10)
     return O
 
 
@@ -2814,7 +2814,7 @@ def solve_d43fd935(I):
     x10 = combine_two_function_results(line_between, center, x9)
     x11 = combine_two_function_results(recolor, color, x10)
     x12 = transform_and_flatten(x11, x7)
-    O = paint(I, x12)
+    O = paint_onto_grid(I, x12)
     return O
 
 
@@ -2875,7 +2875,7 @@ def solve_93b581b8(I):
     x4 = upscale(x3, 3)
     x5 = as_tuple(-2, -2)
     x6 = shift_by_vector(x4, x5)
-    x7 = underpaint(I, x6)
+    x7 = paint_onto_grid_background(I, x6)
     x8 = to_indices(x3)
     x9 = combine_two_function_results(union, horizontal_line, vertical_line)
     x10 = transform_and_flatten(x9, x8)
@@ -2891,7 +2891,7 @@ def solve_9edfc990(I):
     x4 = fix_last_argument(adjacent, x3)
     x5 = keep_if_condition_and_flatten(x2, x4)
     x6 = recolor(COLOR_ONE, x5)
-    O = paint(I, x6)
+    O = paint_onto_grid(I, x6)
     return O
 
 
@@ -2934,7 +2934,7 @@ def solve_97999447(I):
     x4 = compose(x3, center)
     x5 = combine_two_function_results(recolor, color, x4)
     x6 = transform_and_flatten(x5, x1)
-    x7 = paint(I, x6)
+    x7 = paint_onto_grid(I, x6)
     x8 = interval(0, 5, 1)
     x9 = transform(double, x8)
     x10 = transform(increment, x9)
@@ -2952,7 +2952,7 @@ def solve_91714a58(I):
     x4 = argmax(x3, size)
     x5 = most_common_color(x4)
     x6 = create_grid(COLOR_ZERO, x1)
-    x7 = paint(x6, x4)
+    x7 = paint_onto_grid(x6, x4)
     x8 = fix_last_argument(to_object, x7)
     x9 = fix_last_argument(color_count, x5)
     x10 = chain(x9, x8, neighbors)
@@ -3069,9 +3069,9 @@ def solve_75b8110e(I):
     x10 = x9(x5)
     x11 = x9(x4)
     x12 = x9(x6)
-    x13 = paint(x3, x12)
-    x14 = paint(x13, x11)
-    O = paint(x14, x10)
+    x13 = paint_onto_grid(x3, x12)
+    x14 = paint_onto_grid(x13, x11)
+    O = paint_onto_grid(x14, x10)
     return O
 
 
@@ -3109,7 +3109,7 @@ def solve_c3f564a4(I):
     x12 = pairwise(x10, x11)
     x13 = fix_first_argument(shift_by_vector, x9)
     x14 = transform_and_flatten(x13, x12)
-    O = paint(x6, x14)
+    O = paint_onto_grid(x6, x14)
     return O
 
 
@@ -3128,7 +3128,7 @@ def solve_1a07d186(I):
     x12 = transform_and_flatten(x11, x7)
     x13 = flatten(x2)
     x14 = erase_patch(I, x13)
-    O = paint(x14, x12)
+    O = paint_onto_grid(x14, x12)
     return O
 
 
@@ -3147,7 +3147,7 @@ def solve_d687bc17(I):
     x12 = flatten(x2)
     x13 = transform_and_flatten(x11, x7)
     x14 = erase_patch(I, x12)
-    O = paint(x14, x13)
+    O = paint_onto_grid(x14, x13)
     return O
 
 
@@ -3204,7 +3204,7 @@ def solve_ef135b50(I):
     x12 = trim_border(x11)
     x13 = as_object(x12)
     x14 = shift_by_vector(x13, UNITY)
-    O = paint(I, x14)
+    O = paint_onto_grid(I, x14)
     return O
 
 
@@ -3223,7 +3223,7 @@ def solve_cbded52d(I):
     x12 = compose(color, get_first)
     x13 = combine_two_function_results(recolor, x12, x11)
     x14 = transform_and_flatten(x13, x7)
-    O = paint(I, x14)
+    O = paint_onto_grid(I, x14)
     return O
 
 
@@ -3242,7 +3242,7 @@ def solve_8a004b2b(I):
     x12 = divide(x9, x11)
     x13 = upscale(x5, x12)
     x14 = shift_by_vector(x13, x10)
-    O = paint(x3, x14)
+    O = paint_onto_grid(x3, x14)
     return O
 
 
@@ -3362,14 +3362,14 @@ def solve_29c11459(I):
     x5 = compose(horizontal_line, center)
     x6 = combine_two_function_results(recolor, color, x5)
     x7 = transform_and_flatten(x6, x4)
-    x8 = paint(x1, x7)
+    x8 = paint_onto_grid(x1, x7)
     x9 = transform_and_flatten(x6, x3)
-    x10 = paint(I, x9)
+    x10 = paint_onto_grid(I, x9)
     x11 = as_objects(x8, True, False, True)
     x12 = transform(upper_right_corner, x11)
     x13 = shift_by_vector(x12, RIGHT)
     x14 = flatten(x11)
-    x15 = paint(x10, x14)
+    x15 = paint_onto_grid(x10, x14)
     O = fill(x15, COLOR_FIVE, x13)
     return O
 
@@ -3409,8 +3409,8 @@ def solve_ae3edfdc(I):
     x12 = combine_two_function_results(shift_by_vector, identity, x8)
     x13 = transform_and_flatten(x11, x9)
     x14 = transform_and_flatten(x12, x10)
-    x15 = paint(x3, x13)
-    O = paint(x15, x14)
+    x15 = paint_onto_grid(x3, x13)
+    O = paint_onto_grid(x15, x14)
     return O
 
 
@@ -3430,7 +3430,7 @@ def solve_1f0c79e5(I):
     x13 = apply_function_on_cartesian_product(multiply, x11, x12)
     x14 = fix_first_argument(shift_by_vector, x6)
     x15 = transform_and_flatten(x14, x13)
-    O = paint(I, x15)
+    O = paint_onto_grid(I, x15)
     return O
 
 
@@ -3450,7 +3450,7 @@ def solve_56dc2b01(I):
     x13 = crement(x12)
     x14 = recolor(COLOR_EIGHT, x4)
     x15 = shift_by_vector(x14, x13)
-    x16 = paint(I, x15)
+    x16 = paint_onto_grid(I, x15)
     O = move_object(x16, x3, x5)
     return O
 
@@ -3508,7 +3508,7 @@ def solve_780d0b14(I):
     x8 = transform(center, x6)
     x9 = pairwise(x7, x8)
     x10 = fill(I, COLOR_ZERO, x1)
-    x11 = paint(x10, x9)
+    x11 = paint_onto_grid(x10, x9)
     x12 = fix_last_argument(greater_than, 1)
     x13 = compose(remove_duplicates, to_tuple)
     x14 = chain(x12, size, x13)
@@ -3679,7 +3679,7 @@ def solve_e5062a87(I):
     x15 = keep_if_condition(x6, x14)
     x16 = flatten(x15)
     x17 = recolor(COLOR_TWO, x16)
-    O = paint(I, x17)
+    O = paint_onto_grid(I, x17)
     return O
 
 
@@ -3701,7 +3701,7 @@ def solve_a8d7556c(I):
     x15 = to_object(x14, x7)
     x16 = to_object(x14, I)
     x17 = condition_if_else(x11, x16, x15)
-    O = paint(x7, x17)
+    O = paint_onto_grid(x7, x17)
     return O
 
 
@@ -3733,7 +3733,7 @@ def solve_834ec97d(I):
     x3 = get_first(x2)
     x4 = shift_by_vector(x3, DOWN)
     x5 = fill(I, COLOR_ZERO, x3)
-    x6 = paint(x5, x4)
+    x6 = paint_onto_grid(x5, x4)
     x7 = uppermost(x4)
     x8 = leftmost(x4)
     x9 = subtract(x8, 10)
@@ -3767,7 +3767,7 @@ def solve_846bdb03(I):
     x15 = x14(x4)
     x16 = shift_to_origin(x15)
     x17 = shift_by_vector(x16, UNITY)
-    O = paint(x7, x17)
+    O = paint_onto_grid(x7, x17)
     return O
 
 
@@ -3833,7 +3833,7 @@ def solve_91413438(I):
     x14 = fix_last_argument(multiply, 3)
     x15 = transform(x14, x13)
     x16 = transform_and_flatten(x12, x15)
-    x17 = paint(x8, x16)
+    x17 = paint_onto_grid(x8, x16)
     x18 = horizontal_split(x17, x1)
     O = flatten(x18)
     return O
@@ -3858,7 +3858,7 @@ def solve_539a4f51(I):
     x16 = as_object(x15)
     x17 = multiply(UNITY, 10)
     x18 = create_grid(x2, x17)
-    O = paint(x18, x16)
+    O = paint_onto_grid(x18, x16)
     return O
 
 
@@ -3992,7 +3992,7 @@ def solve_e40b9e2f(I):
     #x8 = fix_first_argument(shift_by_vector, x7)
     #x9 = transform(x8, x3)
     #x10 = argmax(x9, x5)
-    #x11 = paint(I, x10)
+    #x11 = paint_onto_grid(I, x10)
     #x12 = as_objects(x11, False, True, True)
     #x13 = get_first(x12)
     #x14 = compose(size, x5)
@@ -4003,7 +4003,7 @@ def solve_e40b9e2f(I):
     x9 = fix_first_argument(shift_by_vector, x8)
     x10 = transform(x9, x3)
     x11 = argmax(x10, x6)
-    x12 = paint(I, x11)
+    x12 = paint_onto_grid(I, x11)
     x13 = as_objects(x12, False, True, True)
     x14 = get_first(x13)
     # same (https://github.com/michaelhodel/arc-dsl/pull/10/files)
@@ -4013,7 +4013,7 @@ def solve_e40b9e2f(I):
     x17 = fix_first_argument(shift_by_vector, x16)
     x18 = transform(x17, x3)
     x19 = argmax(x18, x6)
-    O = paint(x12, x19)
+    O = paint_onto_grid(x12, x19)
     return O
 
 
@@ -4180,8 +4180,8 @@ def solve_53b68214(I):
     x16 = shift_by_vector(x3, x15)
     x17 = condition_if_else(x12, x10, x16)
     x18 = create_grid(COLOR_ZERO, x11)
-    x19 = paint(x18, x3)
-    O = paint(x19, x17)
+    x19 = paint_onto_grid(x18, x3)
+    O = paint_onto_grid(x19, x17)
     return O
 
 
@@ -4340,7 +4340,7 @@ def solve_caa06a1f(I):
     x4 = color_at_location(I, x3)
     x5 = double(x2)
     x6 = create_grid(x4, x5)
-    x7 = paint(x6, x1)
+    x7 = paint_onto_grid(x6, x1)
     x8 = as_objects(x7, False, False, True)
     x9 = get_first(x8)
     x10 = shift_by_vector(x9, LEFT)
@@ -4355,7 +4355,7 @@ def solve_caa06a1f(I):
     x19 = transform(x18, x16)
     x20 = fix_first_argument(shift_by_vector, x10)
     x21 = transform_and_flatten(x20, x19)
-    O = paint(I, x21)
+    O = paint_onto_grid(I, x21)
     return O
 
 
@@ -4378,7 +4378,7 @@ def solve_e21d9049(I):
     x16 = fix_first_argument(vertical_matching, x4)
     x17 = combine_two_function_results(logical_or, x15, x16)
     x18 = compose(x17, initset)
-    x19 = paint(I, x14)
+    x19 = paint_onto_grid(I, x14)
     x20 = keep_if_condition(x1, x18)
     x21 = difference(x1, x20)
     O = erase_patch(x19, x21)
@@ -4397,7 +4397,7 @@ def solve_d89b689b(I):
     x9 = transform_and_flatten(x8, x3)
     x10 = flatten(x3)
     x11 = erase_patch(I, x10)
-    O = paint(x11, x9)
+    O = paint_onto_grid(x11, x9)
     return O
 
 
@@ -4427,7 +4427,7 @@ def solve_63613498(I):
     x9 = keep_if_condition_and_flatten(x6, x8)
     x10 = fill(I, COLOR_FIVE, x9)
     x11 = as_object(x1)
-    O = paint(x10, x11)
+    O = paint_onto_grid(x10, x11)
     return O
 
 
@@ -4452,7 +4452,7 @@ def solve_06df4c85(I):
     x18 = transform(x17, x13)
     x19 = combine_two_function_results(logical_or, is_vertical_line, is_horizontal_line)
     x20 = keep_if_condition_and_flatten(x18, x19)
-    x21 = paint(I, x20)
+    x21 = paint_onto_grid(I, x20)
     O = fill(x21, x2, x3)
     return O
 
@@ -4478,7 +4478,7 @@ def solve_f9012d9b(I):
     x18 = transform(x17, x15)
     x19 = fix_first_argument(shift_by_vector, x5)
     x20 = transform_and_flatten(x19, x18)
-    x21 = paint(I, x20)
+    x21 = paint_onto_grid(I, x20)
     O = smallest_subgrid_containing(x2, x21)
     return O
 
@@ -4500,7 +4500,7 @@ def solve_4522001f(I):
     x13 = shape(x12)
     x14 = shift_by_vector(x12, x13)
     x15 = union(x12, x14)
-    x16 = paint(x8, x15)
+    x16 = paint_onto_grid(x8, x15)
     x17 = rot90(x16)
     x18 = rot180(x16)
     x19 = rot270(x16)
@@ -4687,7 +4687,7 @@ def solve_36fdfd69(I):
     x10 = transform_and_flatten(bounding_box_delta, x9)
     x11 = fill(x1, COLOR_FOUR, x10)
     x12 = flatten(x3)
-    x13 = paint(x11, x12)
+    x13 = paint_onto_grid(x11, x12)
     O = downscale(x13, 2)
     return O
 
@@ -4708,7 +4708,7 @@ def solve_0a938d79(I):
     x13 = chain(x9, x12, leftmost)
     x14 = combine_two_function_results(recolor, color, x13)
     x15 = transform_and_flatten(x14, x4)
-    x16 = paint(x3, x15)
+    x16 = paint_onto_grid(x3, x15)
     O = x2(x16)
     return O
 
@@ -4728,7 +4728,7 @@ def solve_045e512c(I):
     x12 = compose(x5, x11)
     x13 = combine_two_function_results(recolor, color, x12)
     x14 = transform_and_flatten(x13, x3)
-    O = paint(I, x14)
+    O = paint_onto_grid(I, x14)
     return O
 
 
@@ -4754,7 +4754,7 @@ def solve_82819916(I):
     x19 = combine_two_function_results(recolor, x8, x17)
     x20 = combine_two_function_results(union, x18, x19)
     x21 = transform_and_flatten(x20, x3)
-    O = paint(I, x21)
+    O = paint_onto_grid(I, x21)
     return O
 
 
@@ -4765,7 +4765,7 @@ def solve_99fa7670(I):
     x4 = compose(x3, center)
     x5 = combine_two_function_results(recolor, color, x4)
     x6 = transform_and_flatten(x5, x2)
-    x7 = paint(I, x6)
+    x7 = paint_onto_grid(I, x6)
     x8 = add(x1, DOWN_LEFT)
     x9 = initset(x8)
     x10 = recolor(COLOR_ZERO, x9)
@@ -4782,7 +4782,7 @@ def solve_99fa7670(I):
     x21 = combine_two_function_results(recolor, x20, x19)
     x22 = pairwise(x15, x16)
     x23 = transform_and_flatten(x21, x22)
-    O = underpaint(x7, x23)
+    O = paint_onto_grid_background(x7, x23)
     return O
 
 
@@ -4809,8 +4809,8 @@ def solve_72322fa7(I):
     x20 = combine_two_function_results(transform_and_flatten, x18, x16)
     x21 = transform_and_flatten(x19, x4)
     x22 = transform_and_flatten(x20, x4)
-    x23 = paint(I, x21)
-    O = paint(x23, x22)
+    x23 = paint_onto_grid(I, x21)
+    O = paint_onto_grid(x23, x22)
     return O
 
 
@@ -4880,7 +4880,7 @@ def solve_952a094c(I):
     x11 = transform(x10, x5)
     x12 = flatten(x2)
     x13 = erase_patch(I, x12)
-    O = paint(x13, x11)
+    O = paint_onto_grid(x13, x11)
     return O
 
 
@@ -4931,7 +4931,7 @@ def solve_6aa20dc0(I):
     x22 = apply_each_function(x21, x3)
     x23 = combine_two_function_results(transform_and_flatten, x18, x19)
     x24 = transform_and_flatten(x23, x22)
-    O = paint(I, x24)
+    O = paint_onto_grid(I, x24)
     return O
 
 
@@ -4960,7 +4960,7 @@ def solve_e6721834(I):
     x22 = compose(decrement, width)
     x23 = chain(is_positive, decrement, x22)
     x24 = keep_if_condition_and_flatten(x21, x23)
-    O = paint(x5, x24)
+    O = paint_onto_grid(x5, x24)
     return O
 
 
@@ -4989,7 +4989,7 @@ def solve_447fd412(I):
     x22 = combine_two_function_results(transform_and_flatten, x17, x21)
     x23 = apply_each_function(x10, x3)
     x24 = transform_and_flatten(x22, x23)
-    O = paint(I, x24)
+    O = paint_onto_grid(I, x24)
     return O
 
 
@@ -5019,7 +5019,7 @@ def solve_2bcee788(I):
     x23 = multiply(x21, x22)
     x24 = add(x20, x23)
     x25 = shift_by_vector(x19, x24)
-    O = paint(x3, x25)
+    O = paint_onto_grid(x3, x25)
     return O
 
 
@@ -5063,7 +5063,7 @@ def solve_f35d900a(I):
     x16 = combine_two_function_results(manhattan_distance, initset, x15)
     x17 = compose(is_even, x16)
     x18 = keep_if_condition(x10, x17)
-    x19 = paint(I, x7)
+    x19 = paint_onto_grid(I, x7)
     O = fill(x19, COLOR_FIVE, x18)
     return O
 
@@ -5094,7 +5094,7 @@ def solve_0dfd9992(I):
     x23 = transform(x20, x22)
     x24 = fix_first_argument(shift_by_vector, x6)
     x25 = transform_and_flatten(x24, x23)
-    O = paint(I, x25)
+    O = paint_onto_grid(I, x25)
     return O
 
 
@@ -5124,7 +5124,7 @@ def solve_29ec7d0e(I):
     x23 = transform(x20, x22)
     x24 = fix_first_argument(shift_by_vector, x6)
     x25 = transform_and_flatten(x24, x23)
-    O = paint(I, x25)
+    O = paint_onto_grid(I, x25)
     return O
 
 
@@ -5156,7 +5156,7 @@ def solve_36d67576(I):
     x23 = union(x18, x22)
     x24 = apply_each_function(x23, x2)
     x25 = transform_and_flatten(x15, x24)
-    O = paint(I, x25)
+    O = paint_onto_grid(I, x25)
     return O
 
 
@@ -5200,7 +5200,7 @@ def solve_469497ad(I):
     x15 = underfill(x3, COLOR_TWO, x14)
     x16 = as_objects(x15, True, False, True)
     x17 = argmax(x16, lower_right_corner)
-    O = paint(x15, x17)
+    O = paint_onto_grid(x15, x17)
     return O
 
 
@@ -5232,7 +5232,7 @@ def solve_39e1d7f9(I):
     #x24 = transform(x23, x21)
     #x25 = fix_first_argument(shift_by_vector, x20)
     #x26 = transform_and_flatten(x25, x24)
-    #O = paint(I, x26)
+    #O = paint_onto_grid(I, x26)
     # NIX.end
     x11 = most_common_color(I)
     x12 = fix_first_argument(remove, x11)
@@ -5253,7 +5253,7 @@ def solve_39e1d7f9(I):
     x27 = transform(x26, x24)
     x28 = fix_first_argument(shift_by_vector, x23)
     x29 = transform_and_flatten(x28, x27)
-    O = paint(I, x29)
+    O = paint_onto_grid(I, x29)
     return O
 
 
@@ -5284,7 +5284,7 @@ def solve_484b58aa(I):
     x24 = transform(x21, x23)
     x25 = fix_first_argument(shift_by_vector, x6)
     x26 = transform_and_flatten(x25, x24)
-    O = paint(I, x26)
+    O = paint_onto_grid(I, x26)
     return O
 
 
@@ -5334,7 +5334,7 @@ def solve_9aec4887(I):
     x14 = chain(get_first, x9, x13)
     x15 = combine_two_function_results(as_tuple, x14, identity)
     x16 = transform(x15, x7)
-    x17 = paint(x4, x16)
+    x17 = paint_onto_grid(x4, x16)
     x18 = combine_two_function_results(line_between, upper_left_corner, lower_right_corner)
     x19 = x18(x7)
     x20 = combine_two_function_results(union, identity, vertical_mirror)
@@ -5350,7 +5350,7 @@ def solve_49d1d64f(I):
     x3 = create_grid(COLOR_ZERO, x2)
     x4 = as_object(I)
     x5 = shift_by_vector(x4, UNITY)
-    x6 = paint(x3, x5)
+    x6 = paint_onto_grid(x3, x5)
     x7 = as_indices(x3)
     x8 = combine_two_function_results(difference, box, corner_indices)
     x9 = x8(x7)
@@ -5361,7 +5361,7 @@ def solve_49d1d64f(I):
     x14 = chain(get_first, x13, x12)
     x15 = combine_two_function_results(as_tuple, x14, identity)
     x16 = transform(x15, x9)
-    O = paint(x6, x16)
+    O = paint_onto_grid(x6, x16)
     return O
 
 
@@ -5392,9 +5392,9 @@ def solve_57aa92db(I):
     x24 = combine_two_function_results(upscale, x23, width)
     x25 = combine_two_function_results(recolor, x18, x24)
     x26 = transform_and_flatten(x25, x14)
-    x27 = paint(I, x26)
+    x27 = paint_onto_grid(I, x26)
     x28 = flatten(x2)
-    O = paint(x27, x28)
+    O = paint_onto_grid(x27, x28)
     return O
 
 
@@ -5561,7 +5561,7 @@ def solve_4c5c2cf0(I):
     x15 = center(x14)
     x16 = subtract(x8, x15)
     x17 = shift_by_vector(x12, x16)
-    x18 = paint(I, x17)
+    x18 = paint_onto_grid(I, x17)
     x19 = as_objects(x18, False, True, True)
     x20 = get_first(x19)
     x21 = smallest_subgrid_containing(x20, x18)
@@ -5575,7 +5575,7 @@ def solve_4c5c2cf0(I):
     x29 = center(x28)
     x30 = subtract(x8, x29)
     x31 = shift_by_vector(x24, x30)
-    O = paint(x18, x31)
+    O = paint_onto_grid(x18, x31)
     return O
 
 
@@ -5596,7 +5596,7 @@ def solve_508bd3b6(I):
     x14 = subtract(x9, x12)
     x15 = line_between(x13, x14)
     x16 = fill(I, COLOR_THREE, x15)
-    x17 = paint(x16, x4)
+    x17 = paint_onto_grid(x16, x4)
     x18 = as_objects(x17, True, False, True)
     x19 = fix_last_argument(adjacent, x4)
     x20 = extract_first_matching(x18, x19)
@@ -5610,8 +5610,8 @@ def solve_508bd3b6(I):
     x28 = subtract(x22, x26)
     x29 = line_between(x27, x28)
     x30 = fill(x17, COLOR_THREE, x29)
-    x31 = paint(x30, x3)
-    O = paint(x31, x4)
+    x31 = paint_onto_grid(x30, x3)
+    O = paint_onto_grid(x31, x4)
     return O
 
 
@@ -5638,7 +5638,7 @@ def solve_6d0160f0(I):
     x20 = recolor(COLOR_ZERO, x19)
     x21 = fix_first_argument(shift_by_vector, x20)
     x22 = transform_and_flatten(x21, x17)
-    x23 = paint(I, x22)
+    x23 = paint_onto_grid(I, x22)
     x24 = crop(I, x13, THREE_BY_THREE)
     x25 = replace(x24, COLOR_FIVE, COLOR_ZERO)
     x26 = of_color(x25, COLOR_FOUR)
@@ -5647,7 +5647,7 @@ def solve_6d0160f0(I):
     x29 = to_object(x28, x25)
     x30 = multiply(x27, 4)
     x31 = shift_by_vector(x29, x30)
-    O = paint(x23, x31)
+    O = paint_onto_grid(x23, x31)
     return O
 
 
@@ -5682,8 +5682,8 @@ def solve_f8a8fe49(I):
     x28 = x25(x24)
     x29 = shift_by_vector(x19, x27)
     x30 = shift_by_vector(x20, x28)
-    x31 = paint(x2, x29)
-    O = paint(x31, x30)
+    x31 = paint_onto_grid(x2, x29)
+    O = paint_onto_grid(x31, x30)
     return O
 
 
@@ -5799,7 +5799,7 @@ def solve_0e206a2e(I):
     x30 = fix_first_argument(apply_each_function, x29)
     x31 = transform_and_flatten(x30, x5)
     x32 = transform_and_flatten(x21, x31)
-    x33 = paint(I, x32)
+    x33 = paint_onto_grid(I, x32)
     x34 = flatten(x5)
     O = erase_patch(x33, x34)
     return O
@@ -5840,7 +5840,7 @@ def solve_d22278a0(I):
     x32 = combine_two_function_results(intersection, x30, x31)
     x33 = combine_two_function_results(recolor, color, x32)
     x34 = transform_and_flatten(x33, x2)
-    O = paint(I, x34)
+    O = paint_onto_grid(I, x34)
     return O
 
 
@@ -5891,13 +5891,13 @@ def solve_4290ef0e(I):
     x28 = transform_both_and_flatten(shift_by_vector, x25, x27)
     x29 = as_tuple(x24, x24)
     x30 = create_grid(x1, x29)
-    x31 = paint(x30, x28)
+    x31 = paint_onto_grid(x30, x28)
     x32 = rot90(x31)
-    x33 = paint(x32, x28)
+    x33 = paint_onto_grid(x32, x28)
     x34 = rot90(x33)
-    x35 = paint(x34, x28)
+    x35 = paint_onto_grid(x34, x28)
     x36 = rot90(x35)
-    O = paint(x36, x28)
+    O = paint_onto_grid(x36, x28)
     return O
 
 
@@ -6068,7 +6068,7 @@ def solve_b7249182(I):
     x33 = lower_right_corner(x27)
     x34 = line_between(x32, x33)
     x35 = shift_by_vector(x34, DOWN)
-    x36 = paint(x19, x27)
+    x36 = paint_onto_grid(x19, x27)
     x37 = fill(x36, x10, x31)
     x38 = fill(x37, x11, x35)
     x39 = erase_patch(x38, x22)
@@ -6109,7 +6109,7 @@ def solve_9d9215db(I):
     x29 = combine_two_function_results(shift_by_vector, x28, x23)
     x30 = combine_two_function_results(recolor, color, x29)
     x31 = transform_and_flatten(x30, x15)
-    x32 = paint(x19, x31)
+    x32 = paint_onto_grid(x19, x31)
     x33 = rot90(x32)
     x34 = rot180(x32)
     x35 = rot270(x32)
@@ -6161,8 +6161,8 @@ def solve_6855a6e4(I):
     x35 = shift_by_vector(x25, x33)
     x36 = flatten(x8)
     x37 = erase_patch(x6, x36)
-    x38 = paint(x37, x34)
-    x39 = paint(x38, x35)
+    x38 = paint_onto_grid(x37, x34)
+    x39 = paint_onto_grid(x38, x35)
     x40 = rot270(x39)
     O = condition_if_else(x5, x39, x40)
     return O
@@ -6204,15 +6204,15 @@ def solve_264363fd(I):
     x32 = combine_two_function_results(union, x30, x31)
     x33 = fix_first_argument(recolor, x15)
     x34 = compose(x33, x32)
-    x35 = combine_two_function_results(paint, x24, x34)
+    x35 = combine_two_function_results(paint_onto_grid, x24, x34)
     x36 = compose(as_object, x35)
     x37 = combine_two_function_results(shift_by_vector, x36, upper_left_corner)
     x38 = transform_and_flatten(x37, x22)
-    x39 = paint(x18, x38)
+    x39 = paint_onto_grid(x18, x38)
     x40 = shift_by_vector(x3, x10)
     x41 = fix_first_argument(shift_by_vector, x40)
     x42 = transform_and_flatten(x41, x21)
-    x43 = paint(x39, x42)
+    x43 = paint_onto_grid(x39, x42)
     O = fill(x43, x19, x20)
     return O
 
@@ -6362,7 +6362,7 @@ def solve_234bbc79(I):
     x40 = decrement(x39)
     x41 = as_tuple(3, x40)
     x42 = create_grid(COLOR_ZERO, x41)
-    O = paint(x42, x38)
+    O = paint_onto_grid(x42, x38)
     return O
 
 
@@ -6510,7 +6510,7 @@ def solve_7837ac64(I):
     x19 = compose(color, x11)
     x20 = combine_two_function_results(recolor, x19, identity)
     x21 = transform_and_flatten(x20, x18)
-    x22 = paint(x5, x21)
+    x22 = paint_onto_grid(x5, x21)
     x23 = get_first(x9)
     x24 = height(x23)
     x25 = height(x5)
@@ -6558,7 +6558,7 @@ def solve_a8c38be5(I):
     x25 = compose(x24, to_indices)
     x26 = combine_two_function_results(shift_by_vector, identity, x25)
     x27 = transform_and_flatten(x26, x3)
-    O = paint(x5, x27)
+    O = paint_onto_grid(x5, x27)
     return O
 
 
@@ -6617,9 +6617,9 @@ def solve_b775ac94(I):
     x52 = transform_and_flatten(x49, x1)
     x53 = transform_and_flatten(x50, x1)
     x54 = transform_and_flatten(x51, x1)
-    x55 = paint(I, x52)
-    x56 = paint(x55, x53)
-    O = paint(x56, x54)
+    x55 = paint_onto_grid(I, x52)
+    x56 = paint_onto_grid(x55, x53)
+    O = paint_onto_grid(x56, x54)
     return O
 
 
@@ -6673,7 +6673,7 @@ def solve_97a05b5b(I):
     x45 = fix_first_argument(apply_each_function, x44)
     x46 = transform_and_flatten(x45, x6)
     x47 = transform_and_flatten(x38, x46)
-    x48 = paint(x3, x47)
+    x48 = paint_onto_grid(x3, x47)
     x49 = palette(x47)
     x50 = fix_first_argument(remove, COLOR_TWO)
     x51 = x50(x49)
@@ -6685,7 +6685,7 @@ def solve_97a05b5b(I):
     x57 = combine_two_function_results(transform_and_flatten, x37, x56)
     x58 = transform_and_flatten(x45, x55)
     x59 = transform_and_flatten(x57, x58)
-    O = paint(x48, x59)
+    O = paint_onto_grid(x48, x59)
     return O
 
 
@@ -6728,5 +6728,5 @@ def solve_3e980e27(I):
     x34 = x33(x31)
     x35 = transform_and_flatten(x34, x32)
     x36 = union(x29, x35)
-    O = paint(I, x36)
+    O = paint_onto_grid(I, x36)
     return O

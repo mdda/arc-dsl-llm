@@ -113,7 +113,7 @@ def test_solvers_formatting(solvers_module, dsl_module):
                     assert any([
                         arg in variables, arg in dsl_interface, arg in constants, 
                         arg=='I', arg in '0,1,2,3,4,5,6,7,8,9,10,-1,-2,True,False'
-                    ]), f"\n'{arg}', {variables}, {dsl_interface}, {constants}"
+                    ]), f"\n'{arg}' in {key}:\n{variables}\n{dsl_interface}\n{constants}"
             for v in variables:  #  This detects whether each variable gets used...
                 #print(f"{definition}, {v=}")
                 assert sum([

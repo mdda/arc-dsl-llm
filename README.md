@@ -156,6 +156,9 @@ manhattan   manhattan_distance
 backdrop    bounding_box_indices
 delta       bounding_box_delta
             
+paint       paint_onto_grid
+underpaint  paint_onto_grid_background
+
 canvas      create_grid
 cover       erase_patch
 trim        trim_border

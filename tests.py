@@ -626,18 +626,18 @@ def test_fill():
     assert fill(C, 1, frozenset({(1, 0)})) == ((3, 4), (1, 5))
  
 
-def test_paint():
-    assert paint(B, frozenset({(1, (0, 0)), (2, (1, 1))})) == ((1, 1), (0, 2), (2, 1))
-    assert paint(C, frozenset({(6, (1, 0))})) == ((3, 4), (6, 5))
+def test_paint_onto_grid():
+    assert paint_onto_grid(B, frozenset({(1, (0, 0)), (2, (1, 1))})) == ((1, 1), (0, 2), (2, 1))
+    assert paint_onto_grid(C, frozenset({(6, (1, 0))})) == ((3, 4), (6, 5))
  
 
 def test_underfill():
     assert underfill(C, 1, frozenset({(0, 0), (1, 0)})) == ((3, 4), (1, 5))
  
 
-def test_underpaint():
-    assert underpaint(B, frozenset({(3, (0, 0)), (3, (1, 1))})) == ((2, 1), (0, 3), (2, 1))
-    assert underpaint(C, frozenset({(3, (1, 1))})) == ((3, 4), (5, 3))
+def test_paint_onto_grid_background():
+    assert paint_onto_grid_background(B, frozenset({(3, (0, 0)), (3, (1, 1))})) == ((2, 1), (0, 3), (2, 1))
+    assert paint_onto_grid_background(C, frozenset({(3, (1, 1))})) == ((3, 4), (5, 3))
  
 
 def test_horizontal_upscale():

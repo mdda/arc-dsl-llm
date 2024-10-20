@@ -1,8 +1,6 @@
 from .arc_types import *
 
-def identity(
-    x: Any
-) -> Any:
+def identity(x: Any) -> Any:
     """Returns the input unchanged"""
     return x
 
@@ -387,10 +385,8 @@ def apply_each_function(functions: Container, value: Any) -> Container:
     return type(functions)(function(value) for function in functions)
 
 # was mapply
-def transform_and_flatten(function: Callable,
-    #container: ContainerContainer
-    container: Union[ContainerContainer,ColorSet]  # mdda
-) -> FrozenSet:
+# also : container: ContainerContainer # Changed by mdda
+def transform_and_flatten(function: Callable, container: Union[ContainerContainer,ColorSet]) -> FrozenSet:
     """Applies a transform to a nested container and flattens the result"""
     return flatten(transform(function, container))
 
@@ -480,16 +476,13 @@ def upper_left_corner(patch: Patch) -> IntegerTuple:
     """ index of upper left corner """
     return tuple(map(min, zip(*to_indices(patch))))
 
-
 def upper_right_corner(patch: Patch) -> IntegerTuple:
     """ index of upper right corner """
     return tuple(map(lambda ix: {0: min, 1: max}[ix[0]](ix[1]), enumerate(zip(*to_indices(patch)))))
 
-
 def lower_left_corner(patch: Patch) -> IntegerTuple:
     """ index of lower left corner """
     return tuple(map(lambda ix: {0: max, 1: min}[ix[0]](ix[1]), enumerate(zip(*to_indices(patch)))))
-
 
 def lower_right_corner(patch: Patch) -> IntegerTuple:
     """ index of lower right corner """
@@ -741,12 +734,8 @@ def counterdiagonal_mirror[T: Piece](piece: T) -> T:
     return vertical_mirror(diagonal_mirror(vertical_mirror(piece)))
 
 
-def fill(
-    grid: Grid,
-    color: Color,
-    #patch: Patch
-    patch: Union[Patch,Objects,Tuple]  # mdda
-) -> Grid:
+# changed patch: Patch :: mdda
+def fill(grid: Grid, color: Color, patch: Union[Patch,Objects,Tuple]) -> Grid:
     """ fill value at indices """
     h, w = len(grid), len(grid[0])
     grid_filled = list(list(row) for row in grid)
@@ -756,11 +745,9 @@ def fill(
     return tuple(tuple(row) for row in grid_filled)
 
 
-def paint(
-    grid: Grid,
-    #obj: Object
-    obj: Union[Object, Tuple, Indices]  # mdda
-) -> Grid:
+# was paint
+# changed obj: Object :: mdda
+def paint_onto_grid(grid: Grid,obj: Union[Object, Tuple, Indices]) -> Grid:
     """ paint object to grid """
     h, w = len(grid), len(grid[0])
     grid_painted = list(list(row) for row in grid)
@@ -769,34 +756,27 @@ def paint(
             grid_painted[i][j] = color
     return tuple(tuple(row) for row in grid_painted)
 
-
-def underfill(
-    grid: Grid,
-    color: Color,
-    #patch: Patch
-    patch: Piece # mdda
-) -> Grid:
-    """ fill value at indices that are background """
+# was underpaint
+# changed obj: Object :: mdda
+def paint_onto_grid_background(grid: Grid, obj: Union[Object, Tuple, Indices]) -> Grid:
+    """ paint object to grid where there is background """
     h, w = len(grid), len(grid[0])
     bg = most_common_color(grid)
     g = list(list(r) for r in grid)
-    for i, j in to_indices(patch):
+    for color, (i, j) in obj:
         if 0 <= i < h and 0 <= j < w:
             if g[i][j] == bg:
                 g[i][j] = color
     return tuple(tuple(r) for r in g)
 
 
-def underpaint(
-    grid: Grid,
-    #obj: Object
-    obj: Union[Object, Tuple, Indices]  # mdda
-) -> Grid:
-    """ paint object to grid where there is background """
+# changed patch: Patch :: mdda
+def underfill(grid: Grid, color: Color, patch: Piece) -> Grid:
+    """ fill background parts of grid using patch indices with color """
     h, w = len(grid), len(grid[0])
     bg = most_common_color(grid)
     g = list(list(r) for r in grid)
-    for color, (i, j) in obj:
+    for i, j in to_indices(patch):
         if 0 <= i < h and 0 <= j < w:
             if g[i][j] == bg:
                 g[i][j] = color
@@ -845,11 +825,7 @@ def upscale[T: Union[Element,Patch]](element: T, factor: Integer) -> T:
                     o.add((value, (i * factor + io, j * factor + jo)))
         return shift_by_vector(frozenset(o), (di_inv, dj_inv))
 
-
-def downscale(
-    grid: Grid,
-    factor: Integer
-) -> Grid:
+def downscale(grid: Grid, factor: Integer) -> Grid:
     """ downscale grid """
     h, w = len(grid), len(grid[0])
     g = tuple()
@@ -988,7 +964,7 @@ def trim_border(grid: Grid) -> Grid:
 # was move
 def move_object(grid: Grid, obj: Object, offset: IntegerTuple) -> Grid:
     """Moves an object on the grid by the given offset (vertical, horizontal)"""
-    return paint(erase_patch(grid, obj), shift_by_vector(obj, offset))
+    return paint_onto_grid(erase_patch(grid, obj), shift_by_vector(obj, offset))
 
 
 
@@ -1011,12 +987,12 @@ def right_half(grid: Grid) -> Grid:
 
 # was vfrontier
 def vertical_line(location: IntegerTuple) -> Indices:
-    """ vertical frontier """
+    """ vertical line through point """
     return frozenset((i, location[1]) for i in range(30))
 
 # was hfrontier
 def horizontal_line(location: IntegerTuple) -> Indices:
-    """ horizontal frontier """
+    """ horizontal line through point """
     return frozenset((location[0], j) for j in range(30))
 
 # was backdrop
@@ -1057,7 +1033,7 @@ def gravitate(source: Patch, destination: Patch) -> IntegerTuple:
 
 
 def inbox(patch: Patch) -> Indices:
-    """ inbox for patch """
+    """ inbox for patch (lines 1 unit inside patch bounding box) """
     ai, aj = uppermost(patch) + 1, leftmost(patch) + 1
     bi, bj = lowermost(patch) - 1, rightmost(patch) - 1
     si, sj = min(ai, bi), min(aj, bj)
@@ -1067,7 +1043,7 @@ def inbox(patch: Patch) -> Indices:
     return frozenset(vlines | hlines)
 
 def outbox(patch: Patch) -> Indices:
-    """ outbox for patch """
+    """ outbox for patch (lines 1 unit outside patch bounding box) """
     ai, aj = uppermost(patch) - 1, leftmost(patch) - 1
     bi, bj = lowermost(patch) + 1, rightmost(patch) + 1
     si, sj = min(ai, bi), min(aj, bj)
@@ -1077,7 +1053,7 @@ def outbox(patch: Patch) -> Indices:
     return frozenset(vlines | hlines)
 
 def box(patch: Patch) -> Indices:
-    """ outline of patch """
+    """ outline of patch (lines along patch bounding box) """
     if len(patch) == 0:
         return patch
     ai, aj = upper_left_corner(patch)
