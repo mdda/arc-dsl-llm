@@ -631,8 +631,8 @@ def test_paint_onto_grid():
     assert paint_onto_grid(C, frozenset({(6, (1, 0))})) == ((3, 4), (6, 5))
  
 
-def test_underfill():
-    assert underfill(C, 1, frozenset({(0, 0), (1, 0)})) == ((3, 4), (1, 5))
+def test_fill_background():
+    assert fill_background(C, 1, frozenset({(0, 0), (1, 0)})) == ((3, 4), (1, 5))
  
 
 def test_paint_onto_grid_background():

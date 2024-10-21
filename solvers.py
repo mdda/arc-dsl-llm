@@ -220,7 +220,7 @@ def solve_b91ae062(I):
 def solve_3aa6fb7a(I):
     x1 = as_objects(I, True, False, True)
     x2 = transform_and_flatten(corner_indices, x1)
-    O = underfill(I, COLOR_ONE, x2)
+    O = fill_background(I, COLOR_ONE, x2)
     return O
 
 
@@ -491,7 +491,7 @@ def solve_41e4d17e(I):
     x2 = combine_two_function_results(union, vertical_line, horizontal_line)
     x3 = compose(x2, center)
     x4 = transform_and_flatten(x3, x1)
-    O = underfill(I, COLOR_SIX, x4)
+    O = fill_background(I, COLOR_SIX, x4)
     return O
 
 
@@ -822,7 +822,7 @@ def solve_10fcaaa3(I):
     x3 = vertical_concat(x2, x2)
     x4 = of_color(x3, x1)
     x5 = transform_and_flatten(diagonal_neighbors, x4)
-    O = underfill(x3, COLOR_EIGHT, x5)
+    O = fill_background(x3, COLOR_EIGHT, x5)
     return O
 
 
@@ -976,7 +976,7 @@ def solve_dbc1a6ce(I):
     x4 = transform(x3, x2)
     x5 = combine_two_function_results(logical_or, is_vertical_line, is_horizontal_line)
     x6 = keep_if_condition_and_flatten(x4, x5)
-    O = underfill(I, COLOR_EIGHT, x6)
+    O = fill_background(I, COLOR_EIGHT, x6)
     return O
 
 
@@ -987,7 +987,7 @@ def solve_ded97339(I):
     x4 = transform(x3, x2)
     x5 = combine_two_function_results(logical_or, is_vertical_line, is_horizontal_line)
     x6 = keep_if_condition_and_flatten(x4, x5)
-    O = underfill(I, COLOR_EIGHT, x6)
+    O = fill_background(I, COLOR_EIGHT, x6)
     return O
 
 
@@ -1627,7 +1627,7 @@ def solve_25d487eb(I):
     x6 = center(x5)
     x7 = subtract(x6, x4)
     x8 = shoot(x4, x7)
-    O = underfill(I, x1, x8)
+    O = fill_background(I, x1, x8)
     return O
 
 
@@ -1823,7 +1823,7 @@ def solve_2281f1f4(I):
     x6 = transform(x5, x2)
     x7 = upper_right_corner(x1)
     x8 = remove(x7, x6)
-    O = underfill(I, COLOR_TWO, x8)
+    O = fill_background(I, COLOR_TWO, x8)
     return O
 
 
@@ -1901,7 +1901,7 @@ def solve_b8cdaf2b(I):
     x6 = shoot(x4, NEG_UNITY)
     x7 = shoot(x5, UP_RIGHT)
     x8 = union(x6, x7)
-    O = underfill(I, x1, x8)
+    O = fill_background(I, x1, x8)
     return O
 
 
@@ -1966,7 +1966,7 @@ def solve_2c608aff(I):
     x6 = apply_function_on_cartesian_product(line_between, x4, x5)
     x7 = combine_two_function_results(logical_or, is_vertical_line, is_horizontal_line)
     x8 = keep_if_condition_and_flatten(x6, x7)
-    O = underfill(I, x1, x8)
+    O = fill_background(I, x1, x8)
     return O
 
 
@@ -2231,7 +2231,7 @@ def solve_af902bf9(I):
     x2 = apply_function_on_cartesian_product(line_between, x1, x1)
     x3 = combine_two_function_results(logical_or, is_vertical_line, is_horizontal_line)
     x4 = keep_if_condition_and_flatten(x2, x3)
-    x5 = underfill(I, COLOR_BELOW, x4)
+    x5 = fill_background(I, COLOR_BELOW, x4)
     x6 = as_objects(x5, False, False, True)
     x7 = compose(bounding_box_indices, inbox)
     x8 = transform_and_flatten(x7, x6)
@@ -2405,7 +2405,7 @@ def solve_1b60fb0c(I):
     x8 = fix_first_argument(intersection, x2)
     x9 = compose(size, x8)
     x10 = argmax(x7, x9)
-    O = underfill(I, COLOR_TWO, x10)
+    O = fill_background(I, COLOR_TWO, x10)
     return O
 
 
@@ -2580,7 +2580,7 @@ def solve_d4a91cb9(I):
     x8 = line_between(x7, x3)
     x9 = line_between(x7, x4)
     x10 = union(x8, x9)
-    O = underfill(I, COLOR_FOUR, x10)
+    O = fill_background(I, COLOR_FOUR, x10)
     return O
 
 
@@ -2900,13 +2900,13 @@ def solve_a65b410d(I):
     x2 = upper_right_corner(x1)
     x3 = shoot(x2, UP_RIGHT)
     x4 = shoot(x2, DOWN_LEFT)
-    x5 = underfill(I, COLOR_THREE, x3)
-    x6 = underfill(x5, COLOR_ONE, x4)
+    x5 = fill_background(I, COLOR_THREE, x3)
+    x6 = fill_background(x5, COLOR_ONE, x4)
     x7 = fix_last_argument(shoot, LEFT)
     x8 = transform_and_flatten(x7, x3)
     x9 = transform_and_flatten(x7, x4)
-    x10 = underfill(x6, COLOR_ONE, x9)
-    O = underfill(x10, COLOR_THREE, x8)
+    x10 = fill_background(x6, COLOR_ONE, x9)
+    O = fill_background(x10, COLOR_THREE, x8)
     return O
 
 
@@ -3350,7 +3350,7 @@ def solve_4612dd53(I):
     x13 = of_color(x12, COLOR_TWO)
     x14 = upper_left_corner(x1)
     x15 = shift_by_vector(x13, x14)
-    O = underfill(I, COLOR_TWO, x15)
+    O = fill_background(I, COLOR_TWO, x15)
     return O
 
 
@@ -3546,7 +3546,7 @@ def solve_d9f24cd1(I):  # mdda : Fixed - count_colors should be compared to int,
     x2 = of_color(I, COLOR_FIVE)
     x3 = apply_function_on_cartesian_product(line_between, x1, x2)
     x4 = keep_if_condition_and_flatten(x3, is_vertical_line)
-    x5 = underfill(I, COLOR_TWO, x4)        # Draw lines up to COLOR_TWO points
+    x5 = fill_background(I, COLOR_TWO, x4)        # Draw lines up to COLOR_TWO points
     x6 = equals(count_colors, 2)       
     x7 = as_objects(x5, False, False, True) # Get objects now
     x8 = keep_if_condition(x7, x6)          # The lines with 2 colors
@@ -3600,10 +3600,10 @@ def solve_673ef223(I):
     x12 = condition_if_else(x11, LEFT, RIGHT)
     x13 = fix_last_argument(shoot, x12)
     x14 = transform_and_flatten(x13, x2)
-    x15 = underfill(x3, COLOR_EIGHT, x14)
+    x15 = fill_background(x3, COLOR_EIGHT, x14)
     x16 = shift_by_vector(x2, x9)
     x17 = transform_and_flatten(horizontal_line, x16)
-    O = underfill(x15, COLOR_EIGHT, x17)
+    O = fill_background(x15, COLOR_EIGHT, x17)
     return O
 
 
@@ -3611,7 +3611,7 @@ def solve_f5b8619d(I):
     x1 = least_common_color(I)
     x2 = of_color(I, x1)
     x3 = transform_and_flatten(vertical_line, x2)
-    x4 = underfill(I, COLOR_EIGHT, x3)
+    x4 = fill_background(I, COLOR_EIGHT, x3)
     x5 = horizontal_concat(x4, x4)
     O = vertical_concat(x5, x5)
     return O
@@ -3789,7 +3789,7 @@ def solve_90f3ed37(I):
     x15 = chain(x10, x14, x7)
     x16 = combine_two_function_results(argmax, x15, x13)
     x17 = transform_and_flatten(x16, x4)
-    O = underfill(I, COLOR_ONE, x17)
+    O = fill_background(I, COLOR_ONE, x17)
     return O
 
 
@@ -3927,7 +3927,7 @@ def solve_ec883f72(I):
     x16 = union(x12, x13)
     x17 = union(x14, x15)
     x18 = union(x16, x17)
-    O = underfill(I, x7, x18)
+    O = fill_background(I, x7, x18)
     return O
 
 
@@ -3952,7 +3952,7 @@ def solve_2bee17df(I):
     #x18 = as_tuple(x13, x17)
     x18 = as_generic_tuple(x13, x17)  # mdda
     x19 = flatten(x18)
-    O = underfill(I, COLOR_THREE, x19)
+    O = fill_background(I, COLOR_THREE, x19)
     return O
 
 
@@ -4061,7 +4061,7 @@ def solve_a2fd1cf0(I):
     x17 = as_tuple(x3, x15)
     x18 = line_between(x16, x17)
     x19 = union(x12, x18)
-    O = underfill(I, COLOR_EIGHT, x19)
+    O = fill_background(I, COLOR_EIGHT, x19)
     return O
 
 
@@ -4143,7 +4143,7 @@ def solve_db93a21d(I):
     x3 = color_filter(x1, COLOR_NINE)
     x4 = fix_last_argument(shoot, DOWN)
     x5 = transform_and_flatten(x4, x2)
-    x6 = underfill(I, COLOR_ONE, x5)
+    x6 = fill_background(I, COLOR_ONE, x5)
     x7 = compose(halve, width)
     x8 = fix_last_argument(greater_than, 1)
     x9 = compose(x8, x7)
@@ -4200,7 +4200,7 @@ def solve_d6ad076f(I):
     x12 = inbox(x2)
     x13 = fix_last_argument(shoot, x11)
     x14 = transform_and_flatten(x13, x12)
-    x15 = underfill(I, COLOR_EIGHT, x14)
+    x15 = fill_background(I, COLOR_EIGHT, x14)
     x16 = as_objects(x15, True, False, True)
     x17 = color_filter(x16, COLOR_EIGHT)
     x18 = fix_last_argument(bordering, I)
@@ -4268,7 +4268,7 @@ def solve_8d510a79(I):
     x14 = combine_two_function_results(keep_if_condition, x11, x13)
     x15 = transform_and_flatten(x9, x1)
     x16 = transform_and_flatten(x14, x2)
-    x17 = underfill(I, COLOR_TWO, x16)
+    x17 = fill_background(I, COLOR_TWO, x16)
     O = fill(x17, COLOR_ONE, x15)
     return O
 
@@ -4902,7 +4902,7 @@ def solve_6d58a25d(I):
     x15 = fix_last_argument(keep_if_condition, x14)
     x16 = chain(x15, vertical_line, center)
     x17 = transform_and_flatten(x16, x11)
-    O = underfill(I, x5, x17)
+    O = fill_background(I, x5, x17)
     return O
 
 
@@ -5197,7 +5197,7 @@ def solve_469497ad(I):
     x12 = union(x8, x9)
     x13 = union(x10, x11)
     x14 = union(x12, x13)
-    x15 = underfill(x3, COLOR_TWO, x14)
+    x15 = fill_background(x3, COLOR_TWO, x14)
     x16 = as_objects(x15, True, False, True)
     x17 = argmax(x16, lower_right_corner)
     O = paint_onto_grid(x15, x17)
@@ -5313,7 +5313,7 @@ def solve_3befdf3e(I):
     x22 = combine_two_function_results(intersection, x15, x21)
     x23 = transform_and_flatten(x15, x1)
     x24 = transform_and_flatten(x22, x1)
-    x25 = underfill(x6, x5, x23)
+    x25 = fill_background(x6, x5, x23)
     O = fill(x25, COLOR_ZERO, x24)
     return O
 
@@ -5497,7 +5497,7 @@ def solve_1e32b0e9(I):
     x28 = transform_both(as_tuple, x26, x27)
     x29 = fix_first_argument(shift_by_vector, x11)
     x30 = transform_and_flatten(x29, x28)
-    O = underfill(I, x17, x30)
+    O = fill_background(I, x17, x30)
     return O
 
 
@@ -5984,7 +5984,7 @@ def solve_b527c5c6(I):
     x37 = transform_and_flatten(x35, x23)
     x38 = transform_and_flatten(x36, x22)
     x39 = union(x37, x38)
-    O = underfill(x20, COLOR_THREE, x39)
+    O = fill_background(x20, COLOR_THREE, x39)
     return O
 
 
@@ -6401,7 +6401,7 @@ def solve_2dd70a9a(I):
     x16 = get_other(x2, x15)
     x17 = subtract(x15, x16)
     x18 = shoot(x15, x17)
-    x19 = underfill(I, COLOR_ONE, x18)
+    x19 = fill_background(I, COLOR_ONE, x18)
     x20 = as_objects(x19, True, False, False)
     x21 = color_filter(x20, COLOR_ONE)
     x22 = fix_last_argument(adjacent, x2)
@@ -6428,7 +6428,7 @@ def solve_2dd70a9a(I):
     x43 = line_between(x38, x42)
     x44 = fill(x26, COLOR_ONE, x43)
     x45 = line_between(x42, x5)
-    x46 = underfill(x44, COLOR_ONE, x45)
+    x46 = fill_background(x44, COLOR_ONE, x45)
     O = replace(x46, COLOR_ONE, COLOR_THREE)
     return O
 

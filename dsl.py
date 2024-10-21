@@ -93,26 +93,26 @@ def logical_not(b: Boolean) -> Boolean:
 
 # was both
 def logical_and(a: Boolean, b: Boolean) -> Boolean:
-    """ logical and """
+    """Returns the logical AND of the inputs"""
     return a and b
 
 # was either
 def logical_or(a: Boolean, b: Boolean) -> Boolean:
-    """ logical or """
+    """Returns the logical OR of the inputs"""
     return a or b
 
 
 def is_equal(a: Any,b: Any) -> Boolean:
-    """Checks if two values are equal"""
+    """Returns True iff 'a' and 'b' are equal"""
     return a == b
 
 def greater_than(a: Integer, b: Integer) -> Boolean:
-    """Checks if 'a' is greater than 'b'"""
+    """Returns True iff 'a' is greater than 'b'"""
     return a > b
 
 
 def contains(value: Any, container: Container) -> Boolean:
-    """Checks if a value is present in a container"""
+    """Returns True iff 'value' is present in 'container'"""
     return value in container
 
 # was combine
@@ -418,74 +418,68 @@ def least_common_color(element: Element) -> Color:
 
 
 def height(piece: Piece) -> Integer:
-    """ height of grid or patch """
+    """Returns the height of a grid or patch"""
     if len(piece) == 0:
         return 0
     if isinstance(piece, tuple):
         return len(piece)
     return lowermost(piece) - uppermost(piece) + 1
 
-
 def width(piece: Piece) -> Integer:
-    """ width of grid or patch """
+    """Returns the width of a grid or patch"""
     if len(piece) == 0:
         return 0
     if isinstance(piece, tuple):
         return len(piece[0])
     return rightmost(piece) - leftmost(piece) + 1
 
-
 def shape(piece: Piece) -> IntegerTuple:
-    """ height and width of grid or patch """
+    """Returns (height, width) for a grid or patch"""
     return (height(piece), width(piece))
 
-
 def is_portrait(piece: Piece) -> Boolean:
-    """ whether height is greater than width """
+    """Returns True iff height>width for a grid or patch"""
     return height(piece) > width(piece)
 
 
 def color_count(element: Element, color: Color) -> Integer:
-    """ number of cells with color """
+    """Returns the number of cells of 'color'"""
     if isinstance(element, tuple):
         return sum(row.count(color) for row in element)
     return sum(c == color for c, _ in element)
 
-
 def color_filter(objs: Objects, color: Color) -> Objects:
-    """ filter objects by color """
+    """Returns the objects filtered by 'color'"""
     return frozenset(obj for obj in objs if next(iter(obj))[0] == color)
 
 
-def size_filter(container: Container, n: Integer) -> FrozenSet:
-    """ filter items by size """
-    return frozenset(item for item in container if len(item) == n)
-
-
 def as_indices(grid: Grid) -> Indices:
-    """ indices of all grid cells """
+    """Returns the indices of all cells in 'grid'"""
     return frozenset((i, j) for i in range(len(grid)) for j in range(len(grid[0])))
 
+def size_filter(container: Container, size: Integer) -> FrozenSet:
+    """Returns the objects filtered by 'size'"""
+    return frozenset(item for item in container if len(item) == size)
 
 def of_color(grid: Grid, color: Color) -> Indices:
-    """ indices of all grid cells with value """
+    """Returns the indices of all cells in 'grid' which are 'color'"""
     return frozenset((i, j) for i, r in enumerate(grid) for j, c in enumerate(r) if c == color)
 
 
 def upper_left_corner(patch: Patch) -> IntegerTuple:
-    """ index of upper left corner """
+    """Returns the index of the upper left corner"""
     return tuple(map(min, zip(*to_indices(patch))))
 
 def upper_right_corner(patch: Patch) -> IntegerTuple:
-    """ index of upper right corner """
+    """Returns the index of the upper right corner"""
     return tuple(map(lambda ix: {0: min, 1: max}[ix[0]](ix[1]), enumerate(zip(*to_indices(patch)))))
 
 def lower_left_corner(patch: Patch) -> IntegerTuple:
-    """ index of lower left corner """
+    """Returns the index of the lower left corner"""
     return tuple(map(lambda ix: {0: max, 1: min}[ix[0]](ix[1]), enumerate(zip(*to_indices(patch)))))
 
 def lower_right_corner(patch: Patch) -> IntegerTuple:
-    """ index of lower right corner """
+    """Returns the index of the lower right corner"""
     return tuple(map(max, zip(*to_indices(patch))))
 
 
@@ -495,7 +489,7 @@ def crop(grid: Grid, start: IntegerTuple, dims: IntegerTuple) -> Grid:
 
 
 def to_indices(patch: Patch) -> Indices:
-    """ indices of object cells """
+    """Returns the indices of the cells within 'patch'"""
     if len(patch) == 0:
         return frozenset()
     if isinstance(next(iter(patch))[1], tuple):
@@ -504,15 +498,15 @@ def to_indices(patch: Patch) -> Indices:
 
 
 def recolor( color: Color, patch: Patch ) -> Object:
-    """ recolor patch """
+    """Returns 'patch' with each color set to 'color'"""
     return frozenset((color, index) for index in to_indices(patch))
 
 
-def shift_by_vector[T:Union[Patch,Objects]](patch: T, directions: IntegerTuple) -> T:
-    """ shift patch by vector """
+def shift_by_vector[T:Union[Patch,Objects]](patch: T, offset: IntegerTuple) -> T:
+    """Moves 'patch' by the vector 'offset'"""
     if len(patch) == 0:
         return patch
-    di, dj = directions
+    di, dj = offset
     if isinstance(next(iter(patch))[1], tuple):
         return frozenset((color, (i + di, j + dj)) for color, (i, j) in patch)
     return frozenset((i + di, j + dj) for i, j in patch)
@@ -520,60 +514,60 @@ def shift_by_vector[T:Union[Patch,Objects]](patch: T, directions: IntegerTuple) 
 
 #def normalize(patch: Patch) -> Patch:
 def shift_to_origin[T:Patch](patch: T) -> T:
-    """ moves upper left corner to origin """
+    """Moves upper left corner of 'patch' to the origin"""
     if len(patch) == 0:
         return patch
     return shift_by_vector(patch, (-uppermost(patch), -leftmost(patch)))
 
 
 def direct_neighbors(loc: IntegerTuple) -> Indices:
-    """ directly adjacent indices """
+    """Returns indices that are directly adjacent to 'loc'"""
     return frozenset({(loc[0] - 1, loc[1]), (loc[0] + 1, loc[1]), (loc[0], loc[1] - 1), (loc[0], loc[1] + 1)})
 
 
 def diagonal_neighbors(loc: IntegerTuple) -> Indices:
-    """ diagonally adjacent indices """
+    """Returns indices that are diagonally adjacent to 'loc'"""
     return frozenset({(loc[0] - 1, loc[1] - 1), (loc[0] - 1, loc[1] + 1), (loc[0] + 1, loc[1] - 1), (loc[0] + 1, loc[1] + 1)})
 
 
 def neighbors(loc: IntegerTuple) -> Indices:
-    """ adjacent indices - bith direct and diagonal """
+    """Returns indices that are either directly of diagonally adjacent to 'loc'"""
     return direct_neighbors(loc) | diagonal_neighbors(loc)
 
 
-def as_objects( grid: Grid, univalued: Boolean, diagonal: Boolean, without_bg: Boolean ) -> Objects:
-    """Converts a grid to a set of objects"""
-    bg = most_common_color(grid) if without_bg else None
+def as_objects(grid: Grid, each_object_single_color: Boolean, include_diagonal_neighbors: Boolean, without_background: Boolean) -> Objects:
+    """Converts 'grid' to a set of connected objects"""
+    bg = most_common_color(grid) if without_background else None
     objs = set()
     occupied = set()
     h, w = len(grid), len(grid[0])
     unvisited = as_indices(grid)
-    diagfun = neighbors if diagonal else direct_neighbors
+    neighbor_fun = neighbors if include_diagonal_neighbors else direct_neighbors
     for loc in unvisited:
         if loc in occupied:
             continue
-        val = grid[loc[0]][loc[1]]
-        if val == bg:
+        color = grid[loc[0]][loc[1]]
+        if color == bg:
             continue
-        obj = {(val, loc)}
-        cands = {loc}
-        while len(cands) > 0:
+        obj = {(color, loc)}
+        candidates = {loc}
+        while len(candidates) > 0:
             neighborhood = set()
-            for cand in cands:
-                v = grid[cand[0]][cand[1]]
-                if (val == v) if univalued else (v != bg):
-                    obj.add((v, cand))
-                    occupied.add(cand)
+            for candidate in candidates:
+                c = grid[candidate[0]][candidate[1]]
+                if (color == c) if each_object_single_color else (c != bg):
+                    obj.add((c, candidate))
+                    occupied.add(candidate)
                     neighborhood |= {
-                        (i, j) for i, j in diagfun(cand) if 0 <= i < h and 0 <= j < w
+                        (i, j) for i, j in neighbor_fun(candidate) if 0 <= i < h and 0 <= j < w
                     }
-            cands = neighborhood - occupied
+            candidates = neighborhood - occupied
         objs.add(frozenset(obj))
     return frozenset(objs)
 
 
 def partition(grid: Grid) -> Objects:
-    """ objects, each segregated by color """
+    """Converts 'grid' to a set of objects by color"""
     return frozenset(
         frozenset(
             (c, (i, j)) for i, r in enumerate(grid) for j, c in enumerate(r) if c == color
@@ -582,7 +576,7 @@ def partition(grid: Grid) -> Objects:
 
 
 def partition_only_foreground(grid: Grid) -> Objects:
-    """ objects, each segregated by color ignoring the background """
+    """Converts 'grid' to a set of objects by color, ignoring the background"""
     return frozenset(
         frozenset(
             (c, (i, j)) for i, r in enumerate(grid) for j, c in enumerate(r) if c == color
@@ -591,107 +585,107 @@ def partition_only_foreground(grid: Grid) -> Objects:
 
 
 def uppermost(patch: Patch) -> Integer:
-    """ row index of uppermost occupied cell """
+    """Returns the row index of uppermost occupied cell of 'patch'"""
     return min(i for i, j in to_indices(patch))
 
 def lowermost(patch: Patch) -> Integer:
-    """ row index of lowermost occupied cell """
+    """Returns the row index of lowermost occupied cell of 'patch'"""
     return max(i for i, j in to_indices(patch))
 
 def leftmost(patch: Patch) -> Integer:
-    """ column index of leftmost occupied cell """
+    """Returns the column index of leftmost occupied cell of 'patch'"""
     return min(j for i, j in to_indices(patch))
 
 def rightmost(patch: Patch) -> Integer:
-    """ column index of rightmost occupied cell """
+    """Returns the column index of rightmost occupied cell of 'patch'"""
     return max(j for i, j in to_indices(patch))
 
 
 def is_square(piece: Piece) -> Boolean:
-    """ whether the piece forms a square """
+    """Returns True iff the piece forms a square"""
     return len(piece) == len(piece[0]) if isinstance(piece, tuple) else height(piece) * width(piece) == len(piece) and height(piece) == width(piece)
 
 def is_vertical_line(patch: Patch) -> Boolean:
-    """ whether the piece forms a vertical line """
+    """Returns True iff the piece forms a vertical line"""
     return height(patch) == len(patch) and width(patch) == 1
 
 def is_horizontal_line(patch: Patch) -> Boolean:
-    """ whether the piece forms a horizontal line """
+    """Returns True iff the piece forms a horizontal line"""
     return width(patch) == len(patch) and height(patch) == 1
 
 
 def horizontal_matching(a: Patch, b: Patch) -> Boolean:
-    """ whether there exists a row for which both patches have cells """
+    """Returns True iff there exists a row for which both patches have cells"""
     return len(set(i for i, j in to_indices(a)) & set(i for i, j in to_indices(b))) > 0
 
 def vertical_matching(a: Patch, b: Patch) -> Boolean:
-    """ whether there exists a column for which both patches have cells """
+    """Returns True iff there exists a column for which both patches have cells"""
     return len(set(j for i, j in to_indices(a)) & set(j for i, j in to_indices(b))) > 0
 
 
 def manhattan_distance(a: Patch, b: Patch) -> Integer:
-    """ closest manhattan distance between two patches """
+    """Returns the minimum manhattan distance between two patches"""
     return min(abs(ai - bi) + abs(aj - bj) for ai, aj in to_indices(a) for bi, bj in to_indices(b))
 
 def adjacent(a: Patch, b: Patch) -> Boolean:
-    """ whether two patches are adjacent """
+    """Returns True iff two patches are adjacent"""
     return manhattan_distance(a, b) == 1
 
 
 def bordering(patch: Patch, grid: Grid) -> Boolean:
-    """ whether a patch is adjacent to a grid border """
+    """Returns True iff 'patch' is adjacent to a border of 'grid'"""
     return uppermost(patch) == 0 or leftmost(patch) == 0 or lowermost(patch) == len(grid) - 1 or rightmost(patch) == len(grid[0]) - 1
 
 
 def centerofmass(patch: Patch) -> IntegerTuple:
-    """ center of mass """
+    """Returns the center of mass of 'patch'"""
     return tuple(map(lambda x: sum(x) // len(patch), zip(*to_indices(patch))))
 
 
 def palette(element: Element) -> ColorSet:
-    """ colors occurring in object or grid """
+    """Returns the set of colors occurring in object or grid"""
     if isinstance(element, tuple):
         return frozenset({c for r in element for c in r}) # Grid
     return frozenset({c for c, _ in element}) # Object
 
 #) -> IntegerSet:   #mdda : Seems wrong
 def count_colors(element: Element) -> Integer:  
-    """ number of colors occurring in object or grid """
+    """Returns the number of colors occurring in object or grid"""
     return len(palette(element))
 
 
 def color(obj: Object) -> Color:
-    """ color of object """
+    """Returns the color of object"""
     return next(iter(obj))[0]
 
 
 def to_object(patch: Patch, grid: Grid) -> Object:
-    """ object from patch and grid """
+    """Returns the object given by extracting the locations in 'patch' from 'grid'"""
     h, w = len(grid), len(grid[0])
     return frozenset((grid[i][j], (i, j)) for i, j in to_indices(patch) if 0 <= i < h and 0 <= j < w)
 
 
 def as_object(grid: Grid) -> Object:
-    """ conversion of grid to object """
+    """Returns the 'grid' converted to an object"""
     return frozenset((c, (i, j)) for i, r in enumerate(grid) for j, c in enumerate(r))
 
 
 def rot90(grid: Grid) -> Grid:
-    """ quarter clockwise rotation """
+    """Returns 'grid' rotated a quarter turn clockwise"""
     return tuple(row for row in zip(*grid[::-1]))
 
 def rot180(grid: Grid) -> Grid:
-    """ half rotation """
+    """Returns 'grid' rotated a half turn"""
     return tuple(tuple(row[::-1]) for row in grid[::-1])
 
 def rot270(grid: Grid) -> Grid:
-    """ quarter anticlockwise rotation """
+    """Returns 'grid' rotated a quarter turn anticlockwise"""
     return tuple(tuple(row[::-1]) for row in zip(*grid[::-1]))[::-1]
 
 
 #def horizontal_mirror(piece: Piece) -> Piece:
 def horizontal_mirror[T: Piece](piece: T) -> T:
-    """ mirroring along horizontal """
+    """Returns 'piece' mirrored along horizontal axis"""
     if isinstance(piece, tuple):
         return piece[::-1]
     d = upper_left_corner(piece)[0] + lower_right_corner(piece)[0]
@@ -701,7 +695,7 @@ def horizontal_mirror[T: Piece](piece: T) -> T:
 
 #def vertical_mirror(piece: Piece) -> Piece:
 def vertical_mirror[T: Piece](piece: T) -> T:
-    """ mirroring along vertical """
+    """Returns 'piece' mirrored along vertical axis"""
     if isinstance(piece, tuple):
         return tuple(row[::-1] for row in piece)
     d = upper_left_corner(piece)[1] + lower_right_corner(piece)[1]
@@ -711,7 +705,7 @@ def vertical_mirror[T: Piece](piece: T) -> T:
 
 #def diagonal_mirror(piece: Piece) -> Piece:
 def diagonal_mirror[T: Piece](piece: T) -> T:
-    """ mirroring along diagonal """
+    """Returns 'piece' mirrored along diagonal"""
     if isinstance(piece, tuple):
         return tuple(zip(*piece))
     a, b = upper_left_corner(piece)
@@ -721,7 +715,7 @@ def diagonal_mirror[T: Piece](piece: T) -> T:
 
 #def counterdiagonal_mirror(piece: Piece) -> Piece:
 def counterdiagonal_mirror[T: Piece](piece: T) -> T:
-    """ mirroring along counterdiagonal """
+    """Returns 'piece' mirrored along counterdiagonal"""
     if isinstance(piece, tuple):
         return tuple(zip(*(r[::-1] for r in piece[::-1])))
     return vertical_mirror(diagonal_mirror(vertical_mirror(piece)))
@@ -729,7 +723,7 @@ def counterdiagonal_mirror[T: Piece](piece: T) -> T:
 
 # changed patch: Patch :: mdda
 def fill(grid: Grid, color: Color, patch: Union[Patch,Objects,Tuple]) -> Grid:
-    """ fill value at indices """
+    """Returns 'grid' with 'color' filled in at the indices in 'patch'"""
     h, w = len(grid), len(grid[0])
     grid_filled = list(list(row) for row in grid)
     for i, j in to_indices(patch):
@@ -737,11 +731,24 @@ def fill(grid: Grid, color: Color, patch: Union[Patch,Objects,Tuple]) -> Grid:
             grid_filled[i][j] = color
     return tuple(tuple(row) for row in grid_filled)
 
+# was underfill
+# changed patch: Patch :: mdda
+def fill_background(grid: Grid, color: Color, patch: Piece) -> Grid:
+    """ fill background parts of grid using patch indices with color """
+    h, w = len(grid), len(grid[0])
+    bg = most_common_color(grid)
+    g = list(list(r) for r in grid)
+    for i, j in to_indices(patch):
+        if 0 <= i < h and 0 <= j < w:
+            if g[i][j] == bg:
+                g[i][j] = color
+    return tuple(tuple(r) for r in g)
+
 
 # was paint
 # changed obj: Object :: mdda
-def paint_onto_grid(grid: Grid,obj: Union[Object, Tuple, Indices]) -> Grid:
-    """ paint object to grid """
+def paint_onto_grid(grid: Grid, obj: Union[Object, Tuple, Indices]) -> Grid:
+    """Returns 'grid' the object painted onto it"""
     h, w = len(grid), len(grid[0])
     grid_painted = list(list(row) for row in grid)
     for color, (i, j) in obj:
@@ -752,24 +759,11 @@ def paint_onto_grid(grid: Grid,obj: Union[Object, Tuple, Indices]) -> Grid:
 # was underpaint
 # changed obj: Object :: mdda
 def paint_onto_grid_background(grid: Grid, obj: Union[Object, Tuple, Indices]) -> Grid:
-    """ paint object to grid where there is background """
+    """Returns 'grid' the object painted onto only its background"""
     h, w = len(grid), len(grid[0])
     bg = most_common_color(grid)
     g = list(list(r) for r in grid)
     for color, (i, j) in obj:
-        if 0 <= i < h and 0 <= j < w:
-            if g[i][j] == bg:
-                g[i][j] = color
-    return tuple(tuple(r) for r in g)
-
-
-# changed patch: Patch :: mdda
-def underfill(grid: Grid, color: Color, patch: Piece) -> Grid:
-    """ fill background parts of grid using patch indices with color """
-    h, w = len(grid), len(grid[0])
-    bg = most_common_color(grid)
-    g = list(list(r) for r in grid)
-    for i, j in to_indices(patch):
         if 0 <= i < h and 0 <= j < w:
             if g[i][j] == bg:
                 g[i][j] = color
