@@ -204,7 +204,7 @@ def solve_f25ffba3(I):
 
 
 def solve_c1d99e64(I):
-    x1 = frontiers(I)
+    x1 = solid_color_strips_in_grid(I)
     x2 = flatten(x1)
     O = fill(I, COLOR_TWO, x2)
     return O
@@ -559,7 +559,7 @@ def solve_22eb0ac0(I):
 
 
 def solve_9f236235(I):
-    x1 = compress(I)
+    x1 = remove_solid_color_strips_from_grid(I)
     x2 = as_objects(I, True, False, False)
     x3 = vertical_mirror(x1)
     x4 = valmin(x2, width)
@@ -1384,7 +1384,7 @@ def solve_7c008303(I):
     x3 = of_color(x2, COLOR_ZERO)
     x4 = replace(I, COLOR_THREE, COLOR_ZERO)
     x5 = replace(x4, COLOR_EIGHT, COLOR_ZERO)
-    x6 = compress(x5)
+    x6 = remove_solid_color_strips_from_grid(x5)
     x7 = upscale(x6, 3)
     O = fill(x7, COLOR_ZERO, x3)
     return O
@@ -1452,7 +1452,7 @@ def solve_3f7978a0(I):
 
 def solve_1190e5a7(I):
     x1 = most_common_color(I)
-    x2 = frontiers(I)
+    x2 = solid_color_strips_in_grid(I)
     x3 = keep_if_condition(x2, is_vertical_line)
     x4 = difference(x2, x3)
     x5 = as_generic_tuple(x4, x3)  
@@ -1971,7 +1971,7 @@ def solve_2c608aff(I):
 
 
 def solve_f8b3ba0a(I):
-    x1 = compress(I)
+    x1 = remove_solid_color_strips_from_grid(I)
     x2 = as_tuple(3, 1)
     x3 = palette(x1)
     x4 = fix_first_argument(color_count, x1)
@@ -2371,7 +2371,7 @@ def solve_77fdfe62(I):
     x2 = smallest_subgrid_containing(x1, I)
     x3 = replace(I, COLOR_EIGHT, COLOR_ZERO)
     x4 = replace(x3, COLOR_ONE, COLOR_ZERO)
-    x5 = compress(x4)
+    x5 = remove_solid_color_strips_from_grid(x4)
     x6 = width(x2)
     x7 = halve(x6)
     x8 = upscale(x5, x7)
@@ -2432,7 +2432,7 @@ def solve_47c1f68c(I):
     x6 = cellwise(I, x2, x1)
     x7 = horizontal_mirror(x6)
     x8 = cellwise(x6, x7, x1)
-    x9 = compress(x8)
+    x9 = remove_solid_color_strips_from_grid(x8)
     O = replace(x9, x1, x5)
     return O
 
@@ -3477,7 +3477,7 @@ def solve_e48d4e1a(I):
 
 
 def solve_6773b310(I):
-    x1 = compress(I)
+    x1 = remove_solid_color_strips_from_grid(I)
     x2 = neighbors(ORIGIN)
     x3 = insert(ORIGIN, x2)
     x4 = fix_last_argument(multiply, 3)
@@ -4816,7 +4816,7 @@ def solve_72322fa7(I):
 
 def solve_855e0971(I):
     #x1 = rot90(I)  # Unused?
-    x2 = frontiers(I)
+    x2 = solid_color_strips_in_grid(I)
     x3 = keep_if_condition(x2, is_horizontal_line)
     x4 = size(x3)
     x6 = is_positive(x4)
@@ -6494,7 +6494,7 @@ def solve_7837ac64(I):
     x3 = remove(x2, x1)
     x4 = flatten(x3)
     x5 = smallest_subgrid_containing(x4, I)
-    x6 = chain(color, flatten, frontiers)
+    x6 = chain(color, flatten, solid_color_strips_in_grid)
     x7 = x6(I)
     x8 = as_objects(x5, True, False, False)
     x9 = color_filter(x8, COLOR_ZERO)

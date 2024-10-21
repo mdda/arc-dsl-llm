@@ -821,12 +821,12 @@ def test_occurrences():
     assert occurrences(G, frozenset({(1, (0, 0)), (1, (0, 1))})) == frozenset({(1, 1), (2, 1)})
  
 
-def test_frontiers():
-    assert frontiers(C) == frozenset({frozenset({(5, (1, 0)), (5, (1, 1))})})
+def test_solid_color_strips_in_grid():
+    assert solid_color_strips_in_grid(C) == frozenset({frozenset({(5, (1, 0)), (5, (1, 1))})})
  
 
-def test_compress():
-    assert compress(K) == ((0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0))
+def test_remove_solid_color_strips_from_grid():
+    assert remove_solid_color_strips_from_grid(K) == ((0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0))
  
 
 def test_horizontal_periodicity():

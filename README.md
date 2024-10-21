@@ -150,8 +150,8 @@ mostcolor   most_common_color
 leastcolor  least_common_color
 
 manhattan   manhattan_distance
-            as_generic_tuple
-            make_cell
+*new*       as_generic_tuple
+*new*       make_cell
 
 backdrop    bounding_box_indices
 delta       bounding_box_delta
@@ -163,6 +163,9 @@ canvas      create_grid
 cover       erase_patch
 trim        trim_border
 move        move_object
+
+frontiers   solid_color_strips_in_grid
+compress    remove_solid_color_strips_from_grid
 
 T           True
 F           False

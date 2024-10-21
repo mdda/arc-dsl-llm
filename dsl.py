@@ -721,6 +721,7 @@ def counterdiagonal_mirror[T: Piece](piece: T) -> T:
     return vertical_mirror(diagonal_mirror(vertical_mirror(piece)))
 
 
+# Is there a better name for this?
 # changed patch: Patch :: mdda
 def fill(grid: Grid, color: Color, patch: Union[Patch,Objects,Tuple]) -> Grid:
     """Returns 'grid' with 'color' filled in at the indices in 'patch'"""
@@ -734,7 +735,7 @@ def fill(grid: Grid, color: Color, patch: Union[Patch,Objects,Tuple]) -> Grid:
 # was underfill
 # changed patch: Patch :: mdda
 def fill_background(grid: Grid, color: Color, patch: Piece) -> Grid:
-    """ fill background parts of grid using patch indices with color """
+    """Returns 'grid' with 'color' filled in at the indices in 'patch' over the background parts"""
     h, w = len(grid), len(grid[0])
     bg = most_common_color(grid)
     g = list(list(r) for r in grid)
@@ -771,7 +772,7 @@ def paint_onto_grid_background(grid: Grid, obj: Union[Object, Tuple, Indices]) -
 
 
 def horizontal_upscale(grid: Grid, factor: Integer) -> Grid:
-    """ upscale grid horizontally """
+    """Returns 'grid' upscaled horizontally by 'factor'"""
     g = tuple()
     for row in grid:
         r = tuple()
@@ -780,17 +781,15 @@ def horizontal_upscale(grid: Grid, factor: Integer) -> Grid:
         g = g + (r,)
     return g
 
-
 def vertical_upscale(grid: Grid, factor: Integer) -> Grid:
-    """ upscale grid vertically """
+    """Returns 'grid' upscaled vertically by 'factor'"""
     g = tuple()
     for row in grid:
         g = g + tuple(row for num in range(factor))
     return g
 
-
 def upscale[T: Union[Element,Patch]](element: T, factor: Integer) -> T:
-    """ upscale object or grid """
+    """Returns object or grid upscaled overall by 'factor'"""
     if isinstance(element, tuple):
         g = tuple()
         for row in element:
@@ -813,7 +812,7 @@ def upscale[T: Union[Element,Patch]](element: T, factor: Integer) -> T:
         return shift_by_vector(frozenset(o), (di_inv, dj_inv))
 
 def downscale(grid: Grid, factor: Integer) -> Grid:
-    """ downscale grid """
+    """Returns 'grid' downscaled overall by 'factor'"""
     h, w = len(grid), len(grid[0])
     g = tuple()
     for i in range(h):
@@ -831,11 +830,11 @@ def downscale(grid: Grid, factor: Integer) -> Grid:
 
 
 def horizontal_concat(a: Grid, b: Grid) -> Grid:
-    """ concatenate two grids horizontally """
+    """Returns a grid formed by concatenating the grids 'a' and 'b' horizontally"""
     return tuple(i + j for i, j in zip(a, b))
 
 def vertical_concat(a: Grid, b: Grid) -> Grid:
-    """ concatenate two grids vertically """
+    """Returns a grid formed by concatenating the grids 'a' and 'b' vertically"""
     return a + b
 
 
@@ -845,20 +844,20 @@ def smallest_subgrid_containing(patch: Patch, grid: Grid) -> Grid:
 
 
 def horizontal_split(grid: Grid, n: Integer) -> Tuple:
-    """ split grid horizontally """
+    """Returns 'n' smaller grids formed by splitting 'grid' horizontally"""
     h, w = len(grid), len(grid[0]) // n
     offset = len(grid[0]) % n != 0
     return tuple(crop(grid, (0, w * i + i * offset), (h, w)) for i in range(n))
 
 def vertical_split(grid: Grid, n: Integer) -> Tuple:
-    """ split grid vertically """
+    """Returns 'n' smaller grids formed by splitting 'grid' vertically"""
     h, w = len(grid) // n, len(grid[0])
     offset = len(grid) % n != 0
     return tuple(crop(grid, (h * i + i * offset, 0), (h, w)) for i in range(n))
 
 
 def cellwise(a: Grid, b: Grid, fallback: Color) -> Grid:
-    """ cellwise match of two grids """
+    """Returns the grid resulting from copying the places where 'a' and 'b' match, but having the color 'fallback' where they do not"""
     h, w = len(a), len(a[0])
     resulting_grid = tuple()
     for i in range(h):
@@ -872,17 +871,16 @@ def cellwise(a: Grid, b: Grid, fallback: Color) -> Grid:
 
 
 def replace(grid: Grid, replacee: Color, replacer: Color) -> Grid:
-    """ color substitution """
+    """Returns 'grid' where the color 'replacee' is replaced by 'replacer'"""
     return tuple(tuple(replacer if c == replacee else c for c in r) for r in grid)
 
-
 def switch(grid: Grid, a: Color, b: Color) -> Grid:
-    """ color switching """
+    """Returns 'grid' where the colors 'a' and 'b' are switched"""
     return tuple(tuple(c if (c != a and c != b) else {a: b, b: a}[c] for c in r) for r in grid)
 
 
 def center(patch: Patch) -> IntegerTuple:
-    """ center of the patch """
+    """Returns the coordinates of the center of 'patch'"""
     return (uppermost(patch) + height(patch) // 2, leftmost(patch) + width(patch) // 2)
 
 
@@ -900,13 +898,13 @@ def position(a: Patch, b: Patch) -> IntegerTuple:
         return (-1, 1 if ja < jb else -1)
 
 
-def color_at_location(grid: Grid, loc: IntegerTuple) -> Color:
-    """ color at location """
-    i, j = loc
+def color_at_location(grid: Grid, location: IntegerTuple) -> Color:
+    """Returns the color found in 'grid' at 'location'"""
+    i, j = location
     h, w = len(grid), len(grid[0])
     if not (0 <= i < h and 0 <= j < w):
         return None
-    return grid[loc[0]][loc[1]] 
+    return grid[location[0]][location[1]] 
 
 # was canvas
 def create_grid(color: Color, dimensions: IntegerTuple) -> Grid:
@@ -981,6 +979,7 @@ def vertical_line(location: IntegerTuple) -> Indices:
 def horizontal_line(location: IntegerTuple) -> Indices:
     """ horizontal line through point """
     return frozenset((location[0], j) for j in range(30))
+
 
 # was backdrop
 def bounding_box_indices(patch: Patch) -> Indices:
@@ -1075,9 +1074,9 @@ def occurrences(grid: Grid, obj: Object) -> Indices:
                 occs.add((i, j))
     return frozenset(occs)
 
-
-def frontiers( grid: Grid ) -> Objects:
-    """ set of frontiers """
+# was frontiers
+def solid_color_strips_in_grid(grid: Grid) -> Objects:
+    """Returns the set of frontiers of 'grid' (i.e. horizontal and vertical lines where each line through the grid contains a single color)"""
     h, w = len(grid), len(grid[0])
     row_indices = tuple(i for i, r in enumerate(grid) if len(set(r)) == 1)
     column_indices = tuple(j for j, c in enumerate(diagonal_mirror(grid)) if len(set(c)) == 1)
@@ -1085,11 +1084,11 @@ def frontiers( grid: Grid ) -> Objects:
     vfrontiers = frozenset({frozenset({(grid[i][j], (i, j)) for i in range(h)}) for j in column_indices})
     return hfrontiers | vfrontiers
 
-
-def compress(grid: Grid) -> Grid:
-    """ removes frontiers from grid """
-    ri = tuple(i for i, r in enumerate(grid) if len(set(r)) == 1)
-    ci = tuple(j for j, c in enumerate(diagonal_mirror(grid)) if len(set(c)) == 1)
+# was compress
+def remove_solid_color_strips_from_grid(grid: Grid) -> Grid:
+    """Returns 'grid' with frontiers removed (i.e. remove horizontal and vertical lines from the grid where each line through the grid contains a single color)"""
+    ri = tuple(i for i, r in enumerate(grid) if len(set(r)) == 1)                  # Find unique rows
+    ci = tuple(j for j, c in enumerate(diagonal_mirror(grid)) if len(set(c)) == 1) # Find unique columns
     return tuple(tuple(v for j, v in enumerate(r) if j not in ci) for i, r in enumerate(grid) if i not in ri)
 
 
