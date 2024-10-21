@@ -133,6 +133,7 @@ vvec        to_vertical_vec
 
 shift       shift_by_vector
 normalize   shift_to_origin
+gravitate   move_until_touching
 
             direct_neighbors
             diagonal_neighbors

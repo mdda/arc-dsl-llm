@@ -796,9 +796,9 @@ def test_bounding_box_delta():
     assert bounding_box_delta(frozenset({(2, 3), (3, 2), (3, 3), (4, 1)})) == frozenset({(2, 1), (2, 2), (3, 1), (4, 2), (4, 3)})
  
 
-def test_gravitate():
-    assert gravitate(frozenset({(0, 0)}), frozenset({(0, 1)})) == (0, 0)
-    assert gravitate(frozenset({(0, 0)}), frozenset({(0, 4)})) == (0, 3)
+def test_move_until_touching():
+    assert move_until_touching(frozenset({(0, 0)}), frozenset({(0, 1)})) == (0, 0)
+    assert move_until_touching(frozenset({(0, 0)}), frozenset({(0, 4)})) == (0, 3)
  
 
 def test_inbox():

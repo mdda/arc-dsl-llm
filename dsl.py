@@ -271,16 +271,16 @@ def flatten(containers):
 
 #def sfilter(container: Container, condition: Callable) -> Container:
 def keep_if_condition[T: Container](container: T, condition: Callable) -> T:
-    """ keep elements in container that satisfy condition """
+    """Returns 'container' with only the elements that satisfy 'condition'"""
     return type(container)(e for e in container if condition(e))
 
 # was mfilter
-def keep_if_condition_and_flatten(container: Container, function: Callable) -> FrozenSet:
-    """ filter and flatten """
-    return flatten(keep_if_condition(container, function))
+def keep_if_condition_and_flatten(container: Container, condition: Callable) -> FrozenSet:
+    """Returns the elements of 'container' than satisfy 'condition', in a flattened form"""
+    return flatten(keep_if_condition(container, condition))
 
 def extract_first_matching(container: Container, condition: Callable) -> Any:
-    """ first element of container that satisfies condition """
+    """Returns the first element of 'container' that satisfies 'condition'"""
     return next(e for e in container if condition(e))
 
 
@@ -288,26 +288,26 @@ def extract_first_matching(container: Container, condition: Callable) -> Any:
 
 
 def interval(start: Integer, stop: Integer, step: Integer) -> Tuple:
-    """ range """
+    """Returns a tuple containing integers from `range(start, stop, step)`"""
     return tuple(range(start, stop, step))
 
 
 def to_tuple(container: FrozenSet) -> Tuple:
-    """ conversion to tuple """
+    """Returns a tuple containing the contents of 'container'"""
     return tuple(container)
 
 #def as_item_tuple[T:Union[Grid, Objects, Tuple]](a: T, b: T) -> Tuple:
 def as_generic_tuple[T](a: T, b: T) -> Tuple:  # new
-    """ constructs a tuple of two items """
+    """Returns the tuple (a, b)"""
     return (a, b)
 
 def as_tuple(a: Integer, b: Integer) -> IntegerTuple:
-    """ constructs a tuple """
+    """Returns the integer tuple (a,b)"""
     return (a, b)
 
-def make_cell(a: Color, b: Tuple) -> IntegerTuple:  # new
-    """ constructs a cell """
-    return (a, b)
+def make_cell(color: Color, location: Tuple) -> IntegerTuple:  # new
+    """Returns the Cell(color, location), where 'location' is a pair of coordinates"""
+    return (color, location)
 
 # was product
 def cartesian_product(a: Container, b: Container) -> FrozenSet:
@@ -316,12 +316,12 @@ def cartesian_product(a: Container, b: Container) -> FrozenSet:
 
 
 def pairwise(a: Tuple, b: Tuple) -> TupleTuple:
-    """pairwise zipping of two tuples """
+    """Returns the pairwise zipping of the two tuples 'a' and 'b'"""
     return tuple(zip(a, b))
 
 
 def condition_if_else(condition: Boolean, a: Any, b: Any) -> Any:
-    """ if else branching """
+    """if condition==True: return a; else: return b"""
     return a if condition else b
 
 
@@ -998,9 +998,9 @@ def bounding_box_delta(patch: Patch) -> Indices:
         return frozenset({})
     return bounding_box_indices(patch) - to_indices(patch)
 
-
-def gravitate(source: Patch, destination: Patch) -> IntegerTuple:
-    """ direction to move source until adjacent to destination """
+# was gravitate
+def move_until_touching(source: Patch, destination: Patch) -> IntegerTuple:
+    """Returns the direction to move 'source' until it is adjacent to 'destination'"""
     si, sj = center(source)
     di, dj = center(destination)
     i, j = 0, 0
@@ -1052,12 +1052,12 @@ def box(patch: Patch) -> Indices:
 
 
 def shoot(start: IntegerTuple, direction: IntegerTuple) -> Indices:
-    """ line from starting point and direction """
+    """Returns the indices of a line from 'start' towards 'direction'"""
     return line_between(start, (start[0] + 42 * direction[0], start[1] + 42 * direction[1]))
 
 
 def occurrences(grid: Grid, obj: Object) -> Indices:
-    """ locations of occurrences of object in grid """
+    """Returns the locations of occurrences of 'obj' in 'grid'"""
     occs = set()
     normed = shift_to_origin(obj)
     h, w = len(grid), len(grid[0])
