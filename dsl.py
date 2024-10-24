@@ -535,9 +535,9 @@ def neighbors(loc: IntegerTuple) -> Indices:
     return direct_neighbors(loc) | diagonal_neighbors(loc)
 
 
-def as_objects(grid: Grid, each_object_single_color: Boolean, include_diagonal_neighbors: Boolean, without_background: Boolean) -> Objects:
+def as_objects(grid: Grid, each_object_single_color: Boolean, include_diagonal_neighbors: Boolean, discard_background: Boolean) -> Objects:
     """Converts 'grid' to a set of connected objects"""
-    bg = most_common_color(grid) if without_background else None
+    bg = most_common_color(grid) if discard_background else None
     objs = set()
     occupied = set()
     h, w = len(grid), len(grid[0])
