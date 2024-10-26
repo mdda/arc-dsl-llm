@@ -4333,7 +4333,7 @@ def solve_b190f7f5(I):
     return O
 
 
-def solve_caa06a1f(I):
+def solve_caa06a1f(I):   # Super-mean, since the test case is more complicated than the training ones - need to guess intent
     x1 = as_object(I)
     x2 = shape(I)
     x3 = decrement(x2)

@@ -284,9 +284,6 @@ def extract_first_matching(container: Container, condition: Callable) -> Any:
     return next(e for e in container if condition(e))
 
 
-
-
-
 def interval(start: Integer, stop: Integer, step: Integer) -> Tuple:
     """Returns a tuple containing integers from `range(start, stop, step)`"""
     return tuple(range(start, stop, step))
