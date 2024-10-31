@@ -73,6 +73,11 @@ square      is_square
             is_vertical_line
             is_horizontal_line
 
+color       get_color
+width       get_width
+height      get_height
+shape       get_shape
+
 first       get_first
 last        get_last
 other       get_other

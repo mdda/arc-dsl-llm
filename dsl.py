@@ -413,8 +413,8 @@ def least_common_color(element: Element) -> Color:
     colors = [c for r in element for c in r] if isinstance(element, tuple) else [c for c, _ in element]
     return min(set(colors), key=colors.count)
 
-
-def height(piece: Piece) -> Integer:
+# was height
+def get_height(piece: Piece) -> Integer:
     """Returns the height of a grid or patch"""
     if len(piece) == 0:
         return 0
@@ -422,7 +422,8 @@ def height(piece: Piece) -> Integer:
         return len(piece)
     return lowermost(piece) - uppermost(piece) + 1
 
-def width(piece: Piece) -> Integer:
+# was width
+def get_width(piece: Piece) -> Integer:
     """Returns the width of a grid or patch"""
     if len(piece) == 0:
         return 0
@@ -430,13 +431,14 @@ def width(piece: Piece) -> Integer:
         return len(piece[0])
     return rightmost(piece) - leftmost(piece) + 1
 
-def shape(piece: Piece) -> IntegerTuple:
+# was shape
+def get_shape(piece: Piece) -> IntegerTuple:
     """Returns (height, width) for a grid or patch"""
-    return (height(piece), width(piece))
+    return (get_height(piece), get_width(piece))
 
 def is_portrait(piece: Piece) -> Boolean:
     """Returns True iff height>width for a grid or patch"""
-    return height(piece) > width(piece)
+    return get_height(piece) > get_width(piece)
 
 
 def color_count(element: Element, color: Color) -> Integer:
@@ -600,15 +602,15 @@ def rightmost(patch: Patch) -> Integer:
 
 def is_square(piece: Piece) -> Boolean:
     """Returns True iff the piece forms a square"""
-    return len(piece) == len(piece[0]) if isinstance(piece, tuple) else height(piece) * width(piece) == len(piece) and height(piece) == width(piece)
+    return len(piece) == len(piece[0]) if isinstance(piece, tuple) else get_height(piece) * get_width(piece) == len(piece) and get_height(piece) == get_width(piece)
 
 def is_vertical_line(patch: Patch) -> Boolean:
     """Returns True iff the piece forms a vertical line"""
-    return height(patch) == len(patch) and width(patch) == 1
+    return get_height(patch) == len(patch) and get_width(patch) == 1
 
 def is_horizontal_line(patch: Patch) -> Boolean:
     """Returns True iff the piece forms a horizontal line"""
-    return width(patch) == len(patch) and height(patch) == 1
+    return get_width(patch) == len(patch) and get_height(patch) == 1
 
 
 def horizontal_matching(a: Patch, b: Patch) -> Boolean:
@@ -650,8 +652,8 @@ def count_colors(element: Element) -> Integer:
     """Returns the number of colors occurring in object or grid"""
     return len(palette(element))
 
-
-def color(obj: Object) -> Color:
+# was color
+def get_color(obj: Object) -> Color:
     """Returns the color of object"""
     return next(iter(obj))[0]
 
@@ -837,7 +839,7 @@ def vertical_concat(a: Grid, b: Grid) -> Grid:
 
 def smallest_subgrid_containing(patch: Patch, grid: Grid) -> Grid:
     """ smallest subgrid containing object """
-    return crop(grid, upper_left_corner(patch), shape(patch))
+    return crop(grid, upper_left_corner(patch), get_shape(patch))
 
 
 def horizontal_split(grid: Grid, n: Integer) -> Tuple:
@@ -878,7 +880,7 @@ def switch(grid: Grid, a: Color, b: Color) -> Grid:
 
 def center(patch: Patch) -> IntegerTuple:
     """Returns the coordinates of the center of 'patch'"""
-    return (uppermost(patch) + height(patch) // 2, leftmost(patch) + width(patch) // 2)
+    return (uppermost(patch) + get_height(patch) // 2, leftmost(patch) + get_width(patch) // 2)
 
 
 def position(a: Patch, b: Patch) -> IntegerTuple:
@@ -1058,7 +1060,7 @@ def occurrences(grid: Grid, obj: Object) -> Indices:
     occs = set()
     normed = shift_to_origin(obj)
     h, w = len(grid), len(grid[0])
-    oh, ow = shape(obj)
+    oh, ow = get_shape(obj)
     h2, w2 = h - oh + 1, w - ow + 1
     for i in range(h2):
         for j in range(w2):
@@ -1092,7 +1094,7 @@ def remove_solid_color_strips_from_grid(grid: Grid) -> Grid:
 def horizontal_periodicity(obj: Object) -> Integer:
     """ horizontal periodicity """
     normalized = shift_to_origin(obj)
-    w = width(normalized)
+    w = get_width(normalized)
     for p in range(1, w):
         offsetted = shift_by_vector(normalized, (0, -p))
         pruned = frozenset({(c, (i, j)) for c, (i, j) in offsetted if j >= 0})
@@ -1103,7 +1105,7 @@ def horizontal_periodicity(obj: Object) -> Integer:
 def vertical_periodicity(obj: Object) -> Integer:
     """ vertical periodicity """
     normalized = shift_to_origin(obj)
-    h = height(normalized)
+    h = get_height(normalized)
     for p in range(1, h):
         offsetted = shift_by_vector(normalized, (-p, 0))
         pruned = frozenset({(c, (i, j)) for c, (i, j) in offsetted if i >= 0})

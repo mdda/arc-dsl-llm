@@ -312,7 +312,7 @@ def solve_42a50994(I):
 
 def solve_56ff96f3(I):
     x1 = partition_only_foreground(I)
-    x2 = combine_two_function_results(recolor, color, bounding_box_indices)
+    x2 = combine_two_function_results(recolor, get_color, bounding_box_indices)
     x3 = transform_and_flatten(x2, x1)
     O = paint_onto_grid(I, x3)
     return O
@@ -444,7 +444,7 @@ def solve_3618c87e(I):
 
 def solve_1c786137(I):
     x1 = as_objects(I, True, False, False)
-    x2 = argmax(x1, height)
+    x2 = argmax(x1, get_height)
     x3 = smallest_subgrid_containing(x2, I)
     O = trim_border(x3)
     return O
@@ -461,9 +461,9 @@ def solve_8efcae92(I):
 
 def solve_445eab21(I):
     x1 = as_objects(I, True, False, True)
-    x2 = combine_two_function_results(multiply, height, width)
+    x2 = combine_two_function_results(multiply, get_height, get_width)
     x3 = argmax(x1, x2)
-    x4 = color(x3)
+    x4 = get_color(x3)
     O = create_grid(x4, TWO_BY_TWO)
     return O
 
@@ -496,7 +496,7 @@ def solve_41e4d17e(I):
 
 
 def solve_9565186b(I):
-    x1 = shape(I)
+    x1 = get_shape(I)
     x2 = as_objects(I, True, False, False)
     x3 = argmax(x2, size)
     x4 = create_grid(COLOR_FIVE, x1)
@@ -551,7 +551,7 @@ def solve_ce9e57f2(I):
 
 def solve_22eb0ac0(I):
     x1 = partition_only_foreground(I)
-    x2 = combine_two_function_results(recolor, color, bounding_box_indices)
+    x2 = combine_two_function_results(recolor, get_color, bounding_box_indices)
     x3 = transform(x2, x1)
     x4 = keep_if_condition_and_flatten(x3, is_horizontal_line)
     O = paint_onto_grid(I, x4)
@@ -562,7 +562,7 @@ def solve_9f236235(I):
     x1 = remove_solid_color_strips_from_grid(I)
     x2 = as_objects(I, True, False, False)
     x3 = vertical_mirror(x1)
-    x4 = valmin(x2, width)
+    x4 = valmin(x2, get_width)
     O = downscale(x3, x4)
     return O
 
@@ -680,7 +680,7 @@ def solve_d037b0a7(I):
     x1 = as_objects(I, True, False, True)
     x2 = fix_last_argument(shoot, DOWN)
     x3 = compose(x2, center)
-    x4 = combine_two_function_results(recolor, color, x3)
+    x4 = combine_two_function_results(recolor, get_color, x3)
     x5 = transform_and_flatten(x4, x1)
     O = paint_onto_grid(I, x5)
     return O
@@ -838,8 +838,8 @@ def solve_007bbfb7(I):
 
 
 def solve_496994bd(I):
-    x1 = width(I)
-    x2 = height(I)
+    x1 = get_width(I)
+    x2 = get_height(I)
     x3 = halve(x2)
     x4 = as_tuple(x3, x1)
     x5 = crop(I, ORIGIN, x4)
@@ -853,7 +853,7 @@ def solve_1f876c06(I):
     x2 = compose(get_last, get_first)
     x3 = power(get_last, 2)
     x4 = combine_two_function_results(line_between, x2, x3)
-    x5 = combine_two_function_results(recolor, color, x4)
+    x5 = combine_two_function_results(recolor, get_color, x4)
     x6 = transform_and_flatten(x5, x1)
     O = paint_onto_grid(I, x6)
     return O
@@ -873,9 +873,9 @@ def solve_05f2a901(I):
 def solve_39a8645d(I):
     x1 = as_objects(I, True, True, True)
     x2 = to_tuple(x1)
-    x3 = transform(color, x2)
+    x3 = transform(get_color, x2)
     x4 = most_common(x3)
-    x5 = equals(color, x4)
+    x5 = equals(get_color, x4)
     x6 = extract_first_matching(x1, x5)
     O = smallest_subgrid_containing(x6, I)
     return O
@@ -920,7 +920,7 @@ def solve_b9b7f026(I):
     x3 = fix_last_argument(adjacent, x2)
     x4 = remove(x2, x1)
     x5 = extract_first_matching(x4, x3)
-    x6 = color(x5)
+    x6 = get_color(x5)
     O = create_grid(x6, UNITY)
     return O
 
@@ -928,7 +928,7 @@ def solve_b9b7f026(I):
 def solve_ba97ae07(I):
     x1 = as_objects(I, True, False, True)
     x2 = to_tuple(x1)
-    x3 = transform(color, x2)
+    x3 = transform(get_color, x2)
     x4 = most_common(x3)
     x5 = of_color(I, x4)
     x6 = bounding_box_indices(x5)
@@ -937,8 +937,8 @@ def solve_ba97ae07(I):
 
 
 def solve_c9f8e694(I):
-    x1 = height(I)
-    x2 = width(I)
+    x1 = get_height(I)
+    x2 = get_width(I)
     x3 = of_color(I, COLOR_ZERO)
     x4 = as_tuple(x1, 1)
     x5 = crop(I, ORIGIN, x4)
@@ -949,7 +949,7 @@ def solve_c9f8e694(I):
 
 def solve_d23f8c26(I):
     x1 = as_indices(I)
-    x2 = width(I)
+    x2 = get_width(I)
     x3 = halve(x2)
     x4 = equals(get_last, x3)
     x5 = compose(logical_not, x4)
@@ -992,7 +992,7 @@ def solve_ded97339(I):
 
 
 def solve_ea786f4a(I):
-    x1 = width(I)
+    x1 = get_width(I)
     x2 = shoot(ORIGIN, UNITY)
     x3 = decrement(x1)
     x4 = to_horizontal_vec(x3)
@@ -1005,7 +1005,7 @@ def solve_ea786f4a(I):
 def solve_08ed6ac7(I):
     x1 = as_objects(I, True, False, True)
     x2 = to_tuple(x1)
-    x3 = sort(x1, height)
+    x3 = sort(x1, get_height)
     x4 = size(x2)
     # 
     #x5 = interval(x4, 0, -1)  # mdda : This seems to be over colors... NAUGHTY
@@ -1047,7 +1047,7 @@ def solve_08ed6ac7(I):
 
 def solve_40853293(I):
     x1 = partition(I)
-    x2 = combine_two_function_results(recolor, color, bounding_box_indices)
+    x2 = combine_two_function_results(recolor, get_color, bounding_box_indices)
     x3 = transform(x2, x1)
     x4 = keep_if_condition_and_flatten(x3, is_horizontal_line)
     x5 = keep_if_condition_and_flatten(x3, is_vertical_line)
@@ -1060,7 +1060,7 @@ def solve_5521c0d9(I):
     x1 = as_objects(I, True, False, True)
     x2 = flatten(x1)
     x3 = erase_patch(I, x2)
-    x4 = chain(to_vertical_vec, negate, height)
+    x4 = chain(to_vertical_vec, negate, get_height)
     x5 = combine_two_function_results(shift_by_vector, identity, x4)
     x6 = transform_and_flatten(x5, x1)
     O = paint_onto_grid(x3, x6)
@@ -1070,7 +1070,7 @@ def solve_5521c0d9(I):
 def solve_f8ff0b80(I):
     x1 = as_objects(I, True, True, True)
     x2 = sort(x1, size)
-    x3 = transform(color, x2)
+    x3 = transform(get_color, x2)
     x4 = fix_last_argument(create_grid, UNITY)
     x5 = transform(x4, x3)
     x6 = flatten(x5)
@@ -1083,7 +1083,7 @@ def solve_85c4e7cd(I):
     x2 = compose(negate, size)
     x3 = sort(x1, size)
     x4 = sort(x1, x2)
-    x5 = transform(color, x4)
+    x5 = transform(get_color, x4)
     x6 = transform_both_and_flatten(recolor, x5, x3)
     O = paint_onto_grid(I, x6)
     return O
@@ -1124,7 +1124,7 @@ def solve_363442ee(I):
 
 def solve_5168d44c(I):
     x1 = of_color(I, COLOR_THREE)
-    x2 = height(x1)
+    x2 = get_height(x1)
     x3 = is_equal(x2, 1)
     x4 = condition_if_else(x3, ZERO_BY_TWO, TWO_BY_ZERO)
     x5 = of_color(I, COLOR_TWO)
@@ -1148,7 +1148,7 @@ def solve_d9fac9be(I):
     x1 = palette(I)
     x2 = as_objects(I, True, False, True)
     x3 = argmax(x2, size)
-    x4 = color(x3)
+    x4 = get_color(x3)
     x5 = remove(COLOR_ZERO, x1)
     x6 = get_other(x5, x4)
     O = create_grid(x6, UNITY)
@@ -1156,7 +1156,7 @@ def solve_d9fac9be(I):
 
 
 def solve_e50d258f(I):
-    x1 = width(I)
+    x1 = get_width(I)
     x2 = as_tuple(9, x1)
     x3 = create_grid(COLOR_ZERO, x2)
     x4 = vertical_concat(I, x3)
@@ -1180,7 +1180,7 @@ def solve_810b9b61(I):
 
 
 def solve_54d82841(I):
-    x1 = height(I)
+    x1 = get_height(I)
     x2 = as_objects(I, True, False, True)
     x3 = compose(get_last, center)
     x4 = transform(x3, x2)
@@ -1298,7 +1298,7 @@ def solve_d13f3404(I):
     x1 = as_objects(I, True, False, True)
     x2 = fix_last_argument(shoot, UNITY)
     x3 = compose(x2, center)
-    x4 = combine_two_function_results(recolor, color, x3)
+    x4 = combine_two_function_results(recolor, get_color, x3)
     x5 = transform_and_flatten(x4, x1)
     x6 = as_tuple(6, 6)
     x7 = create_grid(COLOR_ZERO, x6)
@@ -1324,7 +1324,7 @@ def solve_f2829549(I):
     x3 = of_color(x1, COLOR_ZERO)
     x4 = of_color(x2, COLOR_ZERO)
     x5 = intersection(x3, x4)
-    x6 = shape(x1)
+    x6 = get_shape(x1)
     x7 = create_grid(COLOR_ZERO, x6)
     O = fill(x7, COLOR_THREE, x5)
     return O
@@ -1333,7 +1333,7 @@ def solve_f2829549(I):
 def solve_fafffa47(I):
     x1 = top_half(I)
     x2 = bottom_half(I)
-    x3 = shape(x2)
+    x3 = get_shape(x2)
     x4 = of_color(x1, COLOR_ZERO)
     x5 = of_color(x2, COLOR_ZERO)
     x6 = intersection(x4, x5)
@@ -1348,7 +1348,7 @@ def solve_fcb5c309(I):
     x3 = color_filter(x2, x1)
     x4 = difference(x2, x3)
     x5 = argmax(x4, size)
-    x6 = color(x5)
+    x6 = get_color(x5)
     x7 = smallest_subgrid_containing(x5, I)
     O = replace(x7, x6, x1)
     return O
@@ -1440,11 +1440,11 @@ def solve_6d75e8bb(I):
 
 def solve_3f7978a0(I):
     x1 = partition_only_foreground(I)
-    x2 = equals(color, COLOR_FIVE)
+    x2 = equals(get_color, COLOR_FIVE)
     x3 = extract_first_matching(x1, x2)
     x4 = upper_left_corner(x3)
     x5 = subtract(x4, DOWN)
-    x6 = shape(x3)
+    x6 = get_shape(x3)
     x7 = add(x6, TWO_BY_ZERO)
     O = crop(I, x5, x7)
     return O
@@ -1582,7 +1582,7 @@ def solve_7ddcd7ec(I):
     x2 = size_filter(x1, 1)
     x3 = difference(x1, x2)
     x4 = get_first(x3)
-    x5 = color(x4)
+    x5 = get_color(x4)
     x6 = fix_first_argument(position, x4)
     x7 = combine_two_function_results(shoot, center, x6)
     x8 = transform_and_flatten(x7, x2)
@@ -1591,7 +1591,7 @@ def solve_7ddcd7ec(I):
 
 
 def solve_3bd67248(I):
-    x1 = height(I)
+    x1 = get_height(I)
     x2 = decrement(x1)
     x3 = decrement(x2)
     x4 = as_tuple(x3, 1)
@@ -1700,7 +1700,7 @@ def solve_a5f85a15(I):
 def solve_3ac3eb23(I):
     x1 = as_objects(I, True, False, True)
     x2 = chain(diagonal_neighbors, get_last, get_first)
-    x3 = combine_two_function_results(recolor, color, x2)
+    x3 = combine_two_function_results(recolor, get_color, x2)
     x4 = transform_and_flatten(x3, x1)
     x5 = paint_onto_grid(I, x4)
     x6 = vertical_split(x5, 3)
@@ -1765,7 +1765,7 @@ def solve_b2862040(I):
 def solve_868de0fa(I):
     x1 = as_objects(I, True, False, False)
     x2 = keep_if_condition(x1, is_square)
-    x3 = compose(is_even, height)
+    x3 = compose(is_even, get_height)
     x4 = keep_if_condition(x2, x3)
     x5 = difference(x2, x4)
     x6 = flatten(x4)
@@ -1780,7 +1780,7 @@ def solve_681b3aeb(I):
     x2 = as_objects(x1, True, False, True)
     x3 = argmax(x2, size)
     x4 = argmin(x2, size)
-    x5 = color(x4)
+    x5 = get_color(x4)
     x6 = create_grid(x5, THREE_BY_THREE)
     x7 = shift_to_origin(x3)
     x8 = paint_onto_grid(x6, x7)
@@ -1803,7 +1803,7 @@ def solve_8e5a5113(I):
 
 def solve_025d127b(I):
     x1 = as_objects(I, True, False, True)
-    x2 = transform(color, x1)
+    x2 = transform(get_color, x1)
     x3 = flatten(x1)
     x4 = fix_first_argument(color_filter, x1)
     x5 = fix_last_argument(argmax, rightmost)
@@ -1856,7 +1856,7 @@ def solve_d4f3cd78(I):
 def solve_bda2d7a6(I):
     x1 = partition(I)
     x2 = sort(x1, size)
-    x3 = transform(color, x2)
+    x3 = transform(get_color, x2)
     x4 = get_last(x2)
     x5 = remove(x4, x2)
     x6 = repeat(x4, 1)
@@ -1906,7 +1906,7 @@ def solve_b8cdaf2b(I):
 
 
 def solve_bd4472b8(I):
-    x1 = width(I)
+    x1 = get_width(I)
     x2 = as_tuple(2, x1)
     x3 = crop(I, ORIGIN, x2)
     x4 = top_half(x3)
@@ -1921,7 +1921,7 @@ def solve_bd4472b8(I):
 def solve_4be741c5(I):
     x1 = is_portrait(I)
     x2 = condition_if_else(x1, diagonal_mirror, identity)
-    x3 = condition_if_else(x1, height, width)
+    x3 = condition_if_else(x1, get_height, get_width)
     x4 = x3(I)
     x5 = as_tuple(1, x4)
     x6 = x2(I)
@@ -1932,7 +1932,7 @@ def solve_4be741c5(I):
 
 
 def solve_bbc9ae5d(I):
-    x1 = width(I)
+    x1 = get_width(I)
     x2 = palette(I)
     x3 = halve(x1)
     x4 = vertical_upscale(I, x3)
@@ -2062,7 +2062,7 @@ def solve_178fcbfb(I):
     x5 = color_filter(x1, COLOR_TWO)
     x6 = difference(x1, x5)
     x7 = compose(horizontal_line, center)
-    x8 = combine_two_function_results(recolor, color, x7)
+    x8 = combine_two_function_results(recolor, get_color, x7)
     x9 = transform_and_flatten(x8, x6)
     O = paint_onto_grid(x4, x9)
     return O
@@ -2074,8 +2074,8 @@ def solve_3de23699(I):
     x3 = get_first(x2)
     x4 = difference(x1, x2)
     x5 = get_first(x4)
-    x6 = color(x3)
-    x7 = color(x5)
+    x6 = get_color(x3)
+    x7 = get_color(x5)
     x8 = smallest_subgrid_containing(x3, I)
     x9 = trim_border(x8)
     O = replace(x9, x7, x6)
@@ -2086,7 +2086,7 @@ def solve_54d9e175(I):
     x1 = as_objects(I, True, False, True)
     x2 = size_filter(x1, 1)
     x3 = compose(neighbors, center)
-    x4 = combine_two_function_results(recolor, color, x3)
+    x4 = combine_two_function_results(recolor, get_color, x3)
     x5 = transform_and_flatten(x4, x2)
     x6 = paint_onto_grid(I, x5)
     x7 = replace(x6, COLOR_ONE, COLOR_SIX)
@@ -2099,12 +2099,12 @@ def solve_54d9e175(I):
 def solve_5ad4f10b(I):
     x1 = as_objects(I, True, True, True)
     x2 = argmax(x1, size)
-    x3 = color(x2)
+    x3 = get_color(x2)
     x4 = smallest_subgrid_containing(x2, I)
     x5 = least_common_color(x4)
     x6 = replace(x4, x5, COLOR_ZERO)
     x7 = replace(x6, x3, x5)
-    x8 = height(x7)
+    x8 = get_height(x7)
     x9 = divide(x8, 3)
     O = downscale(x7, x9)
     return O
@@ -2114,7 +2114,7 @@ def solve_623ea044(I):
     x1 = as_objects(I, True, False, True)
     x2 = get_first(x1)
     x3 = center(x2)
-    x4 = color(x2)
+    x4 = get_color(x2)
     #x5 = as_tuple(UNITY, NEG_UNITY)
     x5 = as_generic_tuple(UNITY, NEG_UNITY) # mdda
     #x6 = as_tuple(UP_RIGHT, DOWN_LEFT)
@@ -2131,7 +2131,7 @@ def solve_6b9890af(I):
     x2 = of_color(I, COLOR_TWO)
     x3 = argmin(x1, size)
     x4 = smallest_subgrid_containing(x2, I)
-    x5 = width(x4)
+    x5 = get_width(x4)
     x6 = divide(x5, 3)
     x7 = upscale(x3, x6)
     x8 = shift_to_origin(x7)
@@ -2206,7 +2206,7 @@ def solve_99b1bc43(I):
     x5 = union(x3, x4)
     x6 = intersection(x3, x4)
     x7 = difference(x5, x6)
-    x8 = shape(x1)
+    x8 = get_shape(x1)
     x9 = create_grid(COLOR_ZERO, x8)
     O = fill(x9, COLOR_THREE, x7)
     return O
@@ -2315,7 +2315,7 @@ def solve_a3325580(I):
     x2 = valmax(x1, size)
     x3 = size_filter(x1, x2)
     x4 = sort(x3, leftmost)
-    x5 = transform(color, x4)
+    x5 = transform(get_color, x4)
     x6 = as_tuple(1, x2)
     x7 = fix_last_argument(create_grid, x6)
     x8 = transform(x7, x5)
@@ -2329,7 +2329,7 @@ def solve_8eb1be9a(I):
     x2 = get_first(x1)
     x3 = interval(-2, 4, 1)
     x4 = fix_first_argument(shift_by_vector, x2)
-    x5 = height(x2)
+    x5 = get_height(x2)
     x6 = fix_last_argument(multiply, x5)
     x7 = transform(x6, x3)
     x8 = transform(to_vertical_vec, x7)
@@ -2372,7 +2372,7 @@ def solve_77fdfe62(I):
     x3 = replace(I, COLOR_EIGHT, COLOR_ZERO)
     x4 = replace(x3, COLOR_ONE, COLOR_ZERO)
     x5 = remove_solid_color_strips_from_grid(x4)
-    x6 = width(x2)
+    x6 = get_width(x2)
     x7 = halve(x6)
     x8 = upscale(x5, x7)
     x9 = of_color(x2, COLOR_ZERO)
@@ -2416,7 +2416,7 @@ def solve_ddf7fa4f(I):
     x4 = cartesian_product(x2, x3)
     x5 = combine_two_function_results(vertical_matching, get_first, get_last)
     x6 = keep_if_condition(x4, x5)
-    x7 = compose(color, get_first)
+    x7 = compose(get_color, get_first)
     x8 = combine_two_function_results(recolor, x7, get_last)
     x9 = transform_and_flatten(x8, x6)
     O = paint_onto_grid(I, x9)
@@ -2455,7 +2455,7 @@ def solve_23581191(I):
     x1 = as_objects(I, True, True, True)
     x2 = combine_two_function_results(union, vertical_line, horizontal_line)
     x3 = compose(x2, center)
-    x4 = combine_two_function_results(recolor, color, x3)
+    x4 = combine_two_function_results(recolor, get_color, x3)
     x5 = transform_and_flatten(x4, x1)
     x6 = paint_onto_grid(I, x5)
     x7 = combine_two_function_results(intersection, get_first, get_last)
@@ -2468,14 +2468,14 @@ def solve_23581191(I):
 def solve_c8cbb738(I):
     x1 = most_common_color(I)
     x2 = partition_only_foreground(I)
-    #x3 = valmax(x2, shape) # mdda: type abuse, since shape is not an int
-    x3a = valmax(x2, height) # mdda: better type-wise
-    x3b = valmax(x2, width) # mdda: better type-wise
+    #x3 = valmax(x2, get_shape) # mdda: type abuse, since shape is not an int
+    x3a = valmax(x2, get_height) # mdda: better type-wise
+    x3b = valmax(x2, get_width) # mdda: better type-wise
     x3c = as_tuple(x3a, x3b) # mdda
     x4 = create_grid(x1, x3c) # mdda
     x5 = transform(shift_to_origin, x2)
     x6 = fix_first_argument(subtract, x3c) # mdda
-    x7 = chain(halve, x6, shape)
+    x7 = chain(halve, x6, get_shape)
     x8 = combine_two_function_results(shift_by_vector, identity, x7)
     x9 = transform_and_flatten(x8, x5)
     O = paint_onto_grid(x4, x9)
@@ -2531,8 +2531,8 @@ def solve_6ecd11f4(I):
     x3 = argmin(x1, size)
     x4 = smallest_subgrid_containing(x2, I)
     x5 = smallest_subgrid_containing(x3, I)
-    x6 = width(x4)
-    x7 = width(x5)
+    x6 = get_width(x4)
+    x7 = get_width(x5)
     x8 = divide(x6, x7)
     x9 = downscale(x4, x8)
     x10 = of_color(x9, COLOR_ZERO)
@@ -2585,8 +2585,8 @@ def solve_d4a91cb9(I):
 
 
 def solve_eb281b96(I):
-    x1 = height(I)
-    x2 = width(I)
+    x1 = get_height(I)
+    x2 = get_width(I)
     x3 = decrement(x1)
     x4 = as_tuple(x3, x2)
     x5 = crop(I, ORIGIN, x4)
@@ -2665,7 +2665,7 @@ def solve_feca6190(I):  # mdda : Not sure why this is color palette order depend
     x5 = create_grid(COLOR_ZERO, x4)
     x6 = fix_last_argument(shoot, UNITY)
     x7 = compose(x6, center)
-    x8 = combine_two_function_results(recolor, color, x7)
+    x8 = combine_two_function_results(recolor, get_color, x7)
     #x9 = transform_and_flatten(x8, x1)
     x9 = transform_and_flatten(x8, x1fg)
     x10 = paint_onto_grid(x5, x9)
@@ -2690,7 +2690,7 @@ def solve_a68b268e(I):
 
 
 def solve_beb8660c(I):
-    x1 = shape(I)
+    x1 = get_shape(I)
     x2 = as_objects(I, True, False, True)
     x3 = compose(negate, size)
     x4 = sort(x2, x3)
@@ -2735,7 +2735,7 @@ def solve_0962bcdd(I):
 
 
 def solve_3631a71a(I):
-    x1 = shape(I)
+    x1 = get_shape(I)
     #x2 = replace(I, COLOR_NINE, COLOR_ZERO)
     x2 = replace(I, COLOR_NINE, COLOR_BELOW)  # mdda new
     x3 = fix_first_argument(transform, maximum)  # mdda : Is this over colors??  FIXED now since PLACEHOLDER<other_colors
@@ -2790,7 +2790,7 @@ def solve_e509e548(I):
     x3 = chain(palette, trim_border, x2)
     x4 = fix_first_argument(contains, COLOR_THREE)
     x5 = compose(x4, x3)
-    x6 = combine_two_function_results(add, height, width)
+    x6 = combine_two_function_results(add, get_height, get_width)
     x7 = compose(decrement, x6)
     x8 = combine_two_function_results(is_equal, size, x7)
     x9 = keep_if_condition_and_flatten(x1, x5)
@@ -2812,7 +2812,7 @@ def solve_d43fd935(I):
     x8 = fix_last_argument(move_until_touching, x2)
     x9 = combine_two_function_results(add, center, x8)
     x10 = combine_two_function_results(line_between, center, x9)
-    x11 = combine_two_function_results(recolor, color, x10)
+    x11 = combine_two_function_results(recolor, get_color, x10)
     x12 = transform_and_flatten(x11, x7)
     O = paint_onto_grid(I, x12)
     return O
@@ -2932,7 +2932,7 @@ def solve_97999447(I):
     x2 = transform(to_indices, x1)
     x3 = fix_last_argument(shoot, RIGHT)
     x4 = compose(x3, center)
-    x5 = combine_two_function_results(recolor, color, x4)
+    x5 = combine_two_function_results(recolor, get_color, x4)
     x6 = transform_and_flatten(x5, x1)
     x7 = paint_onto_grid(I, x6)
     x8 = interval(0, 5, 1)
@@ -2946,7 +2946,7 @@ def solve_97999447(I):
 
 
 def solve_91714a58(I):
-    x1 = shape(I)
+    x1 = get_shape(I)
     x2 = as_indices(I)
     x3 = as_objects(I, True, False, True)
     x4 = argmax(x3, size)
@@ -2990,7 +2990,7 @@ def solve_8e1813be(I):
     x6 = x5(x1)
     x7 = as_objects(x6, True, True, True)
     x8 = sort(x7, uppermost)
-    x9 = transform(color, x8)
+    x9 = transform(get_color, x8)
     x10 = remove_duplicates(x9)
     x11 = size(x10)
     x12 = fix_last_argument(repeat, x11)
@@ -3076,7 +3076,7 @@ def solve_75b8110e(I):
 
 
 def solve_941d9a10(I):
-    x1 = shape(I)
+    x1 = get_shape(I)
     x2 = as_objects(I, True, False, False)
     x3 = color_filter(x2, COLOR_ZERO)
     x4 = transform(to_indices, x3)
@@ -3117,12 +3117,12 @@ def solve_1a07d186(I):
     x1 = as_objects(I, True, False, True)
     x2 = size_filter(x1, 1)
     x3 = difference(x1, x2)
-    x4 = transform(color, x3)
+    x4 = transform(get_color, x3)
     x5 = fix_last_argument(contains, x4)
-    x6 = compose(x5, color)
+    x6 = compose(x5, get_color)
     x7 = keep_if_condition(x2, x6)
     x8 = fix_first_argument(color_filter, x3)
-    x9 = chain(get_first, x8, color)
+    x9 = chain(get_first, x8, get_color)
     x10 = combine_two_function_results(move_until_touching, identity, x9)
     x11 = combine_two_function_results(shift_by_vector, identity, x10)
     x12 = transform_and_flatten(x11, x7)
@@ -3136,12 +3136,12 @@ def solve_d687bc17(I):
     x1 = as_objects(I, True, False, True)
     x2 = size_filter(x1, 1)
     x3 = difference(x1, x2)
-    x4 = transform(color, x3)
+    x4 = transform(get_color, x3)
     x5 = fix_last_argument(contains, x4)
-    x6 = compose(x5, color)
+    x6 = compose(x5, get_color)
     x7 = keep_if_condition(x2, x6)
     x8 = fix_first_argument(color_filter, x3)
-    x9 = chain(get_first, x8, color)
+    x9 = chain(get_first, x8, get_color)
     x10 = combine_two_function_results(move_until_touching, identity, x9)
     x11 = combine_two_function_results(shift_by_vector, identity, x10)
     x12 = flatten(x2)
@@ -3159,7 +3159,7 @@ def solve_9af7a82c(I):
     x5 = fix_first_argument(subtract, x3)
     x6 = compose(x4, size)
     x7 = chain(x4, x5, size)
-    x8 = combine_two_function_results(create_grid, color, x6)
+    x8 = combine_two_function_results(create_grid, get_color, x6)
     x9 = fix_first_argument(create_grid, COLOR_ZERO)
     x10 = compose(x9, x7)
     x11 = combine_two_function_results(vertical_concat, x8, x10)
@@ -3220,7 +3220,7 @@ def solve_cbded52d(I):
     x9 = compose(center, get_last)
     x10 = combine_two_function_results(line_between, x8, x9)
     x11 = chain(initset, center, x10)
-    x12 = compose(color, get_first)
+    x12 = compose(get_color, get_first)
     x13 = combine_two_function_results(recolor, x12, x11)
     x14 = transform_and_flatten(x13, x7)
     O = paint_onto_grid(I, x14)
@@ -3236,9 +3236,9 @@ def solve_8a004b2b(I):
     x6 = replace(x3, COLOR_FOUR, COLOR_ZERO)
     x7 = as_objects(x6, True, False, True)
     x8 = flatten(x7)
-    x9 = width(x8)
+    x9 = get_width(x8)
     x10 = upper_left_corner(x8)
-    x11 = width(x4)
+    x11 = get_width(x4)
     x12 = divide(x9, x11)
     x13 = upscale(x5, x12)
     x14 = shift_by_vector(x13, x10)
@@ -3256,7 +3256,7 @@ def solve_e26a3af2(I):
     x7 = x6(x2)
     x8 = x6(x3)
     x9 = greater_than(x8, x7)
-    x10 = condition_if_else(x9, height, width)
+    x10 = condition_if_else(x9, get_height, get_width)
     x11 = x10(I)
     x12 = rot90(x4)
     x13 = condition_if_else(x9, x5, x12)
@@ -3360,7 +3360,7 @@ def solve_29c11459(I):
     x3 = as_objects(x2, True, False, True)
     x4 = as_objects(x1, True, False, True)
     x5 = compose(horizontal_line, center)
-    x6 = combine_two_function_results(recolor, color, x5)
+    x6 = combine_two_function_results(recolor, get_color, x5)
     x7 = transform_and_flatten(x6, x4)
     x8 = paint_onto_grid(x1, x7)
     x9 = transform_and_flatten(x6, x3)
@@ -3375,10 +3375,10 @@ def solve_29c11459(I):
 
 
 def solve_963e52fc(I):
-    x1 = width(I)
+    x1 = get_width(I)
     x2 = as_object(I)
     x3 = horizontal_periodicity(x2)
-    x4 = height(x2)
+    x4 = get_height(x2)
     x5 = as_tuple(x4, x3)
     x6 = upper_left_corner(x2)
     x7 = crop(I, x6, x5)
@@ -3442,7 +3442,7 @@ def solve_56dc2b01(I):
     x5 = move_until_touching(x3, x4)
     x6 = get_first(x5)
     x7 = is_equal(x6, 0)
-    x8 = condition_if_else(x7, width, height)
+    x8 = condition_if_else(x7, get_width, get_height)
     x9 = x8(x3)
     x10 = move_until_touching(x4, x3)
     x11 = sign(x10)
@@ -3456,7 +3456,7 @@ def solve_56dc2b01(I):
 
 
 def solve_e48d4e1a(I):
-    x1 = shape(I)
+    x1 = get_shape(I)
     x2 = of_color(I, COLOR_FIVE)
     x3 = fill(I, COLOR_ZERO, x2)
     x4 = least_common_color(x3)
@@ -3504,7 +3504,7 @@ def solve_780d0b14(I):
     x4 = compose(x3, size)
     x5 = keep_if_condition(x2, x4)
     x6 = to_tuple(x5)
-    x7 = transform(color, x6)
+    x7 = transform(get_color, x6)
     x8 = transform(center, x6)
     x9 = pairwise(x7, x8)
     x10 = fill(I, COLOR_ZERO, x1)
@@ -3532,7 +3532,7 @@ def solve_2204b7a8(I):
     x10 = x7(I)
     x11 = x8(I)
     x12 = color_at_location(x10, ORIGIN)
-    x13 = shape(x11)
+    x13 = get_shape(x11)
     x14 = decrement(x13)
     x15 = color_at_location(x11, x14)
     x16 = replace(x10, COLOR_THREE, x12)
@@ -3622,7 +3622,7 @@ def solve_f8c80d96(I):
     x2 = as_objects(I, True, False, False)
     x3 = color_filter(x2, x1)
     x4 = argmax(x3, size)
-    x5 = argmin(x2, width)
+    x5 = argmin(x2, get_width)
     x6 = size(x5)
     x7 = is_equal(x6, COLOR_ONE)
     x8 = condition_if_else(x7, identity, outbox)
@@ -3709,8 +3709,8 @@ def solve_4938f0c2(I):
     x1 = as_objects(I, True, True, True)
     x2 = of_color(I, COLOR_TWO)
     x3 = vertical_mirror(x2)
-    x4 = height(x2)
-    x5 = width(x2)
+    x4 = get_height(x2)
+    x5 = get_width(x2)
     x6 = to_vertical_vec(x4)
     x7 = to_horizontal_vec(x5)
     x8 = add(x7, ZERO_BY_TWO)
@@ -3797,7 +3797,7 @@ def solve_8403a5d5(I):
     x1 = as_indices(I)
     x2 = as_objects(I, True, False, True)
     x3 = get_first(x2)
-    x4 = color(x3)
+    x4 = get_color(x3)
     x5 = leftmost(x3)
     x6 = interval(x5, 10, 2)
     x7 = fix_last_argument(contains, x6)
@@ -3840,14 +3840,14 @@ def solve_91413438(I):
 
 
 def solve_539a4f51(I):
-    x1 = shape(I)
+    x1 = get_shape(I)
     x2 = color_at_location(I, ORIGIN)
     x3 = color_count(I, COLOR_ZERO)
     x4 = decrement(x1)
     x5 = is_positive(x3)
     x6 = condition_if_else(x5, x4, x1)
     x7 = crop(I, ORIGIN, x6)
-    x8 = width(x7)
+    x8 = get_width(x7)
     x9 = as_tuple(1, x8)
     x10 = crop(x7, ORIGIN, x9)
     x11 = vertical_upscale(x10, x8)
@@ -3872,7 +3872,7 @@ def solve_5daaa586(I):
     x7 = smallest_subgrid_containing(x6, I)
     x8 = partition_only_foreground(x7)
     x9 = argmax(x8, size)
-    x10 = color(x9)
+    x10 = get_color(x9)
     x11 = to_indices(x9)
     x12 = apply_function_on_cartesian_product(line_between, x11, x11)
     x13 = keep_if_condition_and_flatten(x12, is_vertical_line)
@@ -3911,9 +3911,9 @@ def solve_3bdb4ada(I):
 def solve_ec883f72(I):
     x1 = palette(I)
     x2 = as_objects(I, True, True, True)
-    x3 = combine_two_function_results(multiply, height, width)
+    x3 = combine_two_function_results(multiply, get_height, get_width)
     x4 = argmax(x2, x3)
-    x5 = color(x4)
+    x5 = get_color(x4)
     x6 = remove(COLOR_ZERO, x1)
     x7 = get_other(x6, x5)
     x8 = lower_right_corner(x4)
@@ -3932,7 +3932,7 @@ def solve_ec883f72(I):
 
 
 def solve_2bee17df(I):
-    x1 = height(I)
+    x1 = get_height(I)
     x2 = rot90(I)
     x3 = subtract(x1, 2)
     x4 = interval(0, x1, 1)
@@ -3968,7 +3968,7 @@ def solve_e8dc4411(I):
     x9 = combine_two_function_results(subtract, identity, crement)
     x10 = combine_two_function_results(add, identity, x9)
     x11 = condition_if_else(x8, identity, x10)
-    x12 = shape(x2)
+    x12 = get_shape(x2)
     x13 = multiply(x12, x4)
     x14 = transform(x11, x13)
     x15 = interval(1, 5, 1)
@@ -4068,9 +4068,9 @@ def solve_a2fd1cf0(I):
 def solve_b0c4d837(I):
     x1 = of_color(I, COLOR_FIVE)
     x2 = of_color(I, COLOR_EIGHT)
-    x3 = height(x1)
+    x3 = get_height(x1)
     x4 = decrement(x3)
-    x5 = height(x2)
+    x5 = get_height(x2)
     x6 = subtract(x4, x5)
     x7 = as_tuple(1, x6)
     x8 = create_grid(COLOR_EIGHT, x7)
@@ -4093,8 +4093,8 @@ def solve_8731374e(I):
     x1 = as_objects(I, True, False, False)
     x2 = argmax(x1, size)
     x3 = smallest_subgrid_containing(x2, I)
-    x4 = height(x3)
-    x5 = width(x3)
+    x4 = get_height(x3)
+    x5 = get_width(x3)
     x6 = vertical_split(x3, x4)
     x7 = fix_first_argument(greater_than, 4)
     x8 = compose(x7, count_colors)
@@ -4144,7 +4144,7 @@ def solve_db93a21d(I):
     x4 = fix_last_argument(shoot, DOWN)
     x5 = transform_and_flatten(x4, x2)
     x6 = fill_background(I, COLOR_ONE, x5)
-    x7 = compose(halve, width)
+    x7 = compose(halve, get_width)
     x8 = fix_last_argument(greater_than, 1)
     x9 = compose(x8, x7)
     x10 = equals(x7, 3)
@@ -4162,7 +4162,7 @@ def solve_db93a21d(I):
 
 
 def solve_53b68214(I):
-    x1 = width(I)
+    x1 = get_width(I)
     x2 = as_objects(I, True, True, True)
     x3 = get_first(x2)
     x4 = vertical_periodicity(x3)
@@ -4174,7 +4174,7 @@ def solve_53b68214(I):
     x10 = transform_and_flatten(x9, x8)
     x11 = as_tuple(x1, x1)
     x12 = is_portrait(x3)
-    x13 = shape(x3)
+    x13 = get_shape(x3)
     x14 = add(DOWN, x13)
     x15 = decrement(x14)
     x16 = shift_by_vector(x3, x15)
@@ -4227,7 +4227,7 @@ def solve_6cdd2623(I):
 
 
 def solve_a3df8b1e(I):
-    x1 = shape(I)
+    x1 = get_shape(I)
     x2 = of_color(I, COLOR_ONE)
     x3 = get_first(x2)
     x4 = shoot(x3, UP_RIGHT)
@@ -4239,7 +4239,7 @@ def solve_a3df8b1e(I):
     x10 = as_objects(x9, True, True, True)
     x11 = get_first(x10)
     x12 = smallest_subgrid_containing(x11, x9)
-    x13 = shape(x12)
+    x13 = get_shape(x12)
     x14 = subtract(x13, DOWN)
     x15 = crop(x12, DOWN, x14)
     x16 = vertical_concat(x15, x15)
@@ -4278,7 +4278,7 @@ def solve_cdecee7f(I):
     x2 = as_tuple(1, 3)
     x3 = size(x1)
     x4 = sort(x1, leftmost)
-    x5 = transform(color, x4)
+    x5 = transform(get_color, x4)
     x6 = fix_last_argument(create_grid, UNITY)
     x7 = transform(x6, x5)
     x8 = flatten(x7)
@@ -4322,7 +4322,7 @@ def solve_b190f7f5(I):
     x3 = x2(I, 2)
     x4 = argmin(x3, count_colors)
     x5 = argmax(x3, count_colors)
-    x6 = width(x5)
+    x6 = get_width(x5)
     x7 = fix_last_argument(repeat, x6)
     x8 = chain(diagonal_mirror, flatten, x7)
     x9 = upscale(x5, x6)
@@ -4335,7 +4335,7 @@ def solve_b190f7f5(I):
 
 def solve_caa06a1f(I):   # Super-mean, since the test case is more complicated than the training ones - need to guess intent
     x1 = as_object(I)
-    x2 = shape(I)
+    x2 = get_shape(I)
     x3 = decrement(x2)
     x4 = color_at_location(I, x3)
     x5 = double(x2)
@@ -4365,7 +4365,7 @@ def solve_e21d9049(I):
     x3 = as_objects(I, True, False, True)
     x4 = of_color(I, x2)
     x5 = flatten(x3)
-    x6 = shape(x5)
+    x6 = get_shape(x5)
     x7 = neighbors(ORIGIN)
     x8 = fix_first_argument(transform_and_flatten, neighbors)
     x9 = power(x8, 2)
@@ -4393,7 +4393,7 @@ def solve_d89b689b(I):
     x5 = fix_first_argument(argmin, x4)
     x6 = fix_first_argument(fix_last_argument, manhattan_distance)
     x7 = compose(x5, x6)
-    x8 = combine_two_function_results(recolor, color, x7)
+    x8 = combine_two_function_results(recolor, get_color, x7)
     x9 = transform_and_flatten(x8, x3)
     x10 = flatten(x3)
     x11 = erase_patch(I, x10)
@@ -4409,7 +4409,7 @@ def solve_746b3537(I):
     x5 = x4(I)
     x6 = as_objects(x5, True, False, False)
     x7 = sort(x6, leftmost)
-    x8 = transform(color, x7)
+    x8 = transform(get_color, x7)
     x9 = repeat(x8, 1)
     O = x4(x9)
     return O
@@ -4448,7 +4448,7 @@ def solve_06df4c85(I):
     x14 = compose(get_last, get_first)
     x15 = power(get_last, 2)
     x16 = combine_two_function_results(line_between, x14, x15)
-    x17 = combine_two_function_results(recolor, color, x16)
+    x17 = combine_two_function_results(recolor, get_color, x16)
     x18 = transform(x17, x13)
     x19 = combine_two_function_results(logical_or, is_vertical_line, is_horizontal_line)
     x20 = keep_if_condition_and_flatten(x18, x19)
@@ -4497,7 +4497,7 @@ def solve_4522001f(I):
     x10 = initset(x9)
     x11 = upscale(x10, 2)
     x12 = upscale(x11, 2)
-    x13 = shape(x12)
+    x13 = get_shape(x12)
     x14 = shift_by_vector(x12, x13)
     x15 = union(x12, x14)
     x16 = paint_onto_grid(x8, x15)
@@ -4539,7 +4539,7 @@ def solve_eb5a1d5d(I):
 
 
 def solve_e179c5f4(I):
-    x1 = height(I)
+    x1 = get_height(I)
     x2 = of_color(I, COLOR_ONE)
     x3 = get_first(x2)
     x4 = shoot(x3, UP_RIGHT)
@@ -4550,8 +4550,8 @@ def solve_e179c5f4(I):
     x9 = fill(x5, COLOR_ONE, x8)
     x10 = of_color(x9, COLOR_ONE)
     x11 = smallest_subgrid_containing(x10, x9)
-    x12 = height(x11)
-    x13 = width(x11)
+    x12 = get_height(x11)
+    x13 = get_width(x11)
     x14 = decrement(x12)
     x15 = as_tuple(x14, x13)
     x16 = upper_left_corner(x10)
@@ -4698,15 +4698,15 @@ def solve_0a938d79(I):
     x3 = x2(I)
     x4 = partition_only_foreground(x3)
     x5 = flatten(x4)
-    x6 = chain(double, decrement, width)
+    x6 = chain(double, decrement, get_width)
     x7 = x6(x5)
     x8 = compose(vertical_line, to_horizontal_vec)
     x9 = fix_first_argument(transform_and_flatten, x8)
     x10 = fix_last_argument(interval, x7)
-    x11 = width(x3)
+    x11 = get_width(x3)
     x12 = fix_last_argument(x10, x11)
     x13 = chain(x9, x12, leftmost)
-    x14 = combine_two_function_results(recolor, color, x13)
+    x14 = combine_two_function_results(recolor, get_color, x13)
     x15 = transform_and_flatten(x14, x4)
     x16 = paint_onto_grid(x3, x15)
     O = x2(x16)
@@ -4726,7 +4726,7 @@ def solve_045e512c(I):
     x10 = fix_first_argument(fix_last_argument, multiply)
     x11 = chain(x8, x10, x9)
     x12 = compose(x5, x11)
-    x13 = combine_two_function_results(recolor, color, x12)
+    x13 = combine_two_function_results(recolor, get_color, x12)
     x14 = transform_and_flatten(x13, x3)
     O = paint_onto_grid(I, x14)
     return O
@@ -4759,11 +4759,11 @@ def solve_82819916(I):
 
 
 def solve_99fa7670(I):
-    x1 = shape(I)
+    x1 = get_shape(I)
     x2 = as_objects(I, True, False, True)
     x3 = fix_last_argument(shoot, RIGHT)
     x4 = compose(x3, center)
-    x5 = combine_two_function_results(recolor, color, x4)
+    x5 = combine_two_function_results(recolor, get_color, x4)
     x6 = transform_and_flatten(x5, x2)
     x7 = paint_onto_grid(I, x6)
     x8 = add(x1, DOWN_LEFT)
@@ -4778,7 +4778,7 @@ def solve_99fa7670(I):
     x17 = compose(lower_right_corner, get_first)
     x18 = compose(lower_right_corner, get_last)
     x19 = combine_two_function_results(line_between, x17, x18)
-    x20 = compose(color, get_first)
+    x20 = compose(get_color, get_first)
     x21 = combine_two_function_results(recolor, x20, x19)
     x22 = pairwise(x15, x16)
     x23 = transform_and_flatten(x21, x22)
@@ -4823,7 +4823,7 @@ def solve_855e0971(I):
     x7 = condition_if_else(x6, identity, diagonal_mirror)
     x8 = x7(I)
     x9 = fix_last_argument(smallest_subgrid_containing, x8)
-    x10 = equals(color, COLOR_ZERO)
+    x10 = equals(get_color, COLOR_ZERO)
     x11 = compose(logical_not, x10)
     x12 = partition(x8)
     x13 = keep_if_condition(x12, x11)
@@ -4875,7 +4875,7 @@ def solve_952a094c(I):
     x6 = fix_first_argument(fix_last_argument, manhattan_distance)
     x7 = fix_first_argument(argmax, x2)
     x8 = chain(x7, x6, initset)
-    x9 = compose(color, x8)
+    x9 = compose(get_color, x8)
     x10 = combine_two_function_results(as_tuple, x9, identity)
     x11 = transform(x10, x5)
     x12 = flatten(x2)
@@ -4889,7 +4889,7 @@ def solve_6d58a25d(I):
     x2 = argmax(x1, size)
     x3 = remove(x2, x1)
     x4 = flatten(x3)
-    x5 = color(x4)
+    x5 = get_color(x4)
     x6 = uppermost(x2)
     x7 = fix_last_argument(greater_than, x6)
     x8 = compose(x7, uppermost)
@@ -4957,7 +4957,7 @@ def solve_e6721834(I):
     x19 = combine_two_function_results(subtract, x17, x18)
     x20 = combine_two_function_results(shift_by_vector, identity, x19)
     x21 = transform(x20, x16)
-    x22 = compose(decrement, width)
+    x22 = compose(decrement, get_width)
     x23 = chain(is_positive, decrement, x22)
     x24 = keep_if_condition_and_flatten(x21, x23)
     O = paint_onto_grid(x5, x24)
@@ -5014,7 +5014,7 @@ def solve_2bcee788(I):
     x18 = compose(logical_not, x17)
     x19 = keep_if_condition(x16, x18)
     x20 = upper_left_corner(x4)
-    x21 = shape(x4)
+    x21 = get_shape(x4)
     x22 = as_tuple(x14, x15)
     x23 = multiply(x21, x22)
     x24 = add(x20, x23)
@@ -5039,7 +5039,7 @@ def solve_776ffc46(I):
     x13 = compose(to_indices, shift_to_origin)
     x14 = equals(x13, x12)
     x15 = keep_if_condition_and_flatten(x1, x14)
-    x16 = color(x11)
+    x16 = get_color(x11)
     O = fill(I, x16, x15)
     return O
 
@@ -5049,7 +5049,7 @@ def solve_f35d900a(I):
     x2 = palette(I)
     x3 = remove(COLOR_ZERO, x2)
     x4 = fix_first_argument(get_other, x3)
-    x5 = compose(x4, color)
+    x5 = compose(x4, get_color)
     x6 = combine_two_function_results(recolor, x5, outbox)
     x7 = transform_and_flatten(x6, x1)
     x8 = transform_and_flatten(to_indices, x1)
@@ -5069,8 +5069,8 @@ def solve_f35d900a(I):
 
 
 def solve_0dfd9992(I):
-    x1 = height(I)
-    x2 = width(I)
+    x1 = get_height(I)
+    x2 = get_width(I)
     x3 = partition(I)
     x4 = color_filter(x3, COLOR_ZERO)
     x5 = difference(x3, x4)
@@ -5099,8 +5099,8 @@ def solve_0dfd9992(I):
 
 
 def solve_29ec7d0e(I):
-    x1 = height(I)
-    x2 = width(I)
+    x1 = get_height(I)
+    x2 = get_width(I)
     x3 = partition(I)
     x4 = color_filter(x3, COLOR_ZERO)
     x5 = difference(x3, x4)
@@ -5162,11 +5162,11 @@ def solve_36d67576(I):
 
 def solve_98cf29f8(I):
     x1 = partition_only_foreground(I)
-    x2 = combine_two_function_results(multiply, height, width)
+    x2 = combine_two_function_results(multiply, get_height, get_width)
     x3 = combine_two_function_results(is_equal, size, x2)
     x4 = extract_first_matching(x1, x3)
     x5 = get_other(x1, x4)
-    x6 = color(x5)
+    x6 = get_color(x5)
     x7 = fix_last_argument(greater_than, 3)
     x8 = fix_last_argument(to_object, I)
     x9 = fix_last_argument(color_count, x6)
@@ -5207,11 +5207,11 @@ def solve_469497ad(I):
 def solve_39e1d7f9(I):
     x1 = partition_only_foreground(I)
     x2 = as_objects(I, True, False, True)
-    x3 = sort(x1, height)
+    x3 = sort(x1, get_height)
     x4 = get_last(x3)
     x5 = remove(x4, x3)
     x6 = get_last(x5)
-    x7 = color(x6)
+    x7 = get_color(x6)
     x8 = color_filter(x2, x7)
     x9 = power(outbox, 2)
     x10 = fix_last_argument(to_object, I)
@@ -5219,7 +5219,7 @@ def solve_39e1d7f9(I):
     #x11 = chain(count_colors, x10, x9)
     #x12 = argmax(x8, x11)
     #x13 = upper_left_corner(x12)
-    #x14 = shape(x12)
+    #x14 = get_shape(x12)
     #x15 = subtract(x13, x14)
     #x16 = decrement(x15)
     #x17 = multiply(x14, 3)
@@ -5240,7 +5240,7 @@ def solve_39e1d7f9(I):
     x14 = chain(x13, x10, x9)
     x15 = argmax(x8, x14)
     x16 = upper_left_corner(x15)
-    x17 = shape(x15)
+    x17 = get_shape(x15)
     x18 = subtract(x16, x17)
     x19 = decrement(x18)
     x20 = multiply(x17, 3)
@@ -5258,8 +5258,8 @@ def solve_39e1d7f9(I):
 
 
 def solve_484b58aa(I):
-    x1 = height(I)
-    x2 = width(I)
+    x1 = get_height(I)
+    x2 = get_width(I)
     x3 = partition(I)
     x4 = color_filter(x3, COLOR_ZERO)
     x5 = difference(x3, x4)
@@ -5295,7 +5295,7 @@ def solve_3befdf3e(I):
     x4 = remove(COLOR_ZERO, x3)
     x5 = get_other(x4, x2)
     x6 = switch(I, x2, x5)
-    x7 = compose(width, inbox)
+    x7 = compose(get_width, inbox)
     x8 = fix_first_argument(power, outbox)
     x9 = compose(x8, x7)
     x10 = initset(x9)
@@ -5345,7 +5345,7 @@ def solve_9aec4887(I):
 
 
 def solve_49d1d64f(I):
-    x1 = shape(I)
+    x1 = get_shape(I)
     x2 = add(x1, 2)
     x3 = create_grid(COLOR_ZERO, x2)
     x4 = as_object(I)
@@ -5385,11 +5385,11 @@ def solve_57aa92db(I):
     x17 = chain(get_first, x16, palette)
     x18 = chain(x17, x15, outbox)
     x19 = fix_first_argument(multiply, x13)
-    x20 = compose(x19, width)
+    x20 = compose(x19, get_width)
     x21 = combine_two_function_results(subtract, upper_left_corner, x20)
     x22 = fix_first_argument(shift_by_vector, x10)
     x23 = compose(x22, x21)
-    x24 = combine_two_function_results(upscale, x23, width)
+    x24 = combine_two_function_results(upscale, x23, get_width)
     x25 = combine_two_function_results(recolor, x18, x24)
     x26 = transform_and_flatten(x25, x14)
     x27 = paint_onto_grid(I, x26)
@@ -5467,7 +5467,7 @@ def solve_f1cefba8(I):
 
 
 def solve_1e32b0e9(I):
-    x1 = height(I)
+    x1 = get_height(I)
     x2 = most_common_color(I)
     x3 = as_object(I)
     x4 = subtract(x1, 2)
@@ -5475,7 +5475,7 @@ def solve_1e32b0e9(I):
     x6 = as_tuple(x5, x5)
     x7 = crop(I, ORIGIN, x6)
     x8 = partition(x7)
-    x9 = equals(color, COLOR_ZERO)
+    x9 = equals(get_color, COLOR_ZERO)
     x10 = compose(logical_not, x9)
     x11 = extract_first_matching(x8, x10)
     x12 = initset(x2)
@@ -5502,7 +5502,7 @@ def solve_1e32b0e9(I):
 
 
 def solve_28e73c20(I):
-    x1 = width(I)
+    x1 = get_width(I)
     x2 = as_tuple(1, 2)
     x3 = as_tuple(2, 2)
     x4 = as_tuple(2, 1)
@@ -5523,11 +5523,11 @@ def solve_28e73c20(I):
     x19 = condition_if_else(x18, x12, x17)
     x20 = create_grid(COLOR_ZERO, UNITY)
     x21 = fix_first_argument(horizontal_upscale, x20)
-    x22 = chain(x21, decrement, height)
+    x22 = chain(x21, decrement, get_height)
     x23 = fix_last_argument(horizontal_concat, x6)
     x24 = compose(x23, x22)
     x25 = fix_first_argument(horizontal_upscale, x6)
-    x26 = compose(x25, height)
+    x26 = compose(x25, get_height)
     x27 = combine_two_function_results(vertical_concat, x24, rot90)
     x28 = combine_two_function_results(vertical_concat, x26, x27)
     x29 = subtract(x1, 4)
@@ -5569,8 +5569,8 @@ def solve_4c5c2cf0(I):
     x23 = as_objects(x22, False, True, True)
     x24 = get_first(x23)
     x25 = as_objects(x22, True, True, True)
-    x26 = color(x7)
-    x27 = equals(color, x26)
+    x26 = get_color(x7)
+    x27 = equals(get_color, x26)
     x28 = extract_first_matching(x25, x27)
     x29 = center(x28)
     x30 = subtract(x8, x29)
@@ -5580,7 +5580,7 @@ def solve_4c5c2cf0(I):
 
 
 def solve_508bd3b6(I):
-    x1 = width(I)
+    x1 = get_width(I)
     x2 = as_objects(I, True, True, True)
     x3 = argmin(x2, size)
     x4 = argmax(x2, size)
@@ -5672,7 +5672,7 @@ def solve_f8a8fe49(I):
     x18 = increment(x17)
     x19 = shift_by_vector(x15, x18)
     x20 = shift_by_vector(x16, x18)
-    x21 = condition_if_else(x5, width, height)
+    x21 = condition_if_else(x5, get_width, get_height)
     x22 = condition_if_else(x5, to_horizontal_vec, to_vertical_vec)
     x23 = x21(x15)
     x24 = double(x23)
@@ -5690,9 +5690,9 @@ def solve_f8a8fe49(I):
 def solve_d07ae81c(I):
     x1 = as_objects(I, True, False, False)
     x2 = size_filter(x1, 1)
-    x3 = transform(color, x2)
+    x3 = transform(get_color, x2)
     x4 = difference(x1, x2)
-    x5 = transform(color, x4)
+    x5 = transform(get_color, x4)
     x6 = get_first(x5)
     x7 = get_last(x5)
     x8 = of_color(I, x6)
@@ -5709,7 +5709,7 @@ def solve_d07ae81c(I):
     x19 = intersection(x8, x18)
     x20 = intersection(x9, x18)
     x21 = get_first(x2)
-    x22 = color(x21)
+    x22 = get_color(x21)
     x23 = center(x21)
     x24 = neighbors(x23)
     x25 = to_object(x24, I)
@@ -5724,7 +5724,7 @@ def solve_d07ae81c(I):
 
 
 def solve_6a1e5592(I):
-    x1 = width(I)
+    x1 = get_width(I)
     x2 = as_objects(I, True, False, True)
     x3 = as_tuple(5, x1)
     x4 = crop(I, ORIGIN, x3)
@@ -5838,7 +5838,7 @@ def solve_d22278a0(I):
     x30 = combine_two_function_results(intersection, x28, x29)
     x31 = compose(x6, x27)
     x32 = combine_two_function_results(intersection, x30, x31)
-    x33 = combine_two_function_results(recolor, color, x32)
+    x33 = combine_two_function_results(recolor, get_color, x32)
     x34 = transform_and_flatten(x33, x2)
     O = paint_onto_grid(I, x34)
     return O
@@ -5848,16 +5848,16 @@ def solve_4290ef0e(I):
     x1 = most_common_color(I)
     x2 = partition_only_foreground(I)
     x3 = as_objects(I, True, False, True)
-    x4 = fix_last_argument(valmax, width)
+    x4 = fix_last_argument(valmax, get_width)
     x5 = fix_first_argument(color_filter, x3)
     #
     # See : https://github.com/michaelhodel/arc-dsl/pull/11/commits/785a0f74d2fce740ad7294640daa8b1c11fc7c50
-    #x6 = chain(x4, x5, color)
-    #x7 = compose(maximum, shape)
+    #x6 = chain(x4, x5, get_color)
+    #x7 = compose(maximum, get_shape)
     #x8 = combine_two_function_results(add, x7, x6)
     #x9 = compose(negate, x8)
     #
-    x6 = compose(x5, color)
+    x6 = compose(x5, get_color)
     y1 = compose(double, x4)
     y2 = fix_first_argument(apply_function_on_cartesian_product, manhattan_distance)
     y3 = combine_two_function_results(y2, identity, identity)
@@ -5912,7 +5912,7 @@ def solve_50846271(I):
     x8 = fill(I, COLOR_TWO, x7)
     x9 = as_objects(x8, True, False, False)
     x10 = color_filter(x9, COLOR_TWO)
-    x11 = valmax(x10, width)
+    x11 = valmax(x10, get_width)
     x12 = halve(x11)
     x13 = to_vertical_vec(x12)
     x14 = to_horizontal_vec(x12)
@@ -5968,7 +5968,7 @@ def solve_b527c5c6(I):
     x21 = compose(is_vertical_line, x18)
     x22 = keep_if_condition(x1, x21)
     x23 = difference(x1, x22)
-    x24 = chain(decrement, minimum, shape)
+    x24 = chain(decrement, minimum, get_shape)
     x25 = compose(increment, x24)
     x26 = compose(negate, x24)
     x27 = fix_last_argument(interval, 1)
@@ -6042,8 +6042,8 @@ def solve_b7249182(I):
     x7 = sort(x6, uppermost)
     x8 = get_first(x7)
     x9 = get_last(x7)
-    x10 = color(x8)
-    x11 = color(x9)
+    x10 = get_color(x8)
+    x11 = get_color(x9)
     x12 = compose(get_first, to_indices)
     x13 = x12(x8)
     x14 = x12(x9)
@@ -6107,7 +6107,7 @@ def solve_9d9215db(I):
     x27 = fix_last_argument(keep_if_condition, x26)
     x28 = chain(shift_to_origin, x27, x25)
     x29 = combine_two_function_results(shift_by_vector, x28, x23)
-    x30 = combine_two_function_results(recolor, color, x29)
+    x30 = combine_two_function_results(recolor, get_color, x29)
     x31 = transform_and_flatten(x30, x15)
     x32 = paint_onto_grid(x19, x31)
     x33 = rot90(x32)
@@ -6149,8 +6149,8 @@ def solve_6855a6e4(I):
     x23 = recolor(COLOR_FIVE, x22)
     x24 = of_color(x21, COLOR_FIVE)
     x25 = recolor(COLOR_FIVE, x24)
-    x26 = height(x23)
-    x27 = height(x25)
+    x26 = get_height(x23)
+    x27 = get_height(x25)
     x28 = add(3, x26)
     x29 = add(3, x27)
     x30 = to_vertical_vec(x28)
@@ -6172,8 +6172,8 @@ def solve_264363fd(I):
     x1 = as_objects(I, False, False, True)
     x2 = argmin(x1, size)
     x3 = shift_to_origin(x2)
-    x4 = height(x2)
-    x5 = width(x2)
+    x4 = get_height(x2)
+    x5 = get_width(x2)
     x6 = is_equal(x4, 5)
     x7 = is_equal(x5, 5)
     x8 = as_tuple(x6, x7)
@@ -6218,8 +6218,8 @@ def solve_264363fd(I):
 
 
 def solve_7df24a62(I):
-    x1 = height(I)
-    x2 = width(I)
+    x1 = get_height(I)
+    x2 = get_width(I)
     x3 = of_color(I, COLOR_ONE)
     x4 = of_color(I, COLOR_FOUR)
     x5 = upper_left_corner(x3)
@@ -6234,9 +6234,9 @@ def solve_7df24a62(I):
     x14 = fix_last_argument(shift_by_vector, x5)
     x15 = compose(x14, x13)
     x16 = fix_first_argument(subtract, x1)
-    x17 = chain(increment, x16, height)
+    x17 = chain(increment, x16, get_height)
     x18 = fix_first_argument(subtract, x2)
-    x19 = chain(increment, x18, width)
+    x19 = chain(increment, x18, get_width)
     x20 = fix_last_argument(interval, 1)
     x21 = fix_first_argument(x20, 0)
     x22 = compose(x21, x17)
@@ -6286,7 +6286,7 @@ def solve_f15e1fac(I):
     x15 = of_color(x13, COLOR_TWO)
     x16 = fix_last_argument(shoot, DOWN)
     x17 = transform_and_flatten(x16, x14)
-    x18 = height(x13)
+    x18 = get_height(x13)
     x19 = transform(get_first, x15)
     x20 = insert(0, x19)
     x21 = insert(x18, x19)
@@ -6358,7 +6358,7 @@ def solve_234bbc79(I):
     x36 = as_generic_tuple(x23, x6) # mdda
     x37 = x35(x36)
     x38 = get_first(x37)
-    x39 = width(x38)
+    x39 = get_width(x38)
     x40 = decrement(x39)
     x41 = as_tuple(3, x40)
     x42 = create_grid(COLOR_ZERO, x41)
@@ -6369,7 +6369,7 @@ def solve_234bbc79(I):
 def solve_22233c11(I):
     x1 = as_objects(I, True, True, True)
     x2 = fix_last_argument(upscale, 2)
-    x3 = chain(negate, halve, shape)
+    x3 = chain(negate, halve, get_shape)
     x4 = combine_two_function_results(union, horizontal_line, vertical_line)
     x5 = compose(x2, vertical_mirror)
     x6 = combine_two_function_results(shift_by_vector, x5, x3)
@@ -6494,7 +6494,7 @@ def solve_7837ac64(I):
     x3 = remove(x2, x1)
     x4 = flatten(x3)
     x5 = smallest_subgrid_containing(x4, I)
-    x6 = chain(color, flatten, solid_color_strips_in_grid)
+    x6 = chain(get_color, flatten, solid_color_strips_in_grid)
     x7 = x6(I)
     x8 = as_objects(x5, True, False, False)
     x9 = color_filter(x8, COLOR_ZERO)
@@ -6507,13 +6507,13 @@ def solve_7837ac64(I):
     x16 = equals(x14, 1)
     x17 = combine_two_function_results(logical_and, x15, x16)
     x18 = keep_if_condition(x9, x17)
-    x19 = compose(color, x11)
+    x19 = compose(get_color, x11)
     x20 = combine_two_function_results(recolor, x19, identity)
     x21 = transform_and_flatten(x20, x18)
     x22 = paint_onto_grid(x5, x21)
     x23 = get_first(x9)
-    x24 = height(x23)
-    x25 = height(x5)
+    x24 = get_height(x23)
+    x25 = get_height(x5)
     x26 = increment(x24)
     x27 = interval(0, x25, x26)
     x28 = interval(0, x25, 1)
@@ -6580,9 +6580,9 @@ def solve_b775ac94(I):
     x15 = combine_two_function_results(position, x5, x6)
     x16 = chain(to_vertical_vec, get_first, x15)
     x17 = chain(to_horizontal_vec, get_last, x15)
-    x18 = combine_two_function_results(multiply, shape, x16)
-    x19 = combine_two_function_results(multiply, shape, x17)
-    x20 = combine_two_function_results(multiply, shape, x15)
+    x18 = combine_two_function_results(multiply, get_shape, x16)
+    x19 = combine_two_function_results(multiply, get_shape, x17)
+    x20 = combine_two_function_results(multiply, get_shape, x15)
     x21 = combine_two_function_results(shift_by_vector, horizontal_mirror, x18)
     x22 = combine_two_function_results(shift_by_vector, vertical_mirror, x19)
     x23 = compose(horizontal_mirror, vertical_mirror)

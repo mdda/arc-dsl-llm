@@ -340,25 +340,25 @@ def test_least_common_color():
     assert least_common_color(B) == 0
  
 
-def test_height():
-    assert height(A) == 3
-    assert height(C) == 2
-    assert height(frozenset({(0, 4)})) == 1
-    assert height(frozenset({(1, (0, 0)), (1, (1, 1)), (1, (1, 2)), (1, (2, 1)), (1, (2, 2))})) == 3
+def test_get_height():
+    assert get_height(A) == 3
+    assert get_height(C) == 2
+    assert get_height(frozenset({(0, 4)})) == 1
+    assert get_height(frozenset({(1, (0, 0)), (1, (1, 1)), (1, (1, 2)), (1, (2, 1)), (1, (2, 2))})) == 3
  
 
-def test_width():
-    assert width(A) == 2
-    assert width(C) == 2
-    assert width(frozenset({(0, 4)})) == 1
-    assert width(frozenset({(1, (0, 0)), (1, (1, 1)), (1, (1, 2)), (1, (2, 1)), (1, (2, 2))})) == 3
+def test_get_width():
+    assert get_width(A) == 2
+    assert get_width(C) == 2
+    assert get_width(frozenset({(0, 4)})) == 1
+    assert get_width(frozenset({(1, (0, 0)), (1, (1, 1)), (1, (1, 2)), (1, (2, 1)), (1, (2, 2))})) == 3
  
 
-def test_shape():
-    assert shape(A) == (3, 2)
-    assert shape(C) == (2, 2)
-    assert shape(frozenset({(0, 4)})) == (1, 1)
-    assert shape(frozenset({(1, (0, 0)), (1, (1, 1)), (1, (1, 2)), (1, (2, 1)), (1, (2, 2))})) == (3, 3)
+def test_get_shape():
+    assert get_shape(A) == (3, 2)
+    assert get_shape(C) == (2, 2)
+    assert get_shape(frozenset({(0, 4)})) == (1, 1)
+    assert get_shape(frozenset({(1, (0, 0)), (1, (1, 1)), (1, (1, 2)), (1, (2, 1)), (1, (2, 2))})) == (3, 3)
  
 
 def test_is_portrait():
@@ -560,9 +560,9 @@ def test_count_colors():
     assert count_colors(frozenset({(1, (1, 1)), (1, (0, 0)), (1, (1, 0)), (1, (0, 1))})) == 1
  
 
-def test_color():
-    assert color(frozenset({(1, (1, 1)), (1, (0, 0)), (1, (1, 0)), (1, (0, 1))})) == 1
-    assert color(frozenset({(2, (3, 1))})) == 2
+def test_get_color():
+    assert get_color(frozenset({(1, (1, 1)), (1, (0, 0)), (1, (1, 0)), (1, (0, 1))})) == 1
+    assert get_color(frozenset({(2, (3, 1))})) == 2
  
 
 def test_to_object():
