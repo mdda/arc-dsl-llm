@@ -5880,7 +5880,7 @@ def solve_4290ef0e(I):
     x17 = transform(x16, x10)
     x18 = size(x2)
     x19 = transform(size, x2)
-    x20 = contains(COLOR_ONE, x19)
+    x20 = contains(1, x19)   # mdda : not COLOR_ONE
     x21 = increment(x18)
     x22 = condition_if_else(x20, x18, x21)
     x23 = double(x22)
