@@ -57,8 +57,6 @@ def solve_5521c0d9(I):
 
 Changes made
 
-
-
 invert      negate
 combine     union
 dedupe      remove_duplicates
@@ -70,8 +68,8 @@ equality    is_equal
 greater     is_greater
 portrait    is_portrait
 square      is_square
-            is_vertical_line
-            is_horizontal_line
+vfrontier   is_vertical_line
+hfrontier   is_horizontal_line
 
 color       get_color
 width       get_width
@@ -84,15 +82,15 @@ other       get_other
 
 both        logical_and
 either      logical_or
-            logical_not
+flip        logical_not
 
 hmirror     horizontal_mirror
 vmirror     vertical_mirror
-?dmirror     diagonal_mirror
-?cmirror     counterdiagonal_mirror
+dmirror     diagonal_mirror
+cmirror     counterdiagonal_mirror
 
-            horizontal_upscale
-            vertical_upscale
+hupscale    horizontal_upscale
+vupscale    vertical_upscale
 
 hconcat     horizontal_concat
 vconcat     vertical_concat
@@ -101,14 +99,14 @@ hsplit      horizontal_split
 vsplit      vertical_split
 
 location    color_at_location
-            line_between
+connect     line_between
 
 subgrid     smallest_subgrid_containing
 extract     extract_first_matching
 
-            color_count
-            color_filter
-            size_filter
+colorcount  color_count
+colorfilter color_filter
+sizefilter  size_filter
 
 ulcorner    upper_left_corner
 urcorner    upper_right_corner
@@ -127,7 +125,7 @@ mpapply     transform_both_and_flatten apply_to_both_and_merge
 rapply      apply_each_function
 prapply     apply_function_on_cartesian_product(
 
-            extract_first_matching
+extract     extract_first_matching
 branch      condition_if_else
 fork        combine_two_function_results
 
@@ -140,8 +138,8 @@ shift       shift_by_vector
 normalize   shift_to_origin
 gravitate   move_until_touching
 
-            direct_neighbors
-            diagonal_neighbors
+neighbors   direct_neighbors
+dneighbors  diagonal_neighbors
 
 vfrontier   vertical_frontier
 hfrontier   horizontal_frontier
