@@ -87,9 +87,9 @@ def is_positive(x: Integer) -> Boolean:
     return x > 0
 
 
-def logical_not(b: Boolean) -> Boolean:
+def logical_not(a: Boolean) -> Boolean:
     """Returns the logical NOT of the input"""
-    return not b
+    return not a
 
 # was both
 def logical_and(a: Boolean, b: Boolean) -> Boolean:
@@ -102,7 +102,7 @@ def logical_or(a: Boolean, b: Boolean) -> Boolean:
     return a or b
 
 
-def is_equal(a: Any,b: Any) -> Boolean:
+def is_equal(a: Any, b: Any) -> Boolean:
     """Returns True iff 'a' and 'b' are equal"""
     return a == b
 
@@ -365,7 +365,7 @@ def power( function: Callable, n: Integer ) -> Callable:
         return function
     return compose( function, power(function, n-1) )
 
-
+# was fork(!)
 def combine_two_function_results( outer: Callable, f1: Callable, f2: Callable ) -> Callable:
     """Combines the results of two functions ('f1' and 'f2') using 'outer'"""
     return lambda x: outer(f1(x), f2(x))
