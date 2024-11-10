@@ -1,6 +1,26 @@
-# Domain Specific Language for the Abstraction and Reasoning Corpus (ARC-DSL)
+# Domain Specific Language for the Abstraction and Reasoning Corpus (ARC-DSL-LLM)
+## Updated (from `arc-dsl`) to be LLM-legible
 
-The DSL was created with the aim of being expressive enough to allow programs solving arbitrary ARC tasks, and generic, i.e. consisting of only few primitives, each useful for many tasks (see [`dsl.py`](dsl.py)). As a proof of concept, solver programs for the training tasks were written (see [`solvers.py`](solvers.py)). See [`arc_dsl_writeup.pdf`](arc_dsl_writeup.pdf) for a more detailed description of the work.
+The original DSL was created with the aim of being expressive enough to allow programs solving arbitrary ARC tasks, 
+and generic, i.e. consisting of only few primitives, each useful for many tasks (see [`dsl.py`](dsl.py)). 
+As a proof of concept, solver programs for the training tasks were written (see [`solvers.py`](solvers.py)). 
+See Hodel's [`arc_dsl_writeup.pdf`](https://github.com/michaelhodel/arc-dsl/blob/main/arc_dsl_writeup.pdf) for a more detailed description of the original work.
+
+## `arc-dsl-llm` and LLM-legibility
+
+There were several categories of changes made to the original `arc-dsl`.  Including:
+
+* Significantly updating the dsl function names to be more LLM-friendly (see below for a list)
+* Adding correct type-hinting so that `pyright solvers.py` executes cleanly
+* Rectifying the use of `COLOR_X` constants: 
+  + Remove implicit assumptions that `COLOR_BLACK==0` or `COLOR_BLACK&lt;COLOR_RED` (for instance)
+  + Add additional `COLOR_BELOW` (defined to be numerically smaller than other colors) that allows for `sort` to behave in expected way
+  + Remove usage of `COLOR_X` as various small integers (i.e. non-colors).  This was frustrating.
+  + Remove calculation of `COLOR_X` values by (for instance) doubling other `COLOR_Y` values (!)
+* Ensuring that `python -m arc_dsl.main` runs cleanly (testing dsl and solutions)
+  + NB: the code is up-to-date (with all 400 training-set solutions passing)
+* Allowing the code to run as an imported module (without moving the files around - history is preserved)
+
 
 
 ## Example solver program for task 00d62c1b written in the DSL
