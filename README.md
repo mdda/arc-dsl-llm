@@ -110,7 +110,7 @@ def solve_5521c0d9(I):
 ## Changes made
 
 | `arc-dsl` original | `arc-dsl-llm` new |
-| --- | --- | 
+| ------ | ------ | 
 | invert | negate |
 | combine | union |
 | dedupe | remove_duplicates |
@@ -124,7 +124,7 @@ def solve_5521c0d9(I):
 | square | is_square |
 | vfrontier | is_vertical_line |
 | hfrontier | is_horizontal_line |
-| --- | --- | 
+|  |  |
 | color | get_color |
 | width | get_width |
 | height | get_height |
@@ -200,7 +200,6 @@ def solve_5521c0d9(I):
 |  |  |
 | vmatching | vertical_matching |
 | hmatching | horizontal_matching |
-|  |  |
 |  |  |
 | fgpartition | partition_only_foreground |
 |  |  |
