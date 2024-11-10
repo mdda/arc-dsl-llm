@@ -7,6 +7,7 @@ The DSL was created with the aim of being expressive enough to allow programs so
 
 ![Task 00d62c1b](00d62c1b.png)
 
+### Before (claimed in the original README):
 ```python
 def solve_00d62c1b(I):
     objs = objects(grid=I, univalued=T, diagonal=F, without_bg=F)
@@ -15,6 +16,30 @@ def solve_00d62c1b(I):
     does_not_border = compose(outer=flip, inner=borders)
     enclosed = mfilter(container=black_objs, function=does_not_border)
     O = fill(grid=I, value=FOUR, patch=enclosed)
+    return O
+```
+
+### Before (as in the current Hodel repo):
+```python
+def solve_00d62c1b(I):
+    x1 = objects(I, T, F, F)
+    x2 = colorfilter(x1, ZERO)
+    x3 = rbind(bordering, I)
+    x4 = compose(flip, x3)
+    x5 = mfilter(x2, x4)
+    O = fill(I, FOUR, x5)    
+    return O
+```
+
+### After:
+```python
+def solve_00d62c1b(I):
+    x1 = as_objects(I, True, False, False)
+    x2 = color_filter(x1, COLOR_ZERO)
+    x3 = fix_last_argument(bordering, I)
+    x4 = compose(logical_not, x3)
+    x5 = keep_if_condition_and_flatten(x2, x4)
+    O = fill(I, COLOR_FOUR, x5)
     return O
 ```
 
@@ -32,6 +57,7 @@ The function `solve_00d62c1b` takes an input grid `I` and returns the correct ou
 
 ![Task 5521c0d9](5521c0d9.png)
 
+### Before (claimed in the original README):
 ```python
 def solve_5521c0d9(I):
     objs = objects(grid=I, univalued=T, diagonal=F, without_bgT)
@@ -41,6 +67,32 @@ def solve_5521c0d9(I):
     shifter = fork(outer=shift, a=identity, b=offset_getter)
     shifted = mapply(function=shifter, container=objs)
     O = paint(grid=empty_grid, obj=shifted)
+    return O
+```
+
+### Before (as in the current Hodel repo):
+```python
+def solve_5521c0d9(I):
+    x1 = objects(I, T, F, T)
+    x2 = merge(x1)
+    x3 = cover(I, x2)
+    x4 = chain(toivec, invert, height)
+    x5 = fork(shift, identity, x4)
+    x6 = mapply(x5, x1)
+    O = paint(x3, x6)
+    return O
+```
+
+### After:
+```python
+def solve_5521c0d9(I):
+    x1 = as_objects(I, True, False, True)
+    x2 = flatten(x1)
+    x3 = erase_patch(I, x2)
+    x4 = chain(to_vertical_vec, negate, get_height)
+    x5 = combine_two_function_results(shift_by_vector, identity, x4)
+    x6 = transform_and_flatten(x5, x1)
+    O = paint_onto_grid(x3, x6)
     return O
 ```
 
@@ -55,122 +107,123 @@ def solve_5521c0d9(I):
 
 
 
-Changes made
+## Changes made
 
-invert      negate
-combine     union
-dedupe      remove_duplicates
-order       sort
-
-even        is_even
-positive    is_positive
-equality    is_equal
-greater     is_greater
-portrait    is_portrait
-square      is_square
-vfrontier   is_vertical_line
-hfrontier   is_horizontal_line
-
-color       get_color
-width       get_width
-height      get_height
-shape       get_shape
-
-first       get_first
-last        get_last
-other       get_other
-
-both        logical_and
-either      logical_or
-flip        logical_not
-
-hmirror     horizontal_mirror
-vmirror     vertical_mirror
-dmirror     diagonal_mirror
-cmirror     counterdiagonal_mirror
-
-hupscale    horizontal_upscale
-vupscale    vertical_upscale
-
-hconcat     horizontal_concat
-vconcat     vertical_concat
-
-hsplit      horizontal_split
-vsplit      vertical_split
-
-location    color_at_location
-connect     line_between
-
-subgrid     smallest_subgrid_containing
-extract     extract_first_matching
-
-colorcount  color_count
-colorfilter color_filter
-sizefilter  size_filter
-
-ulcorner    upper_left_corner
-urcorner    upper_right_corner
-llcorner    lower_left_corner
-lrcorner    lower_right_corner
-
-product     cartesian_product
-
-sfilter     keep_if_condition
-mfilter     keep_if_condition_and_merge
-
-apply       transform
-mapply      transform_and_flatten
-papply      transform_both  
-mpapply     transform_both_and_flatten apply_to_both_and_merge
-rapply      apply_each_function
-prapply     apply_function_on_cartesian_product(
-
-extract     extract_first_matching
-branch      condition_if_else
-fork        combine_two_function_results
-
-matcher     equals
-
-hvec        to_horizontal_vec
-vvec        to_vertical_vec
-
-shift       shift_by_vector
-normalize   shift_to_origin
-gravitate   move_until_touching
-
-neighbors   direct_neighbors
-dneighbors  diagonal_neighbors
-
-vfrontier   vertical_frontier
-hfrontier   horizontal_frontier
-
-vmatching   vertical_matching
-hmatching   horizontal_matching
-
-
-fgpartition partition_only_foreground
-
-mostcolor   most_common_color
-leastcolor  least_common_color
-
-manhattan   manhattan_distance
-*new*       as_generic_tuple
-*new*       make_cell
-
-backdrop    bounding_box_indices
-delta       bounding_box_delta
-            
-paint       paint_onto_grid
-underpaint  paint_onto_grid_background
-
-canvas      create_grid
-cover       erase_patch
-trim        trim_border
-move        move_object
-
-frontiers   solid_color_strips_in_grid
-compress    remove_solid_color_strips_from_grid
-
-T           True
-F           False
-
+| `arc-dsl` original | `arc-dsl-llm` new |
+| --- | --- | 
+| invert | negate |
+| combine | union |
+| dedupe | remove_duplicates |
+| order | sort |
+|  |  |
+| even | is_even |
+| positive | is_positive |
+| equality | is_equal |
+| greater | is_greater |
+| portrait | is_portrait |
+| square | is_square |
+| vfrontier | is_vertical_line |
+| hfrontier | is_horizontal_line |
+| --- | --- | 
+| color | get_color |
+| width | get_width |
+| height | get_height |
+| shape | get_shape |
+|  |  |
+| first | get_first |
+| last | get_last |
+| other | get_other |
+|  |  |
+| both | logical_and |
+| either | logical_or |
+| flip | logical_not |
+|  |  |
+| hmirror | horizontal_mirror |
+| vmirror | vertical_mirror |
+| dmirror | diagonal_mirror |
+| cmirror | counterdiagonal_mirror |
+|  |  |
+| hupscale | horizontal_upscale |
+| vupscale | vertical_upscale |
+|  |  |
+| hconcat | horizontal_concat |
+| vconcat | vertical_concat |
+|  |  |
+| hsplit | horizontal_split |
+| vsplit | vertical_split |
+|  |  |
+| location | color_at_location |
+| connect | line_between |
+|  |  |
+| subgrid | smallest_subgrid_containing |
+| extract | extract_first_matching |
+|  |  |
+| colorcount | color_count |
+| colorfilter | color_filter |
+| sizefilter | size_filter |
+|  |  |
+| ulcorner | upper_left_corner |
+| urcorner | upper_right_corner |
+| llcorner | lower_left_corner |
+| lrcorner | lower_right_corner |
+|  |  |
+| product | cartesian_product |
+|  |  |
+| sfilter | keep_if_condition |
+| mfilter | keep_if_condition_and_merge |
+|  |  |
+| apply | transform |
+| mapply | transform_and_flatten |
+| papply | transform_both |
+| mpapply | transform_both_and_flatten |
+| rapply | apply_each_function |
+| prapply | apply_function_on_cartesian_product |
+|  |  |
+| extract | extract_first_matching |
+| branch | condition_if_else |
+| fork | combine_two_function_results |
+|  |  |
+| matcher | equals |
+|  |  |
+| hvec | to_horizontal_vec |
+| vvec | to_vertical_vec |
+|  |  |
+| shift | shift_by_vector |
+| normalize | shift_to_origin |
+| gravitate | move_until_touching |
+|  |  |
+| neighbors | direct_neighbors |
+| dneighbors | diagonal_neighbors |
+|  |  |
+| vfrontier | vertical_frontier |
+| hfrontier | horizontal_frontier |
+|  |  |
+| vmatching | vertical_matching |
+| hmatching | horizontal_matching |
+|  |  |
+|  |  |
+| fgpartition | partition_only_foreground |
+|  |  |
+| mostcolor | most_common_color |
+| leastcolor | least_common_color |
+|  |  |
+| manhattan | manhattan_distance |
+| *new* | as_generic_tuple |
+| *new* | make_cell |
+|  |  |
+| backdrop | bounding_box_indices |
+| delta | bounding_box_delta |
+|  |  |
+| paint | paint_onto_grid |
+| underpaint | paint_onto_grid_background |
+|  |  |
+| canvas | create_grid |
+| cover | erase_patch |
+| trim | trim_border |
+| move | move_object |
+|  |  |
+| frontiers | solid_color_strips_in_grid |
+| compress | remove_solid_color_strips_from_grid |
+|  |  |
+| T | True |
+| F | False |
