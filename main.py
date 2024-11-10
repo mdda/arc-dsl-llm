@@ -3,9 +3,8 @@ import json
 import inspect
 import tqdm
 
-
-from . import arc_types
-from . import constants
+#from . import arc_types
+#from . import constants
 from . import dsl
 from . import tests
 from . import solvers
@@ -35,18 +34,27 @@ def get_data(train=True):
 
 
 def get_functions(path):
-    """ returns a list of available functions """
+    """ returns a dictionary of available functions : {function_name->[arg_names]} """
     with open(path, 'r') as f:
         code = f.read()
-    functions, functions_returning_functions = [], []
+    functions, functions_returning_functions = dict(), set()
     for row in code.split('\n'):
         if row.startswith('def '):
+            # Get the function names
             function = row.split('def ')[1].split('(')[0]
             if '[' in function:  # Cope with Generic annotations
                 function=function[:function.find('[')]
-            functions.append(function)
+            # Get the argument names
+            bracket_open, bracket_close = row.find('('), row.find(')')
+            assert 0<bracket_open<bracket_close
+            arg_arr = row[bracket_open+1:bracket_close].split(',')
+            arg_names=[]
+            for arg in arg_arr:
+                arg = arg.split(':')[0].strip()
+                arg_names.append(arg)
+            functions[function] = arg_names
             if '-> Callable' in row:
-                functions_returning_functions.append(function)
+                functions_returning_functions.add(function)
     return (functions, functions_returning_functions)
 
 
@@ -54,10 +62,10 @@ def run_dsl_tests(dsl_module, test_module):
     """ test DSL primitives """
     dsl_functions, _ = get_functions(dsl_module.__file__)
     test_functions, _ = get_functions(test_module.__file__)
-    expected = set([f'test_{f}' for f in dsl_functions])
-    assert set(test_functions) == expected, expected.difference(test_functions)
-    for fun in test_functions:
-        getattr(test_module, fun)()
+    expected = set([f'test_{f}' for f in dsl_functions.keys()])
+    assert set(test_functions.keys()) == expected, expected.difference(test_functions.keys())
+    for fun in test_functions.keys():
+        getattr(test_module, fun)()  # Runs the test
 
 
 def get_constants(path='./arc_dsl/constants.py'):
@@ -79,7 +87,7 @@ def test_solvers_formatting(solvers_module, dsl_module):
     """ tests the implemented solvers for formatting """
     constants = get_constants()
     definitions = get_definitions(solvers_module)
-    dsl_interface, _ = get_functions(dsl_module.__file__)
+    dsl_functions, _ = get_functions(dsl_module.__file__)
     n_correct = 0
     n = len(definitions)
     for key, definition in definitions.items():
@@ -97,12 +105,12 @@ def test_solvers_formatting(solvers_module, dsl_module):
                 if len(line.lstrip())==0: continue         # Skip blank lines
                 variable, call = line.lstrip().split(' = ')
                 function, args = call.split('(')
-                assert variable not in dsl_interface
+                assert variable not in dsl_functions
                 assert variable not in variables
                 assert call not in calls
                 variables.add(variable)
                 calls.add(call)
-                assert function in dsl_interface or function in variables
+                assert function in dsl_functions or function in variables
                 if '#' in args: # Strip off comments
                     args=args[:args.find('#')]
                 args = args.strip()
@@ -111,9 +119,9 @@ def test_solvers_formatting(solvers_module, dsl_module):
                 for arg in args:
                     #print(f"\n'{arg}', {variables}, {dsl_interface}, {constants}")
                     assert any([
-                        arg in variables, arg in dsl_interface, arg in constants, 
+                        arg in variables, arg in dsl_functions, arg in constants, 
                         arg=='I', arg in '0,1,2,3,4,5,6,7,8,9,10,-1,-2,True,False'
-                    ]), f"\n'{arg}' in {key}:\n{variables}\n{dsl_interface}\n{constants}"
+                    ]), f"\n'{arg}' in {key}:\n{variables}\n{dsl_functions.keys()}\n{constants}"
             for v in variables:  #  This detects whether each variable gets used...
                 #print(f"{definition}, {v=}")
                 assert sum([

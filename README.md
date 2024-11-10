@@ -8,10 +8,9 @@ See Hodel's [`arc_dsl_writeup.pdf`](https://github.com/michaelhodel/arc-dsl/blob
 
 ## `arc-dsl-llm` and LLM-legibility
 
-There were several categories of changes made to the original `arc-dsl`.  Including:
+There were several kind of changes made to the original `arc-dsl` to make it more LLM-legible (and, frankly, more human-legible).  The following are the most significant:
 
 * Significantly updating the dsl function names to be more LLM-friendly (see below for a list)
-* Adding correct type-hinting so that `pyright solvers.py` executes cleanly
 * Rectifying the use of `COLOR_X` constants: 
   + Remove implicit assumptions that `COLOR_BLACK==0` or `COLOR_BLACK&lt;COLOR_RED` (for instance)
   + Add additional `COLOR_BELOW` (defined to be numerically smaller than other colors) that allows for `sort` to behave in expected way
@@ -19,8 +18,8 @@ There were several categories of changes made to the original `arc-dsl`.  Includ
   + Remove calculation of `COLOR_X` values by (for instance) doubling other `COLOR_Y` values (!)
 * Ensuring that `python -m arc_dsl.main` runs cleanly (testing dsl and solutions)
   + NB: the code is up-to-date (with all 400 training-set solutions passing)
-* Allowing the code to run as an imported module (without moving the files around - history is preserved)
-
+* Adding correct type-hinting so that `pyright solvers.py` executes cleanly
+* Allowing the code to run as an imported module (without moving the files around - the change history is preserved)
 
 
 ## Example solver program for task 00d62c1b written in the DSL
@@ -128,6 +127,8 @@ def solve_5521c0d9(I):
 
 
 ## Changes made
+
+Hopefully, it will be clear to the reader that the RHS replacements should be much more 'LLM-legible' than the original LHS.
 
 | `arc-dsl` original | `arc-dsl-llm` new |
 | ------ | ------ | 
