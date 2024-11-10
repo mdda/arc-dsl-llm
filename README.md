@@ -11,15 +11,17 @@ for a more detailed description of the original work.
 
 ## `arc-dsl-llm` and LLM-legibility
 
-There were several kind of changes made to the original `arc-dsl` to make it more LLM-legible (and, frankly, more human-legible).  The following are the most significant:
+There were several kinds of changes made to the original `arc-dsl` to make it more LLM-legible (and, frankly, more human-legible).  
+
+The following are the most significant updates made:
 
 * Significantly updating the DSL function names to be more LLM-friendly (see below for a list)
 * Rectifying the use of `COLOR_X` constants: 
   + Remove implicit assumptions that `COLOR_BLACK==0` or `COLOR_BLACK<COLOR_RED` (for instance)
-  + Add additional `COLOR_BELOW` (defined to be numerically smaller than other colors) that allows for `sort` to behave in expected way
-  + Remove usage of `COLOR_X` as various small integers (i.e. non-colors).  This was frustrating.
+  + Add additional `COLOR_BELOW` (defined to be numerically smaller than other colors) that allows for `sort` to behave in the way expected by several solutions
+  + Remove usage of `COLOR_X` to represent small integers (i.e. non-colors).  This was frustrating.
   + Remove calculation of `COLOR_X` values by (for instance) doubling other `COLOR_Y` values (!)
-* Ensuring that `python -m arc_dsl.main` runs cleanly (testing dsl and solutions)
+* Ensuring that `python -m arc_dsl.main` runs cleanly (running the DSL tests and proving the solutions on the test examples)
   + NB: the code is up-to-date (with all 400 training-set solutions passing)
 * Adding correct type-hinting so that `pyright solvers.py` executes cleanly
 * Allowing the code to run as an imported module (without moving the files around - the change history is preserved)
