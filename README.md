@@ -16,6 +16,7 @@ There were several kinds of changes made to the original `arc-dsl` to make it mo
 The following are the most significant updates made:
 
 * Significantly updating the DSL function names to be more LLM-friendly (see below for a list)
+  + A motivating example : `fork(outer,a,b)` is more 'legible' when named `combine_two_function_results(outer,f1,f2)`
 * Rectifying the use of `COLOR_X` constants: 
   + Remove implicit assumptions that `COLOR_BLACK==0` or `COLOR_BLACK<COLOR_RED` (for instance)
   + Add additional `COLOR_BELOW` (defined to be numerically smaller than other colors) that allows for `sort` to behave in the way expected by several solutions
@@ -215,7 +216,14 @@ Hopefully, it will be clear to the reader that the RHS replacements should be mu
 | F | False |
 
 
+
+
 ## Citing this work
 
-TBA...
+* **TBA** - once arXiv registers a paper submission that includes commentary on this repo
 
+
+### Acknowledgements
+
+Support for this research was provided by the Google AI/ML Developer Programs team,
+including access to the Gemini models and GPUs on Google Cloud Platform. 
