@@ -3624,7 +3624,7 @@ def solve_f8c80d96(I):
     x4 = argmax(x3, size)
     x5 = argmin(x2, get_width)
     x6 = size(x5)
-    x7 = is_equal(x6, COLOR_ONE)
+    x7 = is_equal(x6, 1)   # mdda : Fix bad use of COLOR_1
     x8 = condition_if_else(x7, identity, outbox)
     x9 = chain(outbox, outbox, x8)
     x10 = power(x9, 2)

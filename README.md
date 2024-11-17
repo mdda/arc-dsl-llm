@@ -93,6 +93,15 @@ def solve_5521c0d9(I):
     return O
 ```
 
+
+## Installation
+
+There are very minimal requirements :
+```bash
+uv pip install tqdm
+```
+
+
 ## DSL function name changes (`arc-dsl` &rarr; `arc-dsl-llm`)
 
 Hopefully, it will be clear to the reader that the RHS replacements should be much more 'LLM-legible' than the original LHS.
@@ -214,7 +223,6 @@ Hopefully, it will be clear to the reader that the RHS replacements should be mu
 |  |  |
 | T | True |
 | F | False |
-
 
 
 
