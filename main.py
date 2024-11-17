@@ -70,7 +70,7 @@ def run_dsl_tests(dsl_module, test_module):
 
 def get_constants(path='./arc_dsl/constants.py'):
     def parse_constant(s):
-        s = s.split(' = ')[0]
+        s = s.strip().split(' = ')[0]
         if ':' in s:
             s = s.split(':')[0]
         return s

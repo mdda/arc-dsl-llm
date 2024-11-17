@@ -1,19 +1,37 @@
+import os
 from .arc_types import Color
 
-
-COLOR_BELOW: Color = -1
-COLOR_ZERO: Color = 0
-COLOR_ONE: Color = 1
-COLOR_TWO: Color = 2
-COLOR_THREE: Color = 3
-COLOR_FOUR: Color = 4
-COLOR_FIVE: Color = 5
-COLOR_SIX: Color = 6
-COLOR_SEVEN: Color = 7
-COLOR_EIGHT: Color = 8
-COLOR_NINE: Color = 9
-#COLOR_TEN: Color = 10
-COLOR_ABOVE: Color = 10
+if 'ARC_DSL_LLM_COLOR_FLIP' in os.environ:
+    # This idea doesn't work : Need to change the grid IO values too... 
+    #   Therefore : Must do this with a 'higher level' color permutation idea
+    COLOR_BELOW: Color = 1009
+    COLOR_ZERO: Color = 1010
+    COLOR_ONE: Color = 1011
+    COLOR_TWO: Color = 1012
+    COLOR_THREE: Color = 1013
+    COLOR_FOUR: Color = 1014
+    COLOR_FIVE: Color = 1015
+    COLOR_SIX: Color = 1016
+    COLOR_SEVEN: Color = 1017
+    COLOR_EIGHT: Color = 1018
+    COLOR_NINE: Color = 1019
+    #COLOR_TEN: Color = 1020
+    COLOR_ABOVE: Color = 1020
+else:
+    # This is the default behaviour
+    COLOR_BELOW: Color = -1
+    COLOR_ZERO: Color = 0
+    COLOR_ONE: Color = 1
+    COLOR_TWO: Color = 2
+    COLOR_THREE: Color = 3
+    COLOR_FOUR: Color = 4
+    COLOR_FIVE: Color = 5
+    COLOR_SIX: Color = 6
+    COLOR_SEVEN: Color = 7
+    COLOR_EIGHT: Color = 8
+    COLOR_NINE: Color = 9
+    #COLOR_TEN: Color = 10
+    COLOR_ABOVE: Color = 10
 
 #F = False
 #T = True
