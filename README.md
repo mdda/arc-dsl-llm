@@ -228,8 +228,19 @@ Hopefully, it will be clear to the reader that the RHS replacements should be mu
 
 ## Citing this work
 
-* **TBA** - once arXiv registers a paper submission that includes commentary on this repo
+The following paper includes a more detailed description of the updates made from `arc-dsl` to `arc-dsl-llm` in Appendix A:
 
+```bibtex
+@misc{andrews2024capturingsparksabstractionarc,
+      title={Capturing Sparks of Abstraction for the ARC Challenge}, 
+      author={Martin Andrews},
+      year={2024},
+      eprint={2411.11206},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2411.11206}, 
+}
+```
 
 ### Acknowledgements
 
